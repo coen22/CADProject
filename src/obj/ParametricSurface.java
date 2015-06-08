@@ -13,12 +13,23 @@ public class ParametricSurface extends Object3D {
     private FormulaAbstract y;
     private FormulaAbstract z;
 
-    ;
+    private double limitMax = 10;
+    private double limitMin = -10;
+    private double interval = 0.01;
 
     public ParametricSurface(FormulaAbstract x, FormulaAbstract y, FormulaAbstract z) {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public ParametricSurface(FormulaAbstract x, FormulaAbstract y, FormulaAbstract z, double limitMax, double limitMin, double interval) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.limitMax = limitMax;
+        this.limitMin = limitMin;
+        this.interval = interval;
     }
 
     @Override
