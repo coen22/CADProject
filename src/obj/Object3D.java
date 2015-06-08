@@ -23,7 +23,7 @@ public abstract class Object3D {
 	 * Method to get the list of triangles of a model
 	 * @return a list of Triangles
 	 */
-	public abstract List<Triangle> getTries();
+	public abstract List<Triangle> getTris();
 	
 	/**
 	 * Method to get the surface area of an object
