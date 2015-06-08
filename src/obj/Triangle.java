@@ -81,4 +81,15 @@ public class Triangle {
 	public void setC(Vertex c) {
 		this.c = c;
 	}
+	
+	public double calcArea(){
+		//Using Heron's formula requires the length of each side
+		//Therefore the length is calculated first
+		double a = (Math.sqrt( Math.pow((this.a.getX() - this.b.getX()), 2) + Math.pow((this.a.getY() - this.b.getY()), 2) + Math.pow((this.a.getZ() - this.b.getZ()), 2)));
+		double b = (Math.sqrt( Math.pow((this.b.getX() - this.c.getX()), 2) + Math.pow((this.b.getY() - this.c.getY()), 2) + Math.pow((this.b.getZ() - this.c.getZ()), 2)));
+		double c = (Math.sqrt( Math.pow((this.c.getX() - this.a.getX()), 2) + Math.pow((this.c.getY() - this.a.getY()), 2) + Math.pow((this.c.getZ() - this.a.getZ()), 2)));
+		//Heron's formula
+		double A = (0.25)*Math.sqrt((a + b + c)*(-a + b + c)*(a - b + c)*(a + b - c));
+		return A;
+	}
 }
