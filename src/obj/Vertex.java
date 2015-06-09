@@ -82,4 +82,32 @@ public class Vertex {
 	public void setZ(double z) {
 		this.z = z;
 	}
+	
+	public void add(Vertex v) {
+		x += v.x;
+		y += v.y;
+		z += v.z;
+	}
+	
+	public Vertex multiply(double val) {
+		Vertex v = clone();
+		
+		v.x *= val;
+		v.y *= val;
+		v.z *= val;
+		
+		return v;
+	}
+	
+	public Vertex clone() {
+		return new Vertex(x, y, z);
+	}
+	
+	public boolean equals(Vertex x){
+		if((this.getX() == x.getX()) && (this.getY() == x.getY()) && (this.getZ() == x.getZ())){
+			return true;
+		}
+		else
+			return false;
+	}
 }
