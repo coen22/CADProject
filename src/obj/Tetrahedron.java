@@ -20,26 +20,31 @@ public class Tetrahedron extends Object3D {
 		vertices.add(tri1.getB());
 		vertices.add(tri1.getC());
 		for(int i = 1; i < tris.size(); i++){
-			if( (tris.get(i).getA().equals(vertices.get(0))) && (tris.get(i).getA().equals(vertices.get(1))) && (tris.get(i).getA().equals(vertices.get(2)))){
-				//Do nothing the point is already added
-			}
-			else{
+			if( !(tris.get(i).getA().equals(vertices.get(0))) && !(tris.get(i).getA().equals(vertices.get(1))) && !(tris.get(i).getA().equals(vertices.get(2)))){
+				
+				System.out.println("Adds point A");
 				vertices.add(tris.get(i).getA());
 				break;
 			}
-			if( (tris.get(i).getB().equals(vertices.get(0))) && (tris.get(i).getB().equals(vertices.get(1))) && (tris.get(i).getB().equals(vertices.get(2)))){
+			else{
 				//Do nothing the point is already added
 			}
-			else{
-				vertices.add(tris.get(i).getA());
+			if( !(tris.get(i).getB().equals(vertices.get(0))) && !(tris.get(i).getB().equals(vertices.get(1))) && !(tris.get(i).getB().equals(vertices.get(2)))){
+				
+				System.out.println("Adds point B");
+				vertices.add(tris.get(i).getB());
 				break;
 			}
-			if( (tris.get(i).getC().equals(vertices.get(0))) && (tris.get(i).getC().equals(vertices.get(1))) && (tris.get(i).getC().equals(vertices.get(2)))){
+			else{
 				//Do nothing the point is already added
 			}
-			else{
-				vertices.add(tris.get(i).getA());
+			if( !(tris.get(i).getC().equals(vertices.get(0))) && !(tris.get(i).getC().equals(vertices.get(1))) && !(tris.get(i).getC().equals(vertices.get(2)))){
+				System.out.println("Adds point C");
+				vertices.add(tris.get(i).getC());
 				break;
+			}
+			else{
+				//Do nothing the point is already added
 			}
 		}
 	}
@@ -83,46 +88,40 @@ public class Tetrahedron extends Object3D {
 		double volume = 0;
 		//The volume is 1/6 times the absolute value of 
 		//the determinant which consists of the vertices
-		//Adding the four different vertices into one arraylist without duplicates
-		ArrayList <Vertex> temp = new ArrayList <Vertex>();
-		temp.add(vertices.get(0));
-		for(int i = 1; i < this.getVerts().size(); i++){
-			for(int j = 0; j < temp.size(); j++){
-				if((temp.get(j).getX() == this.getVerts().get(i).getX()) && (temp.get(j).getY() == this.getVerts().get(i).getY()) && (temp.get(j).getZ() == this.getVerts().get(i).getZ())){
-				}
-				else{
-					System.out.println("Adds to temp");
-					temp.add(this.getVerts().get(i));
-					}
-			}
-		}
 		//Putting the coordinates of these vertices into a matrix
 		//Entering these into a 3x3 matrix taking away the last vertexes coordinates with every input
-		System.out.println(temp.size());
+		System.out.println(vertices.size());
+		System.out.println(vertices.toString());
 		double matrix[][] = new double[3][3];
+		print(matrix);
 		for(int i = 0; i < matrix.length; i++){
-			matrix[1][i] = temp.get(i).getX()-temp.get(3).getX();
-			matrix[2][i] = temp.get(i).getY()-temp.get(3).getY();
-			matrix[3][i] = temp.get(i).getZ()-temp.get(3).getZ();
+			matrix[i][0] = vertices.get(i).getX()-vertices.get(3).getX();
+			System.out.println(vertices.get(i).getX() + " - " + vertices.get(3).getX());
+			matrix[i][1] = vertices.get(i).getY()-vertices.get(3).getY();
+			System.out.println(vertices.get(i).getY() + " - " + vertices.get(3).getY());
+			matrix[i][2] = vertices.get(i).getZ()-vertices.get(3).getZ();
+			System.out.println(vertices.get(i).getZ() + " - " + vertices.get(3).getZ());
 		}
 		print(matrix);
 		//Doing matrix calculations so we get the determinant form
 		for(int i = 0; i < matrix.length; i++){
-		for (int j = i + 1; j < matrix[0].length; j++) {
-			double mul = 1;
-			for (int k = 0; k < matrix[0].length; k++) {
-				if (matrix[i][k] != 0) {
-					mul = matrix[j][k];
-					break;
+			for (int j = i + 1; j < matrix[0].length; j++) {
+				double mul = 1;
+				for (int k = 0; k < matrix[0].length; k++) {
+					if (matrix[i][k] != 0) {
+						mul = matrix[j][k]/matrix[i][k];
+						break;
+					}
+				}
+				for (int k = 0; k < matrix[0].length; k++) {
+					matrix[j][k] = matrix[j][k] - (matrix[i][k] * mul);
 				}
 			}
-			for (int k = 0; k < matrix[0].length; k++) {
-				matrix[j][k] = matrix[j][k] - (matrix[i][k] * mul);
-			}
 		}
-		}
+		print(matrix);
 		double determinant = matrix[0][0]*matrix[1][1]*matrix[2][2];
-		volume = (1/6)*Math.abs(determinant);
+
+		volume = Math.abs(determinant)/6;
 		return volume;
 	}
 
@@ -139,9 +138,10 @@ public class Tetrahedron extends Object3D {
 		for(int i = 0; i < matrix.length; i++){
 			System.out.println("");
 			for(int j = 0; j < matrix[0].length; j++){
-				System.out.println(matrix[i][j]);
+				System.out.print(matrix[i][j] + " ");
 			}
 		}
+		System.out.println("");
 	}
 	
 }
