@@ -21,7 +21,15 @@ public class Tetrahedron extends Object3D {
 			vertices.add(tris.get(i).getC());
 		}
 	}
-	
+	public Tetrahedron(ArrayList<Vertex> inputVertices, ArrayList<Triangle> inputTris){
+		if(inputTris.size() == 4){
+			this.vertices = inputVertices;
+			this.tris = inputTris;
+		}
+		else{
+			return;
+		}
+	}
 	@Override
 	public List<Vertex> getVerts() {
 		return vertices;
