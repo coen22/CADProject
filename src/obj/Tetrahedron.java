@@ -15,10 +15,12 @@ public class Tetrahedron extends Object3D {
 		tris.add(tri3);
 		tris.add(tri4);
 		vertices = new ArrayList<>();
+		//This is done to filter out duplicate unnecessary points
+		vertices.add(tri1.getA());
+		vertices.add(tri1.getB());
+		vertices.add(tri1.getC());
 		for(int i = 0; i < tris.size(); i++){
-			vertices.add(tris.get(i).getA());
-			vertices.add(tris.get(i).getB());
-			vertices.add(tris.get(i).getC());
+			
 		}
 	}
 	

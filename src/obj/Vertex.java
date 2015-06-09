@@ -102,4 +102,12 @@ public class Vertex {
 	public Vertex clone() {
 		return new Vertex(x, y, z);
 	}
+	
+	public boolean equals(Vertex x){
+		if((this.getX() == x.getX()) && (this.getY() == x.getY()) && (this.getZ() == x.getZ())){
+			return true;
+		}
+		else
+			return false;
+	}
 }
