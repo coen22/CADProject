@@ -27,10 +27,12 @@ public class Tetrahedron extends Object3D {
 		Triangle tri2 = new Triangle(b, c, d);
 		Triangle tri3 = new Triangle(c, d, a);
 		Triangle tri4 = new Triangle(d, a, b);
+		vertices = new ArrayList<>();
 		vertices.add(a);
 		vertices.add(b);
 		vertices.add(c);
 		vertices.add(d);
+		tris = new ArrayList<>();
 		tris.add(tri1);
 		tris.add(tri2);
 		tris.add(tri3);
@@ -60,9 +62,10 @@ public class Tetrahedron extends Object3D {
 		//The volume is 1/6 times the absolute value of 
 		//the determinant which consists of the vertices
 		//Adding the four different vertices into one arraylist without duplicates
-		ArrayList <Vertex> temp = new ArrayList <Vertex>(); 
-		for(int i = 0; i < this.getVerts().size(); i++){
-			for(int j = 0; j < 4; j++){
+		ArrayList <Vertex> temp = new ArrayList <Vertex>();
+		temp.add(vertices.get(0));
+		for(int i = 1; i < this.getVerts().size(); i++){
+			for(int j = 0; j < temp.size(); j++){
 				if((temp.get(j).getX() == this.getVerts().get(i).getX()) && (temp.get(j).getY() == this.getVerts().get(i).getY()) && (temp.get(j).getZ() == this.getVerts().get(i).getZ())){
 				}
 				else{
@@ -82,14 +85,22 @@ public class Tetrahedron extends Object3D {
 		}
 		print(matrix);
 		//Doing matrix calculations so we get the determinant form
-		double mult = 0;
 		for(int i = 0; i < matrix.length; i++){
-			for(int j = 0; j < matrix[0].length; j++){
-				
+		for (int j = i + 1; j < matrix[0].length; j++) {
+			double mul = 1;
+			for (int k = 0; k < matrix[0].length; k++) {
+				if (matrix[i][k] != 0) {
+					mul = matrix[j][k];
+					break;
+				}
+			}
+			for (int k = 0; k < matrix[0].length; k++) {
+				matrix[j][k] = matrix[j][k] - (matrix[i][k] * mul);
 			}
 		}
-		
-		
+		}
+		double determinant = matrix[0][0]*matrix[1][1]*matrix[2][2];
+		volume = (1/6)*Math.abs(determinant);
 		return volume;
 	}
 
