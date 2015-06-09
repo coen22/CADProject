@@ -12,6 +12,9 @@ import obj.parametric_formula.SphereZ;
 import obj.parametric_formula.TorusX;
 import obj.parametric_formula.TorusY;
 import obj.parametric_formula.TorusZ;
+import obj.parametric_formula.TrumpetX;
+import obj.parametric_formula.TrumpetY;
+import obj.parametric_formula.TrumpetZ;
 
 /**
  *
@@ -25,9 +28,9 @@ public class ParametricSurface extends Object3D {
 
     private double limitMaxU = Math.PI * 2;
     private double limitMinU = 0;
-    private double limitMaxV = 2 * Math.PI;
+    private double limitMaxV = Math.PI * 2;
     private double limitMinV = 0;
-    private double interval = Math.PI/30;
+    private double interval = Math.PI / 30;
 
     public static void main(String[] args) {
         ParametricSurface p = new ParametricSurface(new TorusX(), new TorusY(), new TorusZ());
@@ -37,50 +40,55 @@ public class ParametricSurface extends Object3D {
     private void test() {
 
         try {
-            ArrayList<double[]> vertex = new ArrayList<>();
+            int stepNumberU = (int) (Math.abs(limitMinU - limitMaxU) / interval);
+            int stepNumberV = (int) (Math.abs(limitMinV - limitMaxV) / interval);
+
+            int[][] vertexIndex = new int[stepNumberU + 1][stepNumberV + 1];
+            double[][][] vertex = new double[stepNumberU + 1][stepNumberV + 1][3];
             ArrayList<int[]> face = new ArrayList<>();
-//            int counter = 0;
 
+            int count = 0;
+            int counter = 0;
             for (double u = limitMinU; u <= limitMaxU; u += interval) {
+                int counter2 = 0;
                 for (double v = limitMinV; v <= limitMaxV; v += interval) {
-                    vertex.add(new double[]{x.mumble(u, v), y.mumble(u, v), z.mumble(u, v)});
-//                    counter++;
-//                    if (counter / 3 > 0) {
-//                        face.add(new int[]{counter, counter - 1, counter - 2});
-//                    }
+                    count++;
+                    vertexIndex[counter][counter2] = count;
+                    vertex[counter][counter2][0] = x.mumble(u, v);
+                    vertex[counter][counter2][1] = y.mumble(u, v);
+                    vertex[counter][counter2][2] = z.mumble(u, v);
+                    counter2++;
                 }
+                counter++;
             }
-            System.out.println(Math.abs(limitMinU - limitMaxU) / interval);
-            int stepNumber = (int) (Math.abs(limitMinU - limitMaxU) / interval);
-            for (int i = 0; i < stepNumber; i++) {
-                for (int j = 0; j < stepNumber; j++) {
-                    face.add(new int[]{
-                        j + (i * stepNumber), (j + 1 + (i * stepNumber)) + stepNumber, j + (i * stepNumber) + 1
-                    });
-                    face.add(new int[]{
-                        j + (i * stepNumber), (j + 1 + (i * stepNumber)) + stepNumber, (j + (i * stepNumber)) + stepNumber
-                    });
+
+            for (int i = 0; i < vertex.length; i++) {
+                for (int j = 0; j < vertex[0].length; j++) {
+                    if (i == vertex.length - 1 && j == vertex[0].length - 1) {
+                        face.add(new int[]{vertexIndex[i][j], vertexIndex[0][j], vertexIndex[i][0]});
+                        face.add(new int[]{vertexIndex[0][j], vertexIndex[0][0], vertexIndex[i][0]});
+                    } else if (j == vertex[0].length - 1) {
+                        face.add(new int[]{vertexIndex[i][j], vertexIndex[i + 1][j], vertexIndex[i][0]});
+                        face.add(new int[]{vertexIndex[i + 1][j], vertexIndex[i + 1][0], vertexIndex[i][0]});
+                    } else if (i == vertex.length - 1) {
+                        face.add(new int[]{vertexIndex[i][j], vertexIndex[0][j], vertexIndex[i][j + 1]});
+                        face.add(new int[]{vertexIndex[0][j], vertexIndex[0][j + 1], vertexIndex[i][j + 1]});
+                    } else {
+                        face.add(new int[]{vertexIndex[i][j], vertexIndex[i + 1][j], vertexIndex[i][j + 1]});
+                        face.add(new int[]{vertexIndex[i + 1][j], vertexIndex[i + 1][j + 1], vertexIndex[i][j + 1]});
+                    }
                 }
             }
 
-            //Just need to add last row
-            for (int j = 1; j < stepNumber+1; j++) {
-                face.add(new int[]{
-                    j, (j) + stepNumber*stepNumber, j + 1
-                });
-                face.add(new int[]{
-                    j, (j) + stepNumber*stepNumber, (j-1) + stepNumber*stepNumber
-                });
-            }
-//            face.add(new int[]{1 })
-
-            WriteFile w = new WriteFile("C:\\Users\\Imray\\Desktop\\New Text Document.obj");
+            WriteFile w = new WriteFile("C:\\Users\\Kareem\\Desktop\\New Text Document.obj");
             w.writeToFile("");
 
             w.setAppend(true);
             String tmp = "";
-            for (double[] vertex1 : vertex) {
-                tmp += ("v " + vertex1[0] + " " + vertex1[1] + " " + vertex1[2] + "\n");
+            for (int i = 0; i < stepNumberU; i++) {
+                for (int j = 0; j < stepNumberV; j++) {
+                    tmp += ("v " + vertex[i][j][0] + " " + vertex[i + 1][j][1] + " " + vertex[i][j + 1][2] + "\n");
+                }
             }
 
             w.writeToFile(tmp);
