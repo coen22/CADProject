@@ -21,16 +21,7 @@ public class Mesh extends Object3D {
 	public Mesh(){
 		this.vertices = new ArrayList<Vertex>();
 		this.tris = new ArrayList<Triangle>();
-	}
-	
-//	public Mesh(File objFile) throws FileNotFoundException{
-//		
-//		BufferedReader input = new BufferedReader(new FileReader(objFile));
-//		
-//		input.
-//		
-//	}
-	
+	}	
 	
 	@Override
 	public List<Vertex> getVerts() {
