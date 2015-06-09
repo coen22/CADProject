@@ -21,8 +21,24 @@ public class Tetrahedron extends Object3D {
 			vertices.add(tris.get(i).getC());
 		}
 	}
+	
+	public Tetrahedron(Vertex a, Vertex b, Vertex c, Vertex d){
+		Triangle tri1 = new Triangle(a, b, c);
+		Triangle tri2 = new Triangle(b, c, d);
+		Triangle tri3 = new Triangle(c, d, a);
+		Triangle tri4 = new Triangle(d, a, b);
+		vertices.add(a);
+		vertices.add(b);
+		vertices.add(c);
+		vertices.add(d);
+		tris.add(tri1);
+		tris.add(tri2);
+		tris.add(tri3);
+		tris.add(tri4);
+	}
+	
 	public Tetrahedron(ArrayList<Vertex> inputVertices, ArrayList<Triangle> inputTris){
-		if(inputTris.size() == 4){
+		if(inputTris.size() == 4 && inputVertices.size() == 4){
 			this.vertices = inputVertices;
 			this.tris = inputTris;
 		}
@@ -47,17 +63,12 @@ public class Tetrahedron extends Object3D {
 		ArrayList <Vertex> temp = new ArrayList <Vertex>(); 
 		for(int i = 0; i < this.getVerts().size(); i++){
 			for(int j = 0; j < 4; j++){
-				if(temp.size() == 0){
-					break;
-				}
-				else{
 				if((temp.get(j).getX() == this.getVerts().get(i).getX()) && (temp.get(j).getY() == this.getVerts().get(i).getY()) && (temp.get(j).getZ() == this.getVerts().get(i).getZ())){
 				}
 				else{
 					System.out.println("Adds to temp");
 					temp.add(this.getVerts().get(i));
 					}
-				}
 			}
 		}
 		//Putting the coordinates of these vertices into a matrix
@@ -81,6 +92,7 @@ public class Tetrahedron extends Object3D {
 		
 		return volume;
 	}
+
 	@Override
 	public List<Vertex> getVerts() {
 		return vertices;
