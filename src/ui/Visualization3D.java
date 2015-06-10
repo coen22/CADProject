@@ -16,17 +16,14 @@ import javax.media.opengl.GLEventListener;
 //import com.jogamp.opengl.swt.GLCanvas;
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import obj.Object3D;
 import obj.Triangle;
-import obj.Vertex;
 
 import com.jogamp.opengl.util.awt.TextRenderer;
 
 import static javax.media.opengl.GL2.*;
-import static javax.media.opengl.GL.*;
 
 
 /**
@@ -36,6 +33,7 @@ import static javax.media.opengl.GL.*;
 *@version 2.1
 *@since 2015-01-16
 */
+@SuppressWarnings("serial")
 public class Visualization3D extends GLCanvas implements GLEventListener, MouseMotionListener, MouseWheelListener, KeyListener, java.awt.event.MouseListener {
 
 	private TextRenderer renderer;
@@ -65,7 +63,6 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		this.requestFocus();
 		this.setDefaultCloseOperation(getDefaultCloseOperation());
 		
-		System.out.println("printing me");
 	}
 
 	/**
@@ -84,7 +81,6 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		
 		text(gl);
 		
-		System.out.println("zoom: " + zoomFloat);
 	}
 	
 	public void setObject(Object3D obj){
@@ -161,6 +157,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		gl.glEnd();
 		
 	}
+	
 
 	/**
 	 * This method is automatically called when the canvas is initialized. Various openGL specific settings are set here. 

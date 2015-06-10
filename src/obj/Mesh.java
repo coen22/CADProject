@@ -48,7 +48,7 @@ public class Mesh extends Object3D {
                 if (tmp.length != 3) {
                     System.out.println("Error");
                 } else {
-                    tris.add(new Triangle(vertices.get(Integer.valueOf(tmp[0])), vertices.get(Integer.valueOf(tmp[1])), vertices.get(Integer.valueOf(tmp[2]))));
+                    tris.add(new Triangle(vertices.get(Integer.valueOf(tmp[0])-1), vertices.get(Integer.valueOf(tmp[1])-1), vertices.get(Integer.valueOf(tmp[2])-1)));
                 }
             }
         }
