@@ -51,6 +51,7 @@ public class ParametricSurface extends Object3D {
     public static void main(String[] args) {
         ParametricSurface p = new ParametricSurface(new SpiralX(), new SpiralY(), new SpiralZ(), 1, 2, 1, 2, 1, 100, false, false);
         MainFrame m = new MainFrame();
+        System.out.println("Surface Area: " + p.surfaceArea());
         m.setObject(p);
     }
 
@@ -131,6 +132,50 @@ public class ParametricSurface extends Object3D {
     @Override
     public List<Triangle> getTris() {
         return triangle;
+    }
+
+    public double surfaceArea() {
+        double startU = limitMinU;
+        double startV = limitMinV;
+        double endU = limitMaxU;
+        double endV = limitMaxV;
+        double deltaU = intervalU;
+        double deltaV = intervalV;
+        double area = 0;
+        for (double v = startV; v < endV; v += intervalV) {
+            for (double u = startU; u < endU; u += intervalU) {
+                area += mag(crossProduct(partU(u, v, deltaU), partV(u, v, deltaV)));
+            }
+        }
+        return area;
+    }
+
+    private double[] partU(double u, double v, double interU) {
+        double[] ans = new double[3];
+        ans[0] = x.evaluateAt(u + interU, v) - x.evaluateAt(u, v);
+        ans[1] = y.evaluateAt(u + interU, v) - y.evaluateAt(u, v);
+        ans[2] = z.evaluateAt(u + interU, v) - z.evaluateAt(u, v);
+        return ans;
+    }
+
+    private double[] partV(double u, double v, double interV) {
+        double[] ans = new double[3];
+        ans[0] = x.evaluateAt(u, v + interV) - x.evaluateAt(u, v);
+        ans[1] = y.evaluateAt(u, v + interV) - y.evaluateAt(u, v);
+        ans[2] = z.evaluateAt(u, v + interV) - z.evaluateAt(u, v);
+        return ans;
+    }
+
+    private double[] crossProduct(double[] a, double[] b) {
+        double[] c = new double[3];
+        c[0] = a[1] * b[2] - a[2] * b[1];
+        c[1] = a[2] * b[0] - a[0] * b[2];
+        c[2] = a[0] * b[1] - a[1] * b[0];
+        return c;
+    }
+
+    private double mag(double[] a) {
+        return Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2));
     }
 
 }
