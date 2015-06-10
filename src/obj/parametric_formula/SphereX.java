@@ -7,7 +7,7 @@ package obj.parametric_formula;
 public class SphereX extends FormulaAbstract{
 
     @Override
-    public double mumble(double u, double v) {
+    public double evaluateAt(double u, double v) {
         return Math.cos(u)*Math.cos(v);
     }
     

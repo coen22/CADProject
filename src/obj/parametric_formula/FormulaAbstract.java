@@ -9,8 +9,8 @@ public abstract class FormulaAbstract {
     public FormulaAbstract() {
 
     }
-
-    public double mumble(double u, double v) {
+    
+    public double evaluateAt(double u, double v) {
         return 0;
     }
     

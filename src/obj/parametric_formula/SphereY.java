@@ -12,7 +12,7 @@ package obj.parametric_formula;
 public class SphereY extends FormulaAbstract{
 
     @Override
-    public double mumble(double u, double v) {
+    public double evaluateAt(double u, double v) {
         return Math.sin(u);
     }
     

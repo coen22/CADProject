@@ -14,7 +14,7 @@ import obj.parametric_formula.FormulaAbstract;
 public class ShoeY extends FormulaAbstract {
 
     @Override
-    public double mumble(double u, double v) {
+    public double evaluateAt(double u, double v) {
         return 0.3333333*Math.pow(u, 3)-0.5*Math.pow(v, 2);
     }
 

@@ -7,13 +7,13 @@ package obj.parametric_formula;
 
 /**
  *
- * @author Imray
+ * @author Kareem
  */
-public class TorusZ extends FormulaAbstract{
+public class SpiralY extends FormulaAbstract {
 
     @Override
     public double evaluateAt(double u, double v) {
-        return (1+0.5*Math.cos(u))*Math.sin(v);
+        return u * Math.sin(2 * Math.PI * v);
     }
-    
+
 }
