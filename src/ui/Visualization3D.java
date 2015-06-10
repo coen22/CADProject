@@ -35,14 +35,16 @@ import static javax.media.opengl.GL2.*;
 */
 @SuppressWarnings("serial")
 public class Visualization3D extends GLCanvas implements GLEventListener, MouseMotionListener, MouseWheelListener, KeyListener, java.awt.event.MouseListener {
+	
+	private static final float WORLDSIZE = 25;
 
 	private TextRenderer renderer;
 	private GLU glu;
-	private float angleX;
-	private float angleY;
+	private float angleX = 20;
+	private float angleY = 10;
 	private float zoomFloat;
 	private float translateX = 0.0f;
-	private float translateY = 0.0f;
+	private float translateY = -5.0f;
 	private float translateZ = 0.0f;
 	private float oldX = Integer.MIN_VALUE;
 	private float oldY = Integer.MIN_VALUE;
@@ -80,7 +82,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		}
 		
 		text(gl);
-		
+		gridlines(gl);
 	}
 	
 	public void setObject(Object3D obj){
@@ -158,6 +160,45 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		
 	}
 	
+	private void gridlines(GL2 gl){
+		
+		gl.glLoadIdentity();
+		gl.glTranslated(0.0f, 2.0f, zoomFloat);
+		gl.glTranslated(translateX, translateY, translateZ);
+		gl.glRotatef(angleX, 1.0f, 0.0f, 0.0f);
+		gl.glRotatef(angleY, 0.0f, 1.0f, 0.0f);
+		
+		gl.glBegin(GL_LINES);
+		gl.glColor3f(0.3f, 0.3f, 0.3f); //has colour
+		gl.glLineWidth(1.0f);
+		
+		//small gridlines
+		gl.glColor3f(0.6f, 0.6f, 0.6f); //has colour
+		for (float i = -WORLDSIZE; i <= WORLDSIZE; i++){
+			gl.glVertex3f(-WORLDSIZE, 0.0f,  i);
+			gl.glVertex3f(WORLDSIZE, 0.0f,  i);
+			
+			gl.glVertex3f(i, 0.0f,  -WORLDSIZE);
+			gl.glVertex3f(i, 0.0f,  WORLDSIZE);
+		}
+		
+		//main axes:
+		gl.glColor3f(1.0f, 0.3f, 0.3f);
+		gl.glVertex3f(0.0f, 0.0f, -3*WORLDSIZE);
+		gl.glVertex3f(0.0f, 0.0f, 3*WORLDSIZE);
+		
+		gl.glColor3f(0.3f, 0.3f, 1.0f);
+		gl.glVertex3f(0.0f, -3*WORLDSIZE, 0.0f);
+		gl.glVertex3f(0.0f, 3*WORLDSIZE, 0.0f);
+		
+		gl.glColor3f(0.0f, 0.5f, 0.0f);
+		gl.glVertex3f(-3*WORLDSIZE, 0.0f,  0.0f);
+		gl.glVertex3f(3*WORLDSIZE, 0.0f,  0.0f);
+		
+		gl.glEnd();
+		
+	}
+	
 
 	/**
 	 * This method is automatically called when the canvas is initialized. Various openGL specific settings are set here. 
@@ -171,10 +212,10 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		gl.glClearDepth(1.0f);
 		gl.glEnable(GL_DEPTH_TEST);
 		gl.glEnable(GL_POLYGON_SMOOTH);
-		gl.glEnable(GL_LINE_SMOOTH);
+//		gl.glEnable(GL_LINE_SMOOTH);
 		gl.glDepthFunc(GL_LEQUAL);
-		gl.glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-		gl.glLineWidth(1.5f);
+//		gl.glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+//		gl.glLineWidth(1.5f);
 		gl.glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); //changes line-rendering
 		gl.glShadeModel(GL_SMOOTH); 
 				
