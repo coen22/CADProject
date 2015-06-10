@@ -75,5 +75,4 @@ public class Mesh extends Object3D {
     public List<Triangle> getTris() {
         return tris;
     }
-
 }

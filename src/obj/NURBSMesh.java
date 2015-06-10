@@ -1,27 +1,55 @@
 package obj;
 
-public class NURBSMesh extends Mesh {
+import java.util.List;
+
+public class NURBSMesh extends Object3D {
 	public NURBSMesh() {
 		super();
 	}
 	
-	public NURBSMesh(String path) {
-		super(path);
+	@Override
+	public List<Triangle> getTris() {
+		// TODO
+		return null;
 	}
 	
-	private Vertex calcVertex(Vertex[][] vert) {
-		Vertex v = new Vertex();
+    @Override
+    public List<Vertex> getVerts() {
+    		// TODO
+        return null;
+    }
+	
+	private Vertex calcVertex(Vertex[][] vert, int i, int j, double u, double v) {
+		Vertex out = new Vertex();
 		
-		for (int i = 0; i < vert.length; i++) {
-			for (int j = 0; j < vert[0].length; j++) {
-				v.add(vert[i][j].multiply(r(vert, i, j)));
+		for (int x = 0; i < vert.length; i++) {
+			for (int y = 0; j < vert[0].length; j++) {
+				out.add(vert[x][y].multiply(r(vert, x, y, u, v)));
 			}
 		}
 		
-		return v;
+		return out;
 	}
 	
-	private double r(Vertex[][] vert, int i, int j) {
+	private double r(Vertex[][] vert, int i, int j, double u, double v) {
+		
+		
+		return 0;
+	}
+	
+	private double n(int i, int j, double uv) {
+		
+		
+		return 0;
+	}
+	
+	private double f(int i, int j, double uv) {
+		
+		
+		return 0;
+	}
+	
+	private double g(int i, int j, double uv) {
 		
 		
 		return 0;
