@@ -90,19 +90,12 @@ public class Tetrahedron extends Object3D {
 		//the determinant which consists of the vertices
 		//Putting the coordinates of these vertices into a matrix
 		//Entering these into a 3x3 matrix taking away the last vertexes coordinates with every input
-		System.out.println(vertices.size());
-		System.out.println(vertices.toString());
 		double matrix[][] = new double[3][3];
-		print(matrix);
 		for(int i = 0; i < matrix.length; i++){
 			matrix[i][0] = vertices.get(i).getX()-vertices.get(3).getX();
-			System.out.println(vertices.get(i).getX() + " - " + vertices.get(3).getX());
 			matrix[i][1] = vertices.get(i).getY()-vertices.get(3).getY();
-			System.out.println(vertices.get(i).getY() + " - " + vertices.get(3).getY());
 			matrix[i][2] = vertices.get(i).getZ()-vertices.get(3).getZ();
-			System.out.println(vertices.get(i).getZ() + " - " + vertices.get(3).getZ());
-		}
-		print(matrix);
+			}
 		//Doing matrix calculations so we get the determinant form
 		for(int i = 0; i < matrix.length; i++){
 			for (int j = i + 1; j < matrix[0].length; j++) {
@@ -118,9 +111,7 @@ public class Tetrahedron extends Object3D {
 				}
 			}
 		}
-		print(matrix);
 		double determinant = matrix[0][0]*matrix[1][1]*matrix[2][2];
-
 		volume = Math.abs(determinant)/6;
 		return volume;
 	}
