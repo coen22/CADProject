@@ -30,11 +30,11 @@ import ui.MainFrame;
  */
 public class ParametricSurface extends Object3D {
 
-    private boolean DEBUG = true;
+    private boolean DEBUG = false;
     private FormulaAbstract x;
     private FormulaAbstract y;
     private FormulaAbstract z;
-
+    private static final double PI = Math.PI;
     private int stepNumberU;
     private int stepNumberV;
     private int[][] vertexIndex;
@@ -49,7 +49,7 @@ public class ParametricSurface extends Object3D {
     private double intervalV;
 
     public static void main(String[] args) {
-        ParametricSurface p = new ParametricSurface(new SpiralX(), new SpiralY(), new SpiralZ(), 1, 2, 1, 2, 1, 100, false, false);
+        ParametricSurface p = new ParametricSurface(new TorusX(), new TorusY(), new TorusZ(), 0, 2*PI, 0, 2*PI, 100, 100, true, true);
         MainFrame m = new MainFrame();
         System.out.println("Surface Area: " + p.surfaceArea());
         m.setObject(p);
