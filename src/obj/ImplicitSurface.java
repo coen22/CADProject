@@ -27,15 +27,15 @@ public class ImplicitSurface extends Object3D {
     private ArrayList<double[]> normal;
 
     public static void main(String[] args) {
-        ImplicitSurface i = new ImplicitSurface(new Sphere(), 0.01, 2);
+        ImplicitSurface i = new ImplicitSurface(new Genus2(), 0.01, 2);
         MainFrame m = new MainFrame();
         m.setObject(i);
-        ObjExporter o = new ObjExporter("C:\\Users\\Kareem\\Desktop\\New Text Document.obj");
-        try {
-            o.export(i.getVerts(), new ArrayList<>());
-        } catch (IOException ex) {
-            Logger.getLogger(ImplicitSurface.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        ObjExporter o = new ObjExporter("C:\\Users\\Kareem\\Desktop\\New Text Document.obj");
+//        try {
+//            o.export(i.getVerts(), new ArrayList<>());
+//        } catch (IOException ex) {
+//            Logger.getLogger(ImplicitSurface.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     public ImplicitSurface(FormulaAbstract formula, double interval, double checkSize) {
@@ -51,7 +51,7 @@ public class ImplicitSurface extends Object3D {
                 for (double z = -checkSize; z < checkSize; z += interval) {
                     if (checkOnSurface(x, y, z)) {
                         count++;
-                        points.add(new Vertex(x, y, z,new double[]{partX(x, y, z, interval), partY(x, y, z, interval), partZ(x, y, z, interval)}));
+                        points.add(new Vertex(x, y, z, new double[]{partX(x, y, z, interval), partY(x, y, z, interval), partZ(x, y, z, interval)}));
                         normal.add(new double[]{partX(x, y, z, interval), partY(x, y, z, interval), partZ(x, y, z, interval)});
                     }
                 }

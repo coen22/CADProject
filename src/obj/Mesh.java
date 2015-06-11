@@ -16,6 +16,14 @@ public class Mesh extends Object3D {
         this.tris = inputFaces;
     }
 
+    public void setVertices(ArrayList<Vertex> vertices) {
+        this.vertices = vertices;
+    }
+
+    public void setTris(ArrayList<Triangle> tris) {
+        this.tris = tris;
+    }
+
     public Mesh() {
         this.vertices = new ArrayList<Vertex>();
         this.tris = new ArrayList<Triangle>();
@@ -32,8 +40,8 @@ public class Mesh extends Object3D {
             Logger.getLogger(Mesh.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (String text1 : text) {
-        	if (text1.length() > 0){
-        		if (text1.charAt(0) == 'v') {
+            if (text1.length() > 0) {
+                if (text1.charAt(0) == 'v') {
                     text1 = text1.replaceAll("v", "");
                     text1 = text1.trim();
                     String[] tmp = text1.split(" ");
@@ -49,13 +57,12 @@ public class Mesh extends Object3D {
                     if (tmp.length != 3) {
                         System.out.println("Error");
                     } else {
-                        tris.add(new Triangle(vertices.get(Integer.valueOf(tmp[0])-1), vertices.get(Integer.valueOf(tmp[1])-1), vertices.get(Integer.valueOf(tmp[2])-1)));
+                        tris.add(new Triangle(vertices.get(Integer.valueOf(tmp[0]) - 1), vertices.get(Integer.valueOf(tmp[1]) - 1), vertices.get(Integer.valueOf(tmp[2]) - 1)));
                     }
                 }
-        	}
-        	else{
-        		//do nothing
-        	}
+            } else {
+                //do nothing
+            }
         }
     }
 
@@ -68,5 +75,5 @@ public class Mesh extends Object3D {
     public List<Triangle> getTris() {
         return tris;
     }
-    
+
 }
