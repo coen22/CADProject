@@ -1,7 +1,6 @@
 package obj;
 
 import java.util.ArrayList;
-import ui.MainFrame;
 
 public class Voxel extends Mesh {
 
