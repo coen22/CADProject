@@ -47,7 +47,7 @@ public class ImplicitSurface extends Object3D {
                 for (double z = -checkSize; z < checkSize; z += interval) {
                     if (checkOnSurface(x, y, z)) {
                         count++;
-                        points.add(new Vertex(x, y, z));
+                        points.add(new Vertex(x, y, z,new double[]{partX(x, y, z, interval), partY(x, y, z, interval), partZ(x, y, z, interval)}));
                         normal.add(new double[]{partX(x, y, z, interval), partY(x, y, z, interval), partZ(x, y, z, interval)});
                     }
                 }
@@ -79,7 +79,7 @@ public class ImplicitSurface extends Object3D {
 
     @Override
     public List<Triangle> getTris() {
-        return face;
+        return null;
     }
 
     private double partX(double x, double y, double z, double inter) {
