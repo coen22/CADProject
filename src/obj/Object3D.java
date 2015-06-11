@@ -50,4 +50,13 @@ public abstract class Object3D {
     	}
     	return volume;
 	}
+	
+	public double tmpSurfaceArea(){
+    	double sa = 0;
+    	ArrayList<Triangle> tris = (ArrayList<Triangle>) getTris();
+    	for (int i = 0; i < tris.size(); i++){
+    		sa += tris.get(i).calcArea();
+    	}
+    	return sa;
+	}
 }
