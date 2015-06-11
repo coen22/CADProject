@@ -5,10 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import obj.implicit_formula.Diamond;
 import obj.implicit_formula.FormulaAbstract;
 import obj.implicit_formula.Genus2;
+import obj.implicit_formula.Neovius;
 import obj.implicit_formula.Sphere;
+import obj.implicit_formula.SumOfSins;
 import obj.implicit_formula.Torus;
+import obj.implicit_formula.TorusIntersectSphere;
 import ui.MainFrame;
 
 /**
@@ -23,7 +27,7 @@ public class ImplicitSurface extends Object3D {
     private ArrayList<double[]> normal;
 
     public static void main(String[] args) {
-        ImplicitSurface i = new ImplicitSurface(new Torus(), 0.005, 2);
+        ImplicitSurface i = new ImplicitSurface(new Sphere(), 0.01, 2);
         MainFrame m = new MainFrame();
         m.setObject(i);
         ObjExporter o = new ObjExporter("C:\\Users\\Kareem\\Desktop\\New Text Document.obj");
@@ -62,6 +66,7 @@ public class ImplicitSurface extends Object3D {
 
         face.add(new Triangle(points.get(count - 2), points.get(count - 1), points.get(0)));
         face.add(new Triangle(points.get(count - 1), points.get(0), points.get(1)));
+        System.out.println(face.size());
     }
 
     private boolean checkOnSurface(double x, double y, double z) {
@@ -79,7 +84,7 @@ public class ImplicitSurface extends Object3D {
 
     @Override
     public List<Triangle> getTris() {
-        return null;
+        return face;
     }
 
     private double partX(double x, double y, double z, double inter) {

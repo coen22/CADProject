@@ -13,7 +13,7 @@ public class Sphere extends FormulaAbstract {
 
     @Override
     public double evaluateAt(double x, double y, double z) {
-        double eps = 0.0000001;
+        double eps = 0.01;
         double tmp = Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2)-1;
         if(tmp<eps && tmp>-eps){
             tmp = 0;
