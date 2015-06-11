@@ -153,16 +153,18 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 			u[1] = tris.get(i).getB().getY()-tris.get(i).getA().getY();
 			u[2] = tris.get(i).getB().getZ()-tris.get(i).getA().getZ();
 			
-			v[0] = tris.get(i).getC().getX()-tris.get(i).getB().getX();
-			v[1] = tris.get(i).getC().getY()-tris.get(i).getB().getY();
-			v[2] = tris.get(i).getC().getZ()-tris.get(i).getB().getZ();
+			v[0] = tris.get(i).getC().getX()-tris.get(i).getA().getX();
+			v[1] = tris.get(i).getC().getY()-tris.get(i).getA().getY();
+			v[2] = tris.get(i).getC().getZ()-tris.get(i).getA().getZ();
 			
 			double crossX = u[1]*v[2] - u[2]*v[1];
 			double crossY = u[2]*v[0] - u[0]*v[2];
 			double crossZ = u[0]*v[1] - u[1]*v[0];
 			
-			gl.glVertex3d(tris.get(i).getA().getX() + 0.5*u[0], tris.get(i).getA().getY()+ 0.5*u[1], tris.get(i).getA().getZ()+ 0.5*u[2]);
-			gl.glVertex3d(tris.get(i).getA().getX() + 0.5*u[0] + crossX*3, tris.get(i).getA().getY()+ 0.5*u[1] + crossY*3, tris.get(i).getA().getZ()+ 0.5*u[2] + crossZ*3);
+			double doubleMultiplicator = 20;
+			
+			gl.glVertex3d(tris.get(i).getA().getX() + (0.25*u[0] + 0.25*v[0]), tris.get(i).getA().getY()+ (0.25*u[1] + 0.25*v[1]), tris.get(i).getA().getZ()+ (0.25*u[2] + 0.25*v[2]));
+			gl.glVertex3d(tris.get(i).getA().getX() + (0.25*u[0] + 0.25*v[0]) + crossX*doubleMultiplicator, tris.get(i).getA().getY()+ (0.25*u[1] + 0.25*v[1]) + crossY*doubleMultiplicator, tris.get(i).getA().getZ()+ (0.25*u[2] + 0.25*v[2]) + crossZ*doubleMultiplicator);
 		}
 		
 		gl.glEnd();

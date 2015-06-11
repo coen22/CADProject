@@ -1,5 +1,6 @@
 package obj;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Object3D {
@@ -39,5 +40,14 @@ public abstract class Object3D {
 	 */
 	public final double getVolume() {
 		return volumeMethod.getVolume(this);
+	}
+	
+	public double tmpTestingVolume(){
+    	double volume = 0;
+    	ArrayList<Triangle> tris = (ArrayList<Triangle>) getTris();
+    	for (int i = 0; i < tris.size(); i++){
+    		volume += tris.get(i).calcVolume();
+    	}
+    	return volume;
 	}
 }

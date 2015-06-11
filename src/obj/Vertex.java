@@ -18,6 +18,11 @@ public class Vertex {
 	private double z;
 	
 	/**
+	 * the "normal" of the vertex used to plot implicit objects
+	 */
+	private double[] implicitNormal;
+	
+	/**
 	 * create a vertex at the origin
 	 */
 	public Vertex() {
@@ -36,6 +41,21 @@ public class Vertex {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.implicitNormal = implicitNormal;
+	}
+	
+	/**
+	 * create a vertex at the point x,y,z with an implicitNormal
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param implicitNormal
+	 */
+	public Vertex(double x, double y, double z, double[] implicitNormal) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		this.implicitNormal = implicitNormal;
 	}
 	
 	/**

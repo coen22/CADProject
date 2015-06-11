@@ -91,17 +91,30 @@ public class Triangle {
         //Using Heron's formula requires the length of each side
         //Therefore the length is calculated first
         double a = (Math.sqrt(Math.pow((this.a.getX() - this.b.getX()), 2) + Math.pow((this.a.getY() - this.b.getY()), 2) + Math.pow((this.a.getZ() - this.b.getZ()), 2)));
-        System.out.println("Length a: " + a);
+//        System.out.println("Length a: " + a);
         double b = (Math.sqrt(Math.pow((this.b.getX() - this.c.getX()), 2) + Math.pow((this.b.getY() - this.c.getY()), 2) + Math.pow((this.b.getZ() - this.c.getZ()), 2)));
-        System.out.println("Length b: " + b);
+//        System.out.println("Length b: " + b);
         double c = (Math.sqrt(Math.pow((this.c.getX() - this.a.getX()), 2) + Math.pow((this.c.getY() - this.a.getY()), 2) + Math.pow((this.c.getZ() - this.a.getZ()), 2)));
-        System.out.println("Length c: " + c);
+//        System.out.println("Length c: " + c);
         //Heron's formula
         double A = (0.25) * Math.sqrt((a + b + c) * (-a + b + c) * (a - b + c) * (a + b - c));
-        System.out.println("Area A: " + A);
+//        System.out.println("Area A: " + A);
         return A;
     }
-
+    
+    /**
+     * calculates the tetrahedron volume of this triangle to the origin 0,0,0
+     * @return volume
+     */
+    public double calcVolume(){
+    	double v321 = c.getX()*b.getY()*a.getZ();
+    	double v231 = b.getX()*c.getY()*a.getZ();
+    	double v312 = c.getX()*a.getY()*b.getZ();
+    	double v132 = a.getX()*c.getY()*b.getZ();
+    	double v213 = b.getX()*a.getY()*c.getZ();
+    	double v123 = a.getX()*b.getY()*c.getZ();
+        return (1.0/6.0)*(-v321 + v231 + v312 - v132 - v213 + v123);
+    }
     @Override
     public String toString() {
         return "Triangle " + a + " " + b + " " + c;
