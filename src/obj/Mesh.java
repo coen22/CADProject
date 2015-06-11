@@ -32,25 +32,30 @@ public class Mesh extends Object3D {
             Logger.getLogger(Mesh.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (String text1 : text) {
-            if (text1.contains("v")) {
-                text1 = text1.replaceAll("v", "");
-                text1 = text1.trim();
-                String[] tmp = text1.split(" ");
-                if (tmp.length != 3) {
-                    System.out.println("Error");
-                } else {
-                    vertices.add(new Vertex(Double.valueOf(tmp[0]), Double.valueOf(tmp[1]), Double.valueOf(tmp[2])));
+        	if (text1.length() > 0){
+        		if (text1.charAt(0) == 'v') {
+                    text1 = text1.replaceAll("v", "");
+                    text1 = text1.trim();
+                    String[] tmp = text1.split(" ");
+                    if (tmp.length != 3) {
+                        System.out.println("Error");
+                    } else {
+                        vertices.add(new Vertex(Double.valueOf(tmp[0]), Double.valueOf(tmp[1]), Double.valueOf(tmp[2])));
+                    }
+                } else if (text1.charAt(0) == 'f') {
+                    text1 = text1.replaceAll("f", "");
+                    text1 = text1.trim();
+                    String[] tmp = text1.split(" ");
+                    if (tmp.length != 3) {
+                        System.out.println("Error");
+                    } else {
+                        tris.add(new Triangle(vertices.get(Integer.valueOf(tmp[0])-1), vertices.get(Integer.valueOf(tmp[1])-1), vertices.get(Integer.valueOf(tmp[2])-1)));
+                    }
                 }
-            } else if (text1.contains("f")) {
-                text1 = text1.replaceAll("f", "");
-                text1 = text1.trim();
-                String[] tmp = text1.split(" ");
-                if (tmp.length != 3) {
-                    System.out.println("Error");
-                } else {
-                    tris.add(new Triangle(vertices.get(Integer.valueOf(tmp[0])-1), vertices.get(Integer.valueOf(tmp[1])-1), vertices.get(Integer.valueOf(tmp[2])-1)));
-                }
-            }
+        	}
+        	else{
+        		//do nothing
+        	}
         }
     }
 

@@ -79,12 +79,13 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		if (object3D != null){
 			triFaces(gl);
 			triEdges(gl);
+			normals(gl);
 		}
 		
 		text(gl);
 		gridlines(gl);
 	}
-	
+
 	public void setObject(Object3D obj){
 		this.object3D = obj;
 	}
@@ -125,6 +126,43 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 			gl.glVertex3d(tris.get(i).getA().getX(), tris.get(i).getA().getY(), tris.get(i).getA().getZ());
 			gl.glVertex3d(tris.get(i).getB().getX(), tris.get(i).getB().getY(), tris.get(i).getB().getZ());
 			gl.glVertex3d(tris.get(i).getC().getX(), tris.get(i).getC().getY(), tris.get(i).getC().getZ());
+		}
+		
+		gl.glEnd();
+		
+	}
+	
+
+	private void normals(GL2 gl) {
+		gl.glLoadIdentity();
+		gl.glTranslated(0.0f, 2.0f, zoomFloat);
+		gl.glTranslated(translateX, translateY, translateZ);
+		gl.glRotatef(angleX, 1.0f, 0.0f, 0.0f);
+		gl.glRotatef(angleY, 0.0f, 1.0f, 0.0f);
+		
+		gl.glBegin(GL_LINES);
+		gl.glColor3f(0.2f, 0.2f, 0.2f); //has colour
+		gl.glLineWidth(1.0f);
+		
+		ArrayList<Triangle> tris = (ArrayList<Triangle>) object3D.getTris();
+		
+		for (int i = 0; i < tris.size(); i++){
+			double[] u = new double[3];
+			double[] v = new double[3];
+			u[0] = tris.get(i).getB().getX()-tris.get(i).getA().getX();
+			u[1] = tris.get(i).getB().getY()-tris.get(i).getA().getY();
+			u[2] = tris.get(i).getB().getZ()-tris.get(i).getA().getZ();
+			
+			v[0] = tris.get(i).getC().getX()-tris.get(i).getB().getX();
+			v[1] = tris.get(i).getC().getY()-tris.get(i).getB().getY();
+			v[2] = tris.get(i).getC().getZ()-tris.get(i).getB().getZ();
+			
+			double crossX = u[1]*v[2] - u[2]*v[1];
+			double crossY = u[2]*v[0] - u[0]*v[2];
+			double crossZ = u[0]*v[1] - u[1]*v[0];
+			
+			gl.glVertex3d(tris.get(i).getA().getX() + 0.5*u[0], tris.get(i).getA().getY()+ 0.5*u[1], tris.get(i).getA().getZ()+ 0.5*u[2]);
+			gl.glVertex3d(tris.get(i).getA().getX() + 0.5*u[0] + crossX*3, tris.get(i).getA().getY()+ 0.5*u[1] + crossY*3, tris.get(i).getA().getZ()+ 0.5*u[2] + crossZ*3);
 		}
 		
 		gl.glEnd();
