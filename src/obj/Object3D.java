@@ -45,8 +45,10 @@ public abstract class Object3D {
 	public double tmpTestingVolume(){
     	double volume = 0;
     	ArrayList<Triangle> tris = (ArrayList<Triangle>) getTris();
-    	for (int i = 0; i < tris.size(); i++){
-    		volume += tris.get(i).calcVolume();
+    	if (tris != null){
+    		for (int i = 0; i < tris.size(); i++){
+        		volume += tris.get(i).calcVolume();
+        	}
     	}
     	return volume;
 	}
@@ -54,8 +56,10 @@ public abstract class Object3D {
 	public double tmpSurfaceArea(){
     	double sa = 0;
     	ArrayList<Triangle> tris = (ArrayList<Triangle>) getTris();
-    	for (int i = 0; i < tris.size(); i++){
-    		sa += tris.get(i).calcArea();
+    	if (tris != null){
+    		for (int i = 0; i < tris.size(); i++){
+    			sa += tris.get(i).calcArea();
+        	}
     	}
     	return sa;
 	}

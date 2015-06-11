@@ -8,47 +8,11 @@ public class Tetrahedron extends Object3D {
 	private ArrayList<Vertex> vertices; 
 	private ArrayList<Triangle> tris;
 	
-	public Tetrahedron(Triangle tri1, Triangle tri2, Triangle tri3, Triangle tri4){
-		tris = new ArrayList<>();
-		tris.add(tri1);
-		tris.add(tri2);
-		tris.add(tri3);
-		tris.add(tri4);
-		vertices = new ArrayList<>();
-		//This is done to filter out duplicate unnecessary points
-		vertices.add(tri1.getA());
-		vertices.add(tri1.getB());
-		vertices.add(tri1.getC());
-		for(int i = 1; i < tris.size(); i++){
-			if( !(tris.get(i).getA().equals(vertices.get(0))) && !(tris.get(i).getA().equals(vertices.get(1))) && !(tris.get(i).getA().equals(vertices.get(2)))){
-				vertices.add(tris.get(i).getA());
-				break;
-			}
-			else{
-				//Do nothing the point is already added
-			}
-			if( !(tris.get(i).getB().equals(vertices.get(0))) && !(tris.get(i).getB().equals(vertices.get(1))) && !(tris.get(i).getB().equals(vertices.get(2)))){
-				vertices.add(tris.get(i).getB());
-				break;
-			}
-			else{
-				//Do nothing the point is already added
-			}
-			if( !(tris.get(i).getC().equals(vertices.get(0))) && !(tris.get(i).getC().equals(vertices.get(1))) && !(tris.get(i).getC().equals(vertices.get(2)))){
-				vertices.add(tris.get(i).getC());
-				break;
-			}
-			else{
-				//Do nothing the point is already added
-			}
-		}
-	}
-	
 	public Tetrahedron(Vertex a, Vertex b, Vertex c, Vertex d){
 		Triangle tri1 = new Triangle(a, b, c);
-		Triangle tri2 = new Triangle(b, c, d);
+		Triangle tri2 = new Triangle(b, d, c);
 		Triangle tri3 = new Triangle(c, d, a);
-		Triangle tri4 = new Triangle(d, a, b);
+		Triangle tri4 = new Triangle(d, b, a);
 		vertices = new ArrayList<>();
 		vertices.add(a);
 		vertices.add(b);
@@ -59,16 +23,6 @@ public class Tetrahedron extends Object3D {
 		tris.add(tri2);
 		tris.add(tri3);
 		tris.add(tri4);
-	}
-	
-	public Tetrahedron(ArrayList<Vertex> inputVertices, ArrayList<Triangle> inputTris){
-		if(inputTris.size() == 4 && inputVertices.size() == 4){
-			this.vertices = inputVertices;
-			this.tris = inputTris;
-		}
-		else{
-			return;
-		}
 	}
 	
 	public double tetrahedronArea(){

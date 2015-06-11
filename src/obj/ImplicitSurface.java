@@ -84,7 +84,7 @@ public class ImplicitSurface extends Object3D {
 
     @Override
     public List<Triangle> getTris() {
-        return face;
+        return null;
     }
 
     private double partX(double x, double y, double z, double inter) {

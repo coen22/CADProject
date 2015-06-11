@@ -110,8 +110,11 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	    renderer.setColor(0.0f, 0.0f, 0.0f, 0.9f);
 	    renderer.draw("Drag the image to change perspective, scroll to zoom and hold shift while dragging to shift the view.", 5, 5);
 	    if (object3D != null){
-	    	renderer.draw("vertices: " + object3D.getVerts().size() + ", tris: " + object3D.getTris().size(), 5, this.getHeight()-15);
-	    	renderer.draw("volume: " + object3D.tmpTestingVolume() + ", surface area: " + object3D.tmpSurfaceArea(), 5, this.getHeight()-30);
+	    	renderer.draw("vertices: " + object3D.getVerts().size(), 5, this.getHeight()-15);
+	    	if (object3D.getTris() != null){
+	    		renderer.draw("tris: " + object3D.getTris().size(), 5, this.getHeight()-30);
+	    	}
+	    	renderer.draw("volume: " + object3D.tmpTestingVolume() + ", surface area: " + object3D.tmpSurfaceArea(), 5, this.getHeight()-45);
 	    }
 	    renderer.endRendering();
 	}
@@ -219,6 +222,8 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		for (int i = 0; i < verts.size(); i++){
 			
 			double vectorMag = Math.sqrt(verts.get(i).getImplicitNormal()[0]*verts.get(i).getImplicitNormal()[0] + verts.get(i).getImplicitNormal()[1]*verts.get(i).getImplicitNormal()[1] + verts.get(i).getImplicitNormal()[2]*verts.get(i).getImplicitNormal()[2]);
+			double rhs = verts.get(i).getX()*verts.get(i).getImplicitNormal()[0] + verts.get(i).getY()*verts.get(i).getImplicitNormal()[1] + verts.get(i).getZ()*verts.get(i).getImplicitNormal()[2];
+			
 			gl.glVertex3d(verts.get(i).getX(), verts.get(i).getY(), verts.get(i).getZ());
 			gl.glVertex3d(verts.get(i).getX() + verts.get(i).getImplicitNormal()[0], verts.get(i).getY() + verts.get(i).getImplicitNormal()[1], verts.get(i).getZ() + verts.get(i).getImplicitNormal()[2]);
 		}
