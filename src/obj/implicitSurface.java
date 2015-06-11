@@ -15,62 +15,61 @@ import ui.MainFrame;
  *
  * @author Imray
  */
-public class implicitSurface extends Object3D {
+public class ImplicitSurface extends Object3D {
 
     private FormulaAbstract formula;
     private ArrayList<Vertex> points;
     private ArrayList<Triangle> face;
+    private ArrayList<double[]> normal;
 
     public static void main(String[] args) {
-        implicitSurface i = new implicitSurface(new Torus(), 0.01, 2);
+        ImplicitSurface i = new ImplicitSurface(new Torus(), 0.01, 2);
         MainFrame m = new MainFrame();
         m.setObject(i);
-//        ObjExporter o = new ObjExporter("C:\\Users\\Imray\\Desktop\\sadasd.obj");
-//        try {
-//            o.export(i.getVerts(), new ArrayList<>());
-//        } catch (IOException ex) {
-//            Logger.getLogger(implicitSurface.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        System.out.println("end");
+        ObjExporter o = new ObjExporter("C:\\Users\\Kareem\\Desktop\\New Text Document.obj");
+        try {
+            o.export(i.getVerts(), new ArrayList<>());
+        } catch (IOException ex) {
+            Logger.getLogger(ImplicitSurface.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public implicitSurface(FormulaAbstract formula, double interval, double checkSize) {
+    public ImplicitSurface(FormulaAbstract formula, double interval, double checkSize) {
         this.formula = formula;
 
         points = new ArrayList<>();
         //creates the vertices
-        ArrayList<int[]> al = new ArrayList<>();
+
         int count = 0;
-        int countx = -1;
+        normal = new ArrayList<>();
         for (double x = -checkSize; x < checkSize; x += interval) {
-            countx++;
-            int county = -1;
             for (double y = -checkSize; y < checkSize; y += interval) {
-                county++;
-                int countz = -1;
                 for (double z = -checkSize; z < checkSize; z += interval) {
-                    countz++;
                     if (checkOnSurface(x, y, z)) {
                         count++;
-                        al.add(new int[]{count, countx, county, countz});
                         points.add(new Vertex(x, y, z));
+                        normal.add(new double[]{partX(x, y, z, interval), partY(x, y, z, interval), partZ(x, y, z, interval)});
                     }
                 }
             }
         }
-        System.out.println(points.size());
+
         face = new ArrayList<>();
         //possible surface modeling
-        for (int i = 0; i < count-2; i++) {
-            face.add(new Triangle(points.get(i), points.get(i+1), points.get(i+2)));
+        for (int i = 0; i < count - 2; i++) {
+            face.add(new Triangle(points.get(i), points.get(i + 1), points.get(i + 2)));
         }
-        
-        face.add(new Triangle(points.get(count-2), points.get(count-1), points.get(0)));
-        face.add(new Triangle(points.get(count-1), points.get(0), points.get(1)));
+
+        face.add(new Triangle(points.get(count - 2), points.get(count - 1), points.get(0)));
+        face.add(new Triangle(points.get(count - 1), points.get(0), points.get(1)));
     }
 
     private boolean checkOnSurface(double x, double y, double z) {
         return (0 == formula.evaluateAt(x, y, z));
+    }
+
+    public ArrayList<double[]> getNormal() {
+        return normal;
     }
 
     @Override
@@ -83,4 +82,15 @@ public class implicitSurface extends Object3D {
         return face;
     }
 
+    private double partX(double x, double y, double z, double inter) {
+        return formula.evaluateAt(x + inter, y, z) - formula.evaluateAt(x, y, z);
+    }
+
+    private double partZ(double x, double y, double z, double inter) {
+        return formula.evaluateAt(x, y, z + inter) - formula.evaluateAt(x, y, z);
+    }
+
+    private double partY(double x, double y, double z, double inter) {
+        return formula.evaluateAt(x, y + inter, z) - formula.evaluateAt(x, y, z);
+    }
 }
