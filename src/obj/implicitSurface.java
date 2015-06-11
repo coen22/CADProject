@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import obj.implicit_formula.FormulaAbstract;
+import obj.implicit_formula.Genus2;
 import obj.implicit_formula.Sphere;
+import obj.implicit_formula.Torus;
 import ui.MainFrame;
 
 /**
@@ -20,9 +22,16 @@ public class implicitSurface extends Object3D {
     private ArrayList<Triangle> face;
 
     public static void main(String[] args) {
-        implicitSurface i = new implicitSurface(new Sphere(), 0.01, 1);
+        implicitSurface i = new implicitSurface(new Torus(), 0.01, 2);
         MainFrame m = new MainFrame();
         m.setObject(i);
+//        ObjExporter o = new ObjExporter("C:\\Users\\Imray\\Desktop\\sadasd.obj");
+//        try {
+//            o.export(i.getVerts(), new ArrayList<>());
+//        } catch (IOException ex) {
+//            Logger.getLogger(implicitSurface.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        System.out.println("end");
     }
 
     public implicitSurface(FormulaAbstract formula, double interval, double checkSize) {

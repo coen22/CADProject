@@ -24,7 +24,6 @@ public class ObjExporter {
         for (Vertex vertex1 : vertex) {
             tmp += ("v " + vertex1.getX() + " " + vertex1.getY() + " " + vertex1.getZ() + "\n");
         }
-
         w.writeToFile(tmp);
 
         tmp = "";
