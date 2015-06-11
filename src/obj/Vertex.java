@@ -130,6 +130,10 @@ public class Vertex {
 		else
 			return false;
 	}
+	
+	public double[] getImplicitNormal(){
+		return this.implicitNormal;
+	}
 
     @Override
     public String toString() {
