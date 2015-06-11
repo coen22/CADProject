@@ -21,8 +21,6 @@ public class Tetrahedron extends Object3D {
 		vertices.add(tri1.getC());
 		for(int i = 1; i < tris.size(); i++){
 			if( !(tris.get(i).getA().equals(vertices.get(0))) && !(tris.get(i).getA().equals(vertices.get(1))) && !(tris.get(i).getA().equals(vertices.get(2)))){
-				
-				System.out.println("Adds point A");
 				vertices.add(tris.get(i).getA());
 				break;
 			}
@@ -30,8 +28,6 @@ public class Tetrahedron extends Object3D {
 				//Do nothing the point is already added
 			}
 			if( !(tris.get(i).getB().equals(vertices.get(0))) && !(tris.get(i).getB().equals(vertices.get(1))) && !(tris.get(i).getB().equals(vertices.get(2)))){
-				
-				System.out.println("Adds point B");
 				vertices.add(tris.get(i).getB());
 				break;
 			}
@@ -39,7 +35,6 @@ public class Tetrahedron extends Object3D {
 				//Do nothing the point is already added
 			}
 			if( !(tris.get(i).getC().equals(vertices.get(0))) && !(tris.get(i).getC().equals(vertices.get(1))) && !(tris.get(i).getC().equals(vertices.get(2)))){
-				System.out.println("Adds point C");
 				vertices.add(tris.get(i).getC());
 				break;
 			}
