@@ -20,6 +20,7 @@ import javax.swing.SwingUtilities;
 
 import obj.Object3D;
 import obj.Triangle;
+import obj.Vertex;
 
 import com.jogamp.opengl.util.awt.TextRenderer;
 
@@ -77,9 +78,14 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 
 		
 		if (object3D != null){
-			triFaces(gl);
-			triEdges(gl);
-			normals(gl);
+			if (object3D.getTris() != null){
+				triFaces(gl, (ArrayList<Triangle>) object3D.getTris());
+				triEdges(gl, (ArrayList<Triangle>) object3D.getTris());
+				normals(gl, (ArrayList<Triangle>) object3D.getTris());
+			}
+			else {
+				normalVerts(gl, (ArrayList<Vertex>) object3D.getVerts());
+			}
 		}
 		
 		text(gl);
@@ -102,14 +108,18 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	    renderer = new TextRenderer(helpFont);
 	    renderer.beginRendering(this.getWidth(), this.getHeight());
 	    renderer.setColor(0.0f, 0.0f, 0.0f, 0.9f);
-	    renderer.draw("Drag the image to change perspective, scroll to zoom and hold shift while dragging to shift the view.", 5, 25);
+	    renderer.draw("Drag the image to change perspective, scroll to zoom and hold shift while dragging to shift the view.", 5, 5);
+	    if (object3D != null){
+	    	renderer.draw("vertices: " + object3D.getVerts().size() + ", tris: " + object3D.getTris().size(), 5, this.getHeight()-15);
+	    	renderer.draw("volume: " + object3D.tmpTestingVolume() + ", surface area: " + object3D.tmpSurfaceArea(), 5, this.getHeight()-30);
+	    }
 	    renderer.endRendering();
 	}
 	
 	/**
 	 * This methods draws the walls, forming the actual cubes.  
 	 */
-	private void triFaces(GL2 gl){
+	private void triFaces(GL2 gl, ArrayList<Triangle> tris){
 		
 		gl.glLoadIdentity();
 		gl.glTranslated(0.0f, 2.0f, zoomFloat);
@@ -119,8 +129,6 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		
 		gl.glBegin(GL_TRIANGLES);
 		gl.glColor3f(0.7f, 0.7f, 0.7f); //has colour
-		
-		ArrayList<Triangle> tris = (ArrayList<Triangle>) object3D.getTris();
 		
 		for (int i = 0; i < tris.size(); i++){
 			gl.glVertex3d(tris.get(i).getA().getX(), tris.get(i).getA().getY(), tris.get(i).getA().getZ());
@@ -133,7 +141,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	}
 	
 
-	private void normals(GL2 gl) {
+	private void normals(GL2 gl, ArrayList<Triangle> tris) {
 		gl.glLoadIdentity();
 		gl.glTranslated(0.0f, 2.0f, zoomFloat);
 		gl.glTranslated(translateX, translateY, translateZ);
@@ -144,7 +152,6 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		gl.glColor3f(0.2f, 0.2f, 0.2f); //has colour
 		gl.glLineWidth(1.0f);
 		
-		ArrayList<Triangle> tris = (ArrayList<Triangle>) object3D.getTris();
 		
 		for (int i = 0; i < tris.size(); i++){
 			double[] u = new double[3];
@@ -171,7 +178,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		
 	}
 	
-	private void triEdges(GL2 gl){
+	private void triEdges(GL2 gl, ArrayList<Triangle> tris){
 		
 		gl.glLoadIdentity();
 		gl.glTranslated(0.0f, 2.0f, zoomFloat);
@@ -183,8 +190,6 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		gl.glColor3f(0.2f, 0.2f, 0.2f); //has colour
 		gl.glLineWidth(1.0f);
 		
-		ArrayList<Triangle> tris = (ArrayList<Triangle>) object3D.getTris();
-		
 		for (int i = 0; i < tris.size(); i++){
 			gl.glVertex3d(tris.get(i).getA().getX(), tris.get(i).getA().getY(), tris.get(i).getA().getZ());
 			gl.glVertex3d(tris.get(i).getB().getX(), tris.get(i).getB().getY(), tris.get(i).getB().getZ());
@@ -194,6 +199,28 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 			
 			gl.glVertex3d(tris.get(i).getC().getX(), tris.get(i).getC().getY(), tris.get(i).getC().getZ());
 			gl.glVertex3d(tris.get(i).getA().getX(), tris.get(i).getA().getY(), tris.get(i).getA().getZ());
+		}
+		
+		gl.glEnd();
+		
+	}
+	
+	private void normalVerts(GL2 gl, ArrayList<Vertex> verts) {
+		gl.glLoadIdentity();
+		gl.glTranslated(0.0f, 2.0f, zoomFloat);
+		gl.glTranslated(translateX, translateY, translateZ);
+		gl.glRotatef(angleX, 1.0f, 0.0f, 0.0f);
+		gl.glRotatef(angleY, 0.0f, 1.0f, 0.0f);
+		
+		gl.glBegin(GL_LINES);
+		gl.glColor3f(0.2f, 0.2f, 0.2f); //has colour
+		gl.glLineWidth(1.0f);
+		
+		for (int i = 0; i < verts.size(); i++){
+			
+			double vectorMag = Math.sqrt(verts.get(i).getImplicitNormal()[0]*verts.get(i).getImplicitNormal()[0] + verts.get(i).getImplicitNormal()[1]*verts.get(i).getImplicitNormal()[1] + verts.get(i).getImplicitNormal()[2]*verts.get(i).getImplicitNormal()[2]);
+			gl.glVertex3d(verts.get(i).getX(), verts.get(i).getY(), verts.get(i).getZ());
+			gl.glVertex3d(verts.get(i).getX() + verts.get(i).getImplicitNormal()[0], verts.get(i).getY() + verts.get(i).getImplicitNormal()[1], verts.get(i).getZ() + verts.get(i).getImplicitNormal()[2]);
 		}
 		
 		gl.glEnd();

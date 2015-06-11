@@ -7,18 +7,25 @@ package obj.implicit_formula;
 
 /**
  *
- * @author Imray
+ * @author Kareem
  */
-public class Torus extends FormulaAbstract {
+public class Diamond extends FormulaAbstract {
 
     @Override
     public double evaluateAt(double x, double y, double z) {
-        double eps = 0.01;
-        double tmp = Math.pow((Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2) + 1 - 0.25), 2) - 4 * 1 * (Math.pow(x, 2) + Math.pow(y, 2));
+        double eps = 0.001;
+        double tmp = sin(x) *sin(y)* sin(z) + sin(x) * cos(y) * cos(z) + cos(x) * sin(y) * cos(z) + cos(x) * cos(y) * sin(z);
         if (tmp < eps && tmp > -eps) {
             tmp = 0;
         }
         return tmp;
     }
 
+    private double sin(double a) {
+        return Math.sin(a);
+    }
+
+    private double cos(double a) {
+        return Math.sin(a);
+    }
 }
