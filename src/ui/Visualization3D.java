@@ -81,7 +81,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 			if (object3D.getTris() != null){
 				triFaces(gl, (ArrayList<Triangle>) object3D.getTris());
 				triEdges(gl, (ArrayList<Triangle>) object3D.getTris());
-				normals(gl, (ArrayList<Triangle>) object3D.getTris());
+//				normals(gl, (ArrayList<Triangle>) object3D.getTris());
 			}
 			else {
 				normalVerts(gl, (ArrayList<Vertex>) object3D.getVerts());
