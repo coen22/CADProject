@@ -1,20 +1,55 @@
 package obj;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public class BSplineMesh extends Object3D {
+import obj.curves.*;
 
+public class SpinningMesh extends Object3D {
+
+	/**
+	 * The control points of the curve
+	 */
 	public List<Vertex> points;
+	
+	/**
+	 * The detail of the curve in the xy direction
+	 */
 	public int interval;
+	
+	/**
+	 * The detail of the curve in the xz direction
+	 */
 	public int xzInterval;
 	
+	/**
+	 * The stored vertices of the mesh
+	 */
 	private ArrayList<ArrayList<Vertex>> calcVerts = new ArrayList<ArrayList<Vertex>>();
+	
+	/**
+	 * The stored triangles of the mesh
+	 */
 	private ArrayList<Triangle> calcTris = new ArrayList<Triangle>();
 	
-	public BSplineMesh() {
+	/**
+	 * The type of curve used for calculating the mesh
+	 */
+	private Curve curveType;
+	
+	// Curves
+	
+	/**
+	 * All types of curves
+	 */
+	private static Curve bezierCurve = new Bezier();
+	
+	/**
+	 * A mesh made by spinning a curve around the y-axis
+	 */
+	public SpinningMesh() {
 		super();
+		curveType = bezierCurve;
 		points = new ArrayList<Vertex>();
 	}
 	
@@ -23,7 +58,7 @@ public class BSplineMesh extends Object3D {
 		if (!calcVerts.isEmpty())
 			return getVertsArray();
 		
-		List<Vertex> plot = getPlot();
+		List<Vertex> plot = curveType.getCurve(points, interval);
 
 		if (plot.size() == 0)
 			return null;
@@ -46,6 +81,10 @@ public class BSplineMesh extends Object3D {
 		return getVertsArray();
 	}
 
+	/**
+	 * Method to convert the vertices into an arraylist
+	 * @return
+	 */
 	public List<Vertex> getVertsArray() {
 		List<Vertex> verts = new ArrayList<Vertex>();
 		
@@ -83,6 +122,10 @@ public class BSplineMesh extends Object3D {
 		return calcTris;
 	}
 	
+	/**
+	 * Method to make the cab the bottom and top
+	 * @param order for the triangles to have the right normals
+	 */
 	public void makeCab(int order) {
 		int layer;
 		int cur;
@@ -116,64 +159,23 @@ public class BSplineMesh extends Object3D {
 		}
 	}
 	
-	public List<Vertex> getPlot() {
-		List<Vertex> plottingPoints = new ArrayList<Vertex>();
-		
-		float tInterval = 1 / ((float) ((points.size() - 1) * interval));
-		
-		for (float d = 0; d < 1; d+=tInterval){
-			plottingPoints.add(deCasteljauSAlgorithm(d));
-		}
-		
-		plottingPoints.add(deCasteljauSAlgorithm(1));
-		
-		return plottingPoints;
-	}
-	
 	/**
-	 * Method which, without polynomial mathematics, calculates the point at a given t. Can be optimised to be seperate class (static), memory improvements possible. 
-	 * @param originalPoints original points of the Bezier Curve
-	 * @param ratio t at which the point shall be calculated
-	 * @return the point for given t
+	 * Method to add a control point
+	 * @param an input vertex
 	 */
-	public Vertex deCasteljauSAlgorithm(float ratio) {
-		List<Vertex> working = new ArrayList<Vertex>();
-		
-		if (points.size() > 1){
-			//calculates the first step and copies from the originalPoints to the working points set
-			for (int i = 0; i < points.size() - 1; i++) {
-				double px = points.get(i).getX() + ((points.get(i + 1).getX() - points.get(i).getX()) * ratio);
-				double py = points.get(i).getY() + ((points.get(i + 1).getY() - points.get(i).getY()) * ratio);
-				double pz = points.get(i).getZ() + ((points.get(i + 1).getZ() - points.get(i).getZ()) * ratio);
-				working.add(new Vertex(px, py, pz));
-			}
-
-			while (working.size() > 1) {
-				for (int i = 0; i < working.size() - 1; i++){
-					double px = working.get(i).getX() + ((working.get(i + 1).getX() - working.get(i).getX()) * ratio);
-					double py = working.get(i).getY() + ((working.get(i + 1).getY() - working.get(i).getY()) * ratio);
-					double pz = working.get(i).getZ() + ((working.get(i + 1).getZ() - working.get(i).getZ()) * ratio);
-					working.set(i, new Vertex(px, py, pz));
-				}
-
-				working.remove(working.size() - 1);
-			}
-
-			return working.get(0);
-		} else {
-			return points.get(0);
-		}
-	}
-	
 	public void addPoint(Vertex v) {
 		calcTris.clear();
 		calcVerts.clear();
 		points.add(v);
 	}
 	
-	public void removePoint(Vertex v) {
+	/**
+	 * Method to remove a control point
+	 * @param the index of the vertex to be removed
+	 */
+	public void removePoint(int idx) {
 		calcTris.clear();
 		calcVerts.clear();
-		points.remove(v);
+		points.remove(idx);
 	}
 }
