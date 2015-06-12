@@ -219,11 +219,8 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 			double[] n = verts.get(i).getImplicitNormal();
 			double normalMag = Math.sqrt(n[0]*n[0] + n[1]*n[1] + n[2]*n[2]);
 			
-			double x1 = -n[1]/n[0]; //setting y = 1 and z = 0
-			double x2 = -n[2]/n[0]; //setting y = 0 and z = 1
-			
-			double[] u1 = {x1, 1, 0};
-			double[] u2 = {x2, 0, 1};
+			double[] u1 = {-n[1]/n[0], 1, 0};
+			double[] u2 = {-n[2]/n[0], 0, 1};
 			double u1Mag = Math.sqrt(u1[0]*u1[0] + u1[1]*u1[1] + u1[2]*u1[2]);
 			double u2Mag = Math.sqrt(u2[0]*u2[0] + u2[1]*u2[1] + u2[2]*u2[2]);
 			
