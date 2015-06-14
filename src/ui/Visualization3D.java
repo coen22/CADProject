@@ -81,7 +81,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 			if (object3D.getTris() != null){
 				triFaces(gl, (ArrayList<Triangle>) object3D.getTris());
 				triEdges(gl, (ArrayList<Triangle>) object3D.getTris());
-				normals(gl, (ArrayList<Triangle>) object3D.getTris());
+//				normals(gl, (ArrayList<Triangle>) object3D.getTris());
 			}
 			else {
 				normalVerts(gl, (ArrayList<Vertex>) object3D.getVerts());
@@ -152,7 +152,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		gl.glRotatef(angleY, 0.0f, 1.0f, 0.0f);
 		
 		gl.glBegin(GL_LINES);
-		gl.glColor3f(0.2f, 0.2f, 0.2f); //has colour
+		gl.glColor3f(0.2f, 0.2f, 0.2f);
 		gl.glLineWidth(1.0f);
 		
 		
@@ -215,20 +215,53 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		gl.glRotatef(angleX, 1.0f, 0.0f, 0.0f);
 		gl.glRotatef(angleY, 0.0f, 1.0f, 0.0f);
 		
-		gl.glBegin(GL_LINES);
-		gl.glColor3f(0.2f, 0.2f, 0.2f); //has colour
-		gl.glLineWidth(1.0f);
-		
 		for (int i = 0; i < verts.size(); i++){
+			double[] n = verts.get(i).getImplicitNormal();
+			double normalMag = Math.sqrt(n[0]*n[0] + n[1]*n[1] + n[2]*n[2]);
 			
-			double vectorMag = Math.sqrt(verts.get(i).getImplicitNormal()[0]*verts.get(i).getImplicitNormal()[0] + verts.get(i).getImplicitNormal()[1]*verts.get(i).getImplicitNormal()[1] + verts.get(i).getImplicitNormal()[2]*verts.get(i).getImplicitNormal()[2]);
-			double rhs = verts.get(i).getX()*verts.get(i).getImplicitNormal()[0] + verts.get(i).getY()*verts.get(i).getImplicitNormal()[1] + verts.get(i).getZ()*verts.get(i).getImplicitNormal()[2];
+			double[] u1 = {-n[1]/n[0], 1, 0};
+			double[] u2 = {-n[2]/n[0], 0, 1};
+			double u1Mag = Math.sqrt(u1[0]*u1[0] + u1[1]*u1[1] + u1[2]*u1[2]);
+			double u2Mag = Math.sqrt(u2[0]*u2[0] + u2[1]*u2[1] + u2[2]*u2[2]);
 			
-			gl.glVertex3d(verts.get(i).getX(), verts.get(i).getY(), verts.get(i).getZ());
-			gl.glVertex3d(verts.get(i).getX() + verts.get(i).getImplicitNormal()[0], verts.get(i).getY() + verts.get(i).getImplicitNormal()[1], verts.get(i).getZ() + verts.get(i).getImplicitNormal()[2]);
+			u1[0] = u1[0]/u1Mag * normalMag;
+			u1[1] = u1[1]/u1Mag * normalMag;
+			u1[2] = u1[2]/u1Mag * normalMag;
+			u2[0] = u2[0]/u2Mag * normalMag;
+			u2[1] = u2[1]/u2Mag * normalMag;
+			u2[2] = u2[2]/u2Mag * normalMag;
+			
+			gl.glBegin(GL_TRIANGLES);
+			gl.glColor3f(0.7f, 0.7f, 0.7f);
+			gl.glVertex3d(verts.get(i).getX() - u1[0], verts.get(i).getY() - u1[1], verts.get(i).getZ() - u1[2]);
+			gl.glVertex3d(verts.get(i).getX() + u1[0], verts.get(i).getY() + u1[1], verts.get(i).getZ() + u1[2]);
+			gl.glVertex3d(verts.get(i).getX() - u2[0], verts.get(i).getY() - u2[1], verts.get(i).getZ() - u2[2]);
+			
+			gl.glVertex3d(verts.get(i).getX() - u1[0], verts.get(i).getY() - u1[1], verts.get(i).getZ() - u1[2]);
+			gl.glVertex3d(verts.get(i).getX() + u1[0], verts.get(i).getY() + u1[1], verts.get(i).getZ() + u1[2]);
+			gl.glVertex3d(verts.get(i).getX() + u2[0], verts.get(i).getY() + u2[1], verts.get(i).getZ() + u2[2]);
+			gl.glEnd();
+			
+			gl.glBegin(GL_LINES);
+			gl.glColor3f(0.2f, 0.2f, 0.2f); //has colour
+			gl.glLineWidth(1.0f);
+			
+			gl.glVertex3d(verts.get(i).getX() + u1[0], verts.get(i).getY() + u1[1], verts.get(i).getZ() + u1[2]);
+			gl.glVertex3d(verts.get(i).getX() - u2[0], verts.get(i).getY() - u2[1], verts.get(i).getZ() - u2[2]);
+			
+			gl.glVertex3d(verts.get(i).getX() - u2[0], verts.get(i).getY() - u2[1], verts.get(i).getZ() - u2[2]);
+			gl.glVertex3d(verts.get(i).getX() - u1[0], verts.get(i).getY() - u1[1], verts.get(i).getZ() - u1[2]);
+			
+			gl.glVertex3d(verts.get(i).getX() - u1[0], verts.get(i).getY() - u1[1], verts.get(i).getZ() - u1[2]);
+			gl.glVertex3d(verts.get(i).getX() + u2[0], verts.get(i).getY() + u2[1], verts.get(i).getZ() + u2[2]);
+			
+			gl.glVertex3d(verts.get(i).getX() + u2[0], verts.get(i).getY() + u2[1], verts.get(i).getZ() + u2[2]);
+			gl.glVertex3d(verts.get(i).getX() + u1[0], verts.get(i).getY() + u1[1], verts.get(i).getZ() + u1[2]);
+			
+			
+			gl.glEnd();
 		}
 		
-		gl.glEnd();
 		
 	}
 	
