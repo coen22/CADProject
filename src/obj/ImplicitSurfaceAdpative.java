@@ -20,8 +20,8 @@ public class ImplicitSurfaceAdpative extends Object3D {
 
     public static void main(String[] args) {
         ImplicitSurfaceAdpative i = new ImplicitSurfaceAdpative(new Torus(), 0.03125, 2);
-        MainFrame m = new MainFrame();
-        m.setObject(i);
+//        MainFrame m = new MainFrame();
+//        m.setObject(i);
     }
 
     public ImplicitSurfaceAdpative(FormulaAbstract formula, double interval, double checkSize) {
