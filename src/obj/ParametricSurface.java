@@ -48,13 +48,6 @@ public class ParametricSurface extends Object3D {
     private double intervalU;
     private double intervalV;
 
-    public static void main(String[] args) {
-        ParametricSurface p = new ParametricSurface(new TorusX(), new TorusY(), new TorusZ(), 0, 2*PI, 0, 2*PI, 100, 100, true, true);
-        MainFrame m = new MainFrame();
-        System.out.println("Surface Area: " + p.surfaceArea());
-        m.setObject(p);
-    }
-
     public ParametricSurface(FormulaAbstract x, FormulaAbstract y, FormulaAbstract z,
             double limitLowU, double limitHighU, double limitLowV, double limitHighV, int stepU, int stepV, boolean connectEnd, boolean connectSide) {
         //sets the formula

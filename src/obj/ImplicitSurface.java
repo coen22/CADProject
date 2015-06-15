@@ -17,12 +17,6 @@ public class ImplicitSurface extends Object3D {
     private ArrayList<Triangle> face;
     private ArrayList<double[]> normal;
 
-    public static void main(String[] args) {
-        ImplicitSurface i = new ImplicitSurface(new Torus(), 0.05, 2);
-        MainFrame m = new MainFrame();
-        m.setObject(i);
-    }
-
     /**
      * None voxel version
      *

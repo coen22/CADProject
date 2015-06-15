@@ -5,9 +5,11 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import obj.DisplayObject;
 import obj.Object3D;
 
 import com.jogamp.opengl.util.FPSAnimator;
@@ -16,6 +18,7 @@ public class MainFrame {
 	
 	private JFrame mainFrame;
 	private Visualization3D visualization3D;
+	private ControlPanel controlPanel;
 
 	
 	/**
@@ -37,6 +40,10 @@ public class MainFrame {
 		visualization3D = new Visualization3D();
 		visualization3D.setSize(new Dimension((int) (Toolkit.getDefaultToolkit().getScreenSize().width * 0.7), (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.8)));
 		mainFrame.add(visualization3D, BorderLayout.CENTER);
+		
+		controlPanel = new ControlPanel();
+		controlPanel.setSize(new Dimension((int) (Toolkit.getDefaultToolkit().getScreenSize().width * 0.2), (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.1)));
+		mainFrame.add(controlPanel, BorderLayout.EAST);
 		
 		final FPSAnimator animator = new FPSAnimator(visualization3D, 30, true);
 		
@@ -60,8 +67,8 @@ public class MainFrame {
 		animator.start();
 	}	
 	
-	public void setObject(Object3D obj){
-		visualization3D.setObject(obj);
+	public void setObjects(ArrayList<DisplayObject> objs){
+		visualization3D.setObjects(objs);
 	}
 	
 }
