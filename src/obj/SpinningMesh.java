@@ -58,7 +58,7 @@ public class SpinningMesh extends Object3D {
 		if (!calcVerts.isEmpty())
 			return getVertsArray();
 		
-		List<Vertex> plot = curveType.getCurve(points, interval);
+		List<Vertex> plot = getCurve();
 
 		if (plot.size() == 0)
 			return null;
@@ -157,6 +157,18 @@ public class SpinningMesh extends Object3D {
 
 			calcTris.add(new Triangle(va, vb, vc));
 		}
+	}
+	
+	/**
+	 * Method to get 3d curve
+	 * @return the points of the curve
+	 */
+	public List<Vertex> getCurve() {
+		return curveType.getCurve(points, interval);
+	}
+	
+	public Curve getCurveType() {
+		return curveType;
 	}
 	
 	/**

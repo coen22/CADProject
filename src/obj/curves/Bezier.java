@@ -24,26 +24,26 @@ public class Bezier extends Curve {
 	
 	/**
 	 * Method which, without polynomial mathematics, calculates the point at a given t. Can be optimised to be seperate class (static), memory improvements possible. 
-	 * @param ratio t at which the point shall be calculated
+	 * @param t at which the point shall be calculated
 	 * @return the vertex for given t
 	 */
-	public Vertex deCasteljauSAlgorithm(List<Vertex> points, float ratio) {
+	public Vertex deCasteljauSAlgorithm(List<Vertex> points, float t) {
 		List<Vertex> working = new ArrayList<Vertex>();
 		
 		if (points.size() > 1){
 			//calculates the first step and copies from the originalPoints to the working points set
 			for (int i = 0; i < points.size() - 1; i++) {
-				double px = points.get(i).getX() + ((points.get(i + 1).getX() - points.get(i).getX()) * ratio);
-				double py = points.get(i).getY() + ((points.get(i + 1).getY() - points.get(i).getY()) * ratio);
-				double pz = points.get(i).getZ() + ((points.get(i + 1).getZ() - points.get(i).getZ()) * ratio);
+				double px = points.get(i).getX() + ((points.get(i + 1).getX() - points.get(i).getX()) * t);
+				double py = points.get(i).getY() + ((points.get(i + 1).getY() - points.get(i).getY()) * t);
+				double pz = points.get(i).getZ() + ((points.get(i + 1).getZ() - points.get(i).getZ()) * t);
 				working.add(new Vertex(px, py, pz));
 			}
 
 			while (working.size() > 1) {
 				for (int i = 0; i < working.size() - 1; i++){
-					double px = working.get(i).getX() + ((working.get(i + 1).getX() - working.get(i).getX()) * ratio);
-					double py = working.get(i).getY() + ((working.get(i + 1).getY() - working.get(i).getY()) * ratio);
-					double pz = working.get(i).getZ() + ((working.get(i + 1).getZ() - working.get(i).getZ()) * ratio);
+					double px = working.get(i).getX() + ((working.get(i + 1).getX() - working.get(i).getX()) * t);
+					double py = working.get(i).getY() + ((working.get(i + 1).getY() - working.get(i).getY()) * t);
+					double pz = working.get(i).getZ() + ((working.get(i + 1).getZ() - working.get(i).getZ()) * t);
 					working.set(i, new Vertex(px, py, pz));
 				}
 
