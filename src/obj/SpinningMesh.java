@@ -10,17 +10,17 @@ public class SpinningMesh extends Object3D {
 	/**
 	 * The control points of the curve
 	 */
-	public List<Vertex> points;
+	private List<Vertex> points;
 	
 	/**
 	 * The detail of the curve in the xy direction
 	 */
-	public int interval;
+	private int interval;
 	
 	/**
 	 * The detail of the curve in the xz direction
 	 */
-	public int xzInterval;
+	private int xzInterval;
 	
 	/**
 	 * The stored vertices of the mesh
@@ -49,6 +49,8 @@ public class SpinningMesh extends Object3D {
 	 */
 	public SpinningMesh() {
 		super();
+		interval = 5;
+		xzInterval = 5;
 		curveType = bezierCurve;
 		points = new ArrayList<Vertex>();
 	}
@@ -74,7 +76,7 @@ public class SpinningMesh extends Object3D {
 				v.setY(plot.get(j).getY());
 				curve.add(v);
 			}
-
+			
 			calcVerts.add(curve);
 		}
 		
@@ -99,8 +101,7 @@ public class SpinningMesh extends Object3D {
 		if (!calcTris.isEmpty())
 			return calcTris;
 		
-		if (calcVerts.isEmpty())
-			getVerts();
+		getVerts();
 		
 		for (int j = 0; j < calcVerts.get(0).size(); j++) {
 			for (int i = 0; i < calcVerts.size(); i++) {
@@ -115,9 +116,11 @@ public class SpinningMesh extends Object3D {
 				}
 			}
 		}
-
+		
 		makeCab(-1);
 		makeCab(1);
+		
+		System.out.println(calcTris);
 		
 		return calcTris;
 	}
@@ -140,7 +143,7 @@ public class SpinningMesh extends Object3D {
 			layer = calcVerts.size() - 1;
 			cur = 0;
 		}
-
+		
 		Vertex va = calcVerts.get(layer).get(cur);
 		cur += order;
 		Vertex vb = calcVerts.get(layer).get(cur);
@@ -149,7 +152,7 @@ public class SpinningMesh extends Object3D {
 		cur += order;
 
 		calcTris.add(new Triangle(va, vb, vc));
-
+		
 		while (cur < calcVerts.get(0).size() - 1 && cur > 0) {
 			vb = vc;
 			vc = calcVerts.get(layer).get(cur);
@@ -189,5 +192,25 @@ public class SpinningMesh extends Object3D {
 		calcTris.clear();
 		calcVerts.clear();
 		points.remove(idx);
+	}
+	
+	public int getXZInterval() {
+		return xzInterval;
+	}
+	
+	public void setXZInterval(int val) {
+		calcTris.clear();
+		calcVerts.clear();
+		xzInterval = val;
+	}
+	
+	public int getXYInterval() {
+		return interval;
+	}
+	
+	public void setXYInterval(int val) {
+		calcTris.clear();
+		calcVerts.clear();
+		interval = val;
 	}
 }
