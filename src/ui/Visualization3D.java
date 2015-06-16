@@ -66,6 +66,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	private boolean translateMode;
 	private int activeShift;
 	private boolean visibleNormals;
+	private boolean visibleLines;
 	
 	/**
 	 * Constructor, requires no parameters, adds all listeners to the GLCanvas. 
@@ -86,6 +87,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		translateMode = false;
 		activeShift = XAXIS;
 		visibleNormals = false;
+		visibleLines = true;
 	}
 	
 	/**
@@ -100,7 +102,9 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 			for (int i = 0; i < objects.size(); i++){
 				if (objects.get(i).getTris() != null){
 					triFaces(gl, objects.get(i));
-					triEdges(gl, objects.get(i));
+					if (visibleLines){
+						triEdges(gl, objects.get(i));
+					}
 					if (visibleNormals){
 						normals(gl, objects.get(i));
 					}
@@ -579,6 +583,14 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 
 	public void setActiveIndex(int active) {
 		this.activeObject = active;
+	}
+	
+	public void enableLines(){
+		this.visibleLines = true;
+	}
+	
+	public void disableLines(){
+		this.visibleLines = false;
 	}
 
 }

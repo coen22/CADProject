@@ -86,6 +86,15 @@ public class MainFrame{
 	public void activeSelectionChanged(int active) {
 		visualization3D.setActiveIndex(active);
 	}
+	
+	public void enableLines(){
+		visualization3D.enableLines();
+	}
+	
+	public void disableLines(){
+		visualization3D.disableLines();
+	}
+	
 }
 
 

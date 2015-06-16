@@ -50,6 +50,20 @@ public class ControlPanel extends JPanel{
 				}
 			}
 		});
+        
+        JCheckBox lines = new JCheckBox("Show Lines");
+        lines.setSelected(true);
+        lines.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (lines.isSelected()){
+					mainframe.enableLines();
+				}
+				else{
+					mainframe.disableLines();
+				}
+			}
+		});
 		
 		JFileChooser importMesh = new JFileChooser(System.getProperty("user.dir")+File.separator+"src");
 		JButton importOBJ = new JButton("import mesh");
@@ -111,6 +125,7 @@ public class ControlPanel extends JPanel{
 		this.add(importOBJ);
 		this.add(create);
 		this.add(createFunctionalObject);
+		this.add(lines);
 		this.add(normals);
 		
 	}
