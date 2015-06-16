@@ -31,11 +31,11 @@ public class DisplayObject {
 	}
 	
 	public void activate(){
-		this.setColor(activeColor);
+		this.color = activeColor;
 	}
 	
 	public void deactivate(){
-		this.setColor(defaultColor);
+		this.color = defaultColor;
 	}
 	
 	public void setVisible(boolean visibility){

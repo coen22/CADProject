@@ -1,4 +1,6 @@
 package ui;
+
+import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -36,7 +38,6 @@ import obj.parametric_formula.TorusZ;
 import obj.parametric_formula.TrumpetX;
 import obj.parametric_formula.TrumpetY;
 import obj.parametric_formula.TrumpetZ;
-
 
 public class Controller {
 	private static final int PARAMETRIC_TORUS = 0;
@@ -153,5 +154,8 @@ public class Controller {
 		frame.itemsChanged();
 	}
 	
+	public void setColor(Color color){
+		objects.get(activeObject).setColor(color);
+	}
 
 }

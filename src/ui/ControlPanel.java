@@ -17,10 +17,12 @@ import javax.media.nativewindow.util.Dimension;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.colorchooser.AbstractColorChooserPanel;
 
 import javafx.*;
 
@@ -92,10 +94,20 @@ public class ControlPanel extends JPanel{
 				controller.createObject(createFunctionalObject.getSelectedIndex());;
 			}
 		});
-			
+		
+		JColorChooser colorChooser = new JColorChooser();
+		JButton color = new JButton("set colour");
+		color.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Color color = colorChooser.showDialog(null, "Select the Color", new Color(0, 0, 0));
+				controller.setColor(color);
+			}
+		});
 		
 		this.add(activeObjectSelector);
 		this.add(delete);
+		this.add(color);
 		this.add(importOBJ);
 		this.add(create);
 		this.add(createFunctionalObject);
