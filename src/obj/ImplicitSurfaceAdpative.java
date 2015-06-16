@@ -22,10 +22,6 @@ public class ImplicitSurfaceAdpative extends Object3D {
     public static void main(String[] args) {
         ImplicitSurfaceAdpative i = new ImplicitSurfaceAdpative(new Sphere(), 0.02, 2);
 //        Voxel f = new Voxel(5, 0, 0, 0);
-        MainFrame m = new MainFrame();
-        ArrayList<DisplayObject> skfas = new ArrayList<>();
-        skfas.add(new DisplayObject(i));
-        m.setObjects(skfas);
     }
 
     public ImplicitSurfaceAdpative(FormulaAbstract formula, double interval, double checkSize) {
