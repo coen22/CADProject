@@ -81,11 +81,26 @@ public class ControlPanel extends JPanel{
 				controller.deleteCurrent();
 			}
 		});
+		
+		String[] options = {"parametric torus", "parametric shoe", "parametric ship", "parametric sphere", "parametric spiral", "parametric trumpet", "implicit diamond", "implicit genus2", "implicity neovius", "implicity sum of sins", "implicit swiss cube" , "implicit torus", "implicity torus-cube", "implicity torus intersecting sphere"};
+		JComboBox<String> createFunctionalObject = new JComboBox<String>(options);
+		activeObjectSelector.setLightWeightPopupEnabled(false);
+		
+		JButton create = new JButton("create selected object:");
+		create.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.createObject(createFunctionalObject.getSelectedIndex());;
+			}
+		});
 			
-		this.add(normals);
+		
 		this.add(activeObjectSelector);
-		this.add(importOBJ);
 		this.add(delete);
+		this.add(importOBJ);
+		this.add(create);
+		this.add(createFunctionalObject);
+		this.add(normals);
 		
 	}
 	

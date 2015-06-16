@@ -5,10 +5,20 @@ import java.util.ArrayList;
 import javax.swing.ComboBoxModel;
 
 import obj.DisplayObject;
+import obj.ImplicitSurface;
 import obj.Mesh;
 import obj.ParametricSurface;
 import obj.SpinningMesh;
 import obj.Vertex;
+import obj.implicit_formula.Diamond;
+import obj.implicit_formula.Genus2;
+import obj.implicit_formula.Neovius;
+import obj.implicit_formula.Sphere;
+import obj.implicit_formula.SumOfSins;
+import obj.implicit_formula.SwissCube;
+import obj.implicit_formula.Torus;
+import obj.implicit_formula.TorusCube;
+import obj.implicit_formula.TorusIntersectSphere;
 import obj.parametric_formula.ShipX;
 import obj.parametric_formula.ShipY;
 import obj.parametric_formula.ShipZ;
@@ -24,28 +34,28 @@ import obj.parametric_formula.SpiralZ;
 import obj.parametric_formula.TorusX;
 import obj.parametric_formula.TorusY;
 import obj.parametric_formula.TorusZ;
+import obj.parametric_formula.TrumpetX;
+import obj.parametric_formula.TrumpetY;
+import obj.parametric_formula.TrumpetZ;
 
 
 public class Controller {
-	
-	private static final int PATH_IMPORT = 0;
-	
+	private static final int PARAMETRIC_TORUS = 0;
 	private static final int PARAMETRIC_SHOE = 1;
 	private static final int PARAMETRIC_SHIP = 2;
 	private static final int PARAMETRIC_SPHERE = 3;
 	private static final int PARAMETRIC_SPIRAL = 4;
 	private static final int PARAMETRIC_TRUMPET = 5;
-	private static final int PARAMETRIC_TORUS = 6;
 	
-	private static final int IMPLICIT_DIAMOND = 10;
-	private static final int IMPLICIT_GENUS_2 = 11;
-	private static final int IMPLICIT_NEOVIUS = 12;
-	private static final int IMPLICIT_SPHERE = 13;
-	private static final int IMPLICIT_SUM_OF_SINS = 14;
-	private static final int IMPLICIT_SWISS_CUBE = 15;
-	private static final int IMPLICIT_TORUS = 16;
-	private static final int IMPLICIT_TORUS_CUBE = 17;
-	private static final int IMPLICIT_TORUS_INTERSECT_SPHERE = 18;
+	private static final int IMPLICIT_DIAMOND = 6;
+	private static final int IMPLICIT_GENUS_2 = 7;
+	private static final int IMPLICIT_NEOVIUS = 8;
+	private static final int IMPLICIT_SPHERE = 9;
+	private static final int IMPLICIT_SUM_OF_SINS = 10;
+	private static final int IMPLICIT_SWISS_CUBE = 11;
+	private static final int IMPLICIT_TORUS = 12;
+	private static final int IMPLICIT_TORUS_CUBE = 13;
+	private static final int IMPLICIT_TORUS_INTERSECT_SPHERE = 14;
 	
 	private ArrayList<DisplayObject> objects;
 	private MainFrame frame;
@@ -55,14 +65,18 @@ public class Controller {
 		frame = new MainFrame(this);
 		objects = new ArrayList<DisplayObject>();
 		frame.init(objects);
+		createObject(IMPLICIT_TORUS_INTERSECT_SPHERE);
 	}
 	
 	public void createObject(int type){
-		if (type == PARAMETRIC_SHIP){
-			objects.add(new DisplayObject(new ParametricSurface(new ShipX(), new ShipY(), new ShipZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100, true, false), "parametric ship"));
+		if (type == PARAMETRIC_TORUS){
+			objects.add(new DisplayObject(new ParametricSurface(new TorusX(), new TorusY(), new TorusZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100, true, true), "parametric torus"));
 		}
 		else if (type == PARAMETRIC_SHOE){
 			objects.add(new DisplayObject(new ParametricSurface(new ShoeX(), new ShoeY(), new ShoeZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100, true, true), "parametric shoe"));
+		}
+		else if (type == PARAMETRIC_SHIP){
+			objects.add(new DisplayObject(new ParametricSurface(new ShipX(), new ShipY(), new ShipZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100, true, false), "parametric ship"));
 		}
 		else if (type == PARAMETRIC_SPHERE){
 			objects.add(new DisplayObject(new ParametricSurface(new SphereX(), new SphereY(), new SphereZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100, true, true), "parametric sphere"));
@@ -70,8 +84,35 @@ public class Controller {
 		else if (type == PARAMETRIC_SPIRAL){
 			objects.add(new DisplayObject(new ParametricSurface(new SpiralX(), new SpiralY(), new SpiralZ(), 1, 2, 0, 1, 100, 100, false, false), "parametric spiral"));
 		}
-		else if (type == PARAMETRIC_TORUS){
-			objects.add(new DisplayObject(new ParametricSurface(new TorusX(), new TorusY(), new TorusZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100, true, true), "parametric torus"));
+		else if (type == PARAMETRIC_TRUMPET){
+			objects.add(new DisplayObject(new ParametricSurface(new TrumpetX(), new TrumpetY(), new TrumpetZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100, true, true), "parametric trumpet"));
+		}
+		else if (type == IMPLICIT_DIAMOND){
+			objects.add(new DisplayObject(new ImplicitSurface(new Diamond(), 0.05, 1.5), "implicit diamond"));
+		}
+		else if (type == IMPLICIT_GENUS_2){
+			objects.add(new DisplayObject(new ImplicitSurface(new Genus2(), 0.05, 1.5), "implicit genus 2"));
+		}
+		else if (type == IMPLICIT_NEOVIUS){
+			objects.add(new DisplayObject(new ImplicitSurface(new Neovius(), 0.05, 1.5), "implicit neovius"));
+		}
+		else if (type == IMPLICIT_SPHERE){
+			objects.add(new DisplayObject(new ImplicitSurface(new Sphere(), 0.05, 1.5), "implicit sphere"));
+		}
+		else if (type == IMPLICIT_SUM_OF_SINS){
+			objects.add(new DisplayObject(new ImplicitSurface(new SumOfSins(), 0.05, 1.5), "implicit sum of sins"));
+		}
+		else if (type == IMPLICIT_SWISS_CUBE){
+			objects.add(new DisplayObject(new ImplicitSurface(new SwissCube(), 0.05, 1.5), "implicit swiss cube"));
+		}
+		else if (type == IMPLICIT_TORUS){
+			objects.add(new DisplayObject(new ImplicitSurface(new Torus(), 0.05, 1.5), "implicit torus"));
+		}
+		else if (type == IMPLICIT_TORUS_CUBE){
+			objects.add(new DisplayObject(new ImplicitSurface(new TorusCube(), 0.05, 1.5), "implicit torus-cube"));
+		}
+		else if (type == IMPLICIT_TORUS_INTERSECT_SPHERE){
+			objects.add(new DisplayObject(new ImplicitSurface(new TorusIntersectSphere(), 0.05, 1.5), "implicit torus intersecting sphere"));
 		}
 		frame.itemsChanged();
 	}
