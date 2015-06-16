@@ -66,6 +66,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	private ArrayList<DisplayObject> objects;
 	private boolean translateMode;
 	private int activeShift;
+	private boolean visibleNormals;
 	
 	/**
 	 * Constructor, requires no parameters, adds all listeners to the GLCanvas. 
@@ -85,6 +86,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		objects = new ArrayList<DisplayObject>();
 		translateMode = false;
 		activeShift = XAXIS;
+		visibleNormals = false;
 	}
 	
 	/**
@@ -95,23 +97,14 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		
 		gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-//		if (tmpActiveObject != null){
-//			if (tmpActiveObject.getTris() != null){
-//				triFaces(gl, tmpActiveObject);
-//				triEdges(gl, tmpActiveObject);
-//				normals(gl, tmpActiveObject);
-//			}
-//			else {
-//				normalVerts(gl, tmpActiveObject);
-//			}
-//		}
-		
 		if (objects.size() > 0){
 			for (int i = 0; i < objects.size(); i++){
 				if (objects.get(i).getTris() != null){
 					triFaces(gl, objects.get(i));
 					triEdges(gl, objects.get(i));
-					normals(gl, objects.get(i));
+					if (visibleNormals){
+						normals(gl, objects.get(i));
+					}
 				}
 				else{
 					normalVerts(gl, objects.get(i));
@@ -451,9 +444,9 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	 * This method responds to the mousewheel being used. The zoom level is changed subsequently. 
 	 */
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		zoomFloat -= e.getWheelRotation()*2;
-		if (zoomFloat > -1){
-			zoomFloat = -1;
+		zoomFloat -= e.getWheelRotation()*-zoomFloat/20;
+		if (zoomFloat > 0){
+			zoomFloat = 0;
 		}
 		
 	}
@@ -575,6 +568,18 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void enableNormals() {
+		this.visibleNormals = true;
+	}
+
+	public void disableNormals() {
+		this.visibleNormals = false;
+	}
+
+	public void setActiveIndex(int active) {
+		this.activeObject = active;
 	}
 
 }

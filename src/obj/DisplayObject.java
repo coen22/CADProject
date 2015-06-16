@@ -14,8 +14,9 @@ public class DisplayObject extends Object3D {
 	private float zDisp;
 	private Color color;
 	private boolean visible;
+	private String name;
 	
-	public DisplayObject(Object3D inputObject) {
+	public DisplayObject(Object3D inputObject, String name) {
 		super();
 		this.obj = inputObject;
 		this.setxDisp(0);
@@ -23,6 +24,7 @@ public class DisplayObject extends Object3D {
 		this.setzDisp(0);
 		this.setColor(defaultColor);
 		this.visible = true;
+		this.name = name;
 	}
 	
 	public void activate(){
@@ -81,6 +83,10 @@ public class DisplayObject extends Object3D {
 
 	public void setColor(Color color) {
 		this.color = color;
+	}
+	
+	public String getName(){
+		return this.name;
 	}
 
 }

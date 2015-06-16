@@ -50,7 +50,7 @@ public abstract class Object3D {
         		volume += tris.get(i).calcVolume();
         	}
     	}
-    	return volume;
+    	return Math.abs(volume);
 	}
 	
 	public double tmpSurfaceArea(){
@@ -61,6 +61,6 @@ public abstract class Object3D {
     			sa += tris.get(i).calcArea();
         	}
     	}
-    	return sa;
+    	return Math.abs(sa);
 	}
 }
