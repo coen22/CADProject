@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javax.swing.ComboBoxModel;
 
-import obj.DisplayObject;
 import obj.ImplicitSurface;
 import obj.Mesh;
 import obj.ParametricSurface;
@@ -65,7 +64,6 @@ public class Controller {
 		frame = new MainFrame(this);
 		objects = new ArrayList<DisplayObject>();
 		frame.init(objects);
-		createObject(IMPLICIT_TORUS_INTERSECT_SPHERE);
 	}
 	
 	public void createObject(int type){

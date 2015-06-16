@@ -22,7 +22,6 @@ import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
 import javax.swing.SwingUtilities;
 
-import obj.DisplayObject;
 import obj.Object3D;
 import obj.Triangle;
 import obj.Vertex;
@@ -142,7 +141,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	    	if (objects.get(activeObject).getTris() != null){
 	    		renderer.draw("tris: " + objects.get(activeObject).getTris().size(), 5, this.getHeight()-30);
 	    	}
-	    	renderer.draw("volume: " + objects.get(activeObject).tmpTestingVolume() + ", surface area: " + objects.get(activeObject).tmpSurfaceArea(), 5, this.getHeight()-45);
+	    	renderer.draw("volume: " + objects.get(activeObject).getVolume() + ", surface area: " + objects.get(activeObject).getSA(), 5, this.getHeight()-45);
 	    }
 	    renderer.endRendering();
 	}

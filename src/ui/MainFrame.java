@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import javax.sound.midi.ControllerEventListener;
 import javax.swing.JFrame;
 
-import obj.DisplayObject;
 import obj.Object3D;
 
 import com.jogamp.opengl.util.FPSAnimator;

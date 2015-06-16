@@ -1,12 +1,16 @@
-package obj;
+package ui;
 
 import java.awt.Color;
 import java.util.List;
 
-public class DisplayObject extends Object3D {
+import obj.Object3D;
+import obj.Triangle;
+import obj.Vertex;
+
+public class DisplayObject {
 	
-	private static final Color defaultColor = new Color(0.8f, 0.8f, 0.8f);
-	private static final Color activeColor = new Color(0.5f, 0.3f, 0.3f);
+	private Color defaultColor = new Color(0.8f, 0.8f, 0.8f);
+	private Color activeColor = new Color(0.5f, 0.3f, 0.3f);
 	
 	private Object3D obj;
 	private float xDisp;
@@ -17,7 +21,6 @@ public class DisplayObject extends Object3D {
 	private String name;
 	
 	public DisplayObject(Object3D inputObject, String name) {
-		super();
 		this.obj = inputObject;
 		this.setxDisp(0);
 		this.setyDisp(0);
@@ -43,12 +46,10 @@ public class DisplayObject extends Object3D {
 		return visible;
 	}
 
-	@Override
 	public List<Vertex> getVerts() {
 		return obj.getVerts();
 	}
 
-	@Override
 	public List<Triangle> getTris() {
 		return obj.getTris();
 	}
@@ -83,10 +84,20 @@ public class DisplayObject extends Object3D {
 
 	public void setColor(Color color) {
 		this.color = color;
+		this.defaultColor = color;
+		this.activeColor = color;
 	}
 	
 	public String getName(){
 		return this.name;
+	}
+	
+	public double getVolume(){
+		return obj.tmpTestingVolume();
+	}
+	
+	public double getSA(){
+		return obj.tmpSurfaceArea();
 	}
 
 }
