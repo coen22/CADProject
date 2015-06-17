@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import obj.curves.*;
+import ui.algorithms.CurveVolumeMethod;
 
 public class SpinningMesh extends Object3D {
 
@@ -53,6 +54,7 @@ public class SpinningMesh extends Object3D {
 		xzInterval = 5;
 		curveType = bezierCurve;
 		points = new ArrayList<Vertex>();
+		this.volumeMethod = new CurveVolumeMethod();
 	}
 	
 	@Override

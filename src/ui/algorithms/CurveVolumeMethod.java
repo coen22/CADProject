@@ -1,11 +1,10 @@
-package obj.curves;
+package ui.algorithms;
 
 import java.util.List;
 
 import obj.Object3D;
 import obj.SpinningMesh;
 import obj.Vertex;
-import obj.VolumeMethod;
 
 public class CurveVolumeMethod implements VolumeMethod {
 

@@ -1,4 +1,6 @@
-package obj;
+package ui.algorithms;
+
+import obj.Object3D;
 
 public interface VolumeMethod {
 	/**
@@ -7,4 +9,5 @@ public interface VolumeMethod {
 	 * @return the volume
 	 */
 	public double getVolume(Object3D object3d);
+	
 }

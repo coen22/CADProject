@@ -93,11 +93,11 @@ public class DisplayObject {
 	}
 	
 	public double getVolume(){
-		return obj.tmpTestingVolume();
+		return obj.getVolume();
 	}
 	
 	public double getSA(){
-		return obj.tmpSurfaceArea();
+		return obj.getSurfaceArea();
 	}
 
 }

@@ -3,6 +3,11 @@ package obj;
 import java.util.ArrayList;
 import java.util.List;
 
+import ui.algorithms.MeshSurfaceArea;
+import ui.algorithms.MeshVolume;
+import ui.algorithms.SurfaceAreaMethod;
+import ui.algorithms.VolumeMethod;
+
 public abstract class Object3D {
 	/**
 	 * The strategy used for calculating the surface area
@@ -42,25 +47,8 @@ public abstract class Object3D {
 		return volumeMethod.getVolume(this);
 	}
 	
-	public double tmpTestingVolume(){
-    	double volume = 0;
-    	ArrayList<Triangle> tris = (ArrayList<Triangle>) getTris();
-    	if (tris != null){
-    		for (int i = 0; i < tris.size(); i++){
-        		volume += tris.get(i).calcVolume();
-        	}
-    	}
-    	return Math.abs(volume);
-	}
-	
-	public double tmpSurfaceArea(){
-    	double sa = 0;
-    	ArrayList<Triangle> tris = (ArrayList<Triangle>) getTris();
-    	if (tris != null){
-    		for (int i = 0; i < tris.size(); i++){
-    			sa += tris.get(i).calcArea();
-        	}
-    	}
-    	return Math.abs(sa);
+	public Object3D(){
+		this.volumeMethod = new MeshVolume();
+		this.surfaceAreaMethod = new MeshSurfaceArea();
 	}
 }

@@ -1,4 +1,6 @@
-package obj;
+package ui.algorithms;
+
+import obj.Object3D;
 
 public interface SurfaceAreaMethod {
 	/**
