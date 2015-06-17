@@ -61,7 +61,6 @@ public abstract class Object3D {
     			sa += tris.get(i).calcArea();
         	}
     	}
-    	System.out.println("area: " + sa);
     	return Math.abs(sa);
 	}
 }
