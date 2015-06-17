@@ -50,9 +50,10 @@ public class SpinningMesh extends Object3D {
 	 */
 	public SpinningMesh() {
 		super();
-		interval = 5;
-		xzInterval = 5;
+		interval = 15;
+		xzInterval = 100;
 		curveType = bezierCurve;
+		volumeMethod = new CurveVolumeMethod();
 		points = new ArrayList<Vertex>();
 		this.volumeMethod = new CurveVolumeMethod();
 	}
@@ -71,10 +72,10 @@ public class SpinningMesh extends Object3D {
 			ArrayList<Vertex> curve = new ArrayList<Vertex>();
 
 			for(int i = 0; i < xzInterval; i++) {
-				double a = 0;
+				double a = ((double) i / (double) xzInterval) * Math.PI * 2;
 				Vertex v = new Vertex();
-				v.setX(plot.get(j).getX() * Math.cos(a) - plot.get(j).getZ() * Math.sin(a));
-				v.setZ(plot.get(j).getX() * Math.sin(a) + plot.get(j).getZ() * Math.cos(a));
+				v.setX(plot.get(j).getX() * Math.cos(a));
+				v.setZ(plot.get(j).getX() * Math.sin(a));
 				v.setY(plot.get(j).getY());
 				curve.add(v);
 			}
@@ -122,8 +123,6 @@ public class SpinningMesh extends Object3D {
 		makeCab(-1);
 		makeCab(1);
 		
-		System.out.println(calcTris);
-		
 		return calcTris;
 	}
 	
@@ -155,7 +154,7 @@ public class SpinningMesh extends Object3D {
 
 		calcTris.add(new Triangle(va, vb, vc));
 		
-		while (cur < calcVerts.get(0).size() - 1 && cur > 0) {
+		while (cur < calcVerts.get(0).size() && cur >= 0) {
 			vb = vc;
 			vc = calcVerts.get(layer).get(cur);
 			cur += order;
@@ -169,6 +168,14 @@ public class SpinningMesh extends Object3D {
 	 * @return the points of the curve
 	 */
 	public List<Vertex> getCurve() {
+		return curveType.getCurve(points, interval);
+	}
+	
+	/**
+	 * Method to get 3d curve with a higher or lower interval
+	 * @return the points of the curve
+	 */
+	public List<Vertex> getCurve(int interval) {
 		return curveType.getCurve(points, interval);
 	}
 	

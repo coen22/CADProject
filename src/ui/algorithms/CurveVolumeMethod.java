@@ -8,10 +8,12 @@ import obj.Vertex;
 
 public class CurveVolumeMethod implements VolumeMethod {
 
+	public static int resolution = 100;
+	
 	@Override
 	public double getVolume(Object3D obj) {
 		SpinningMesh sMesh = (SpinningMesh) obj;
-		return integral(sMesh.getCurve()) * Math.PI;
+		return integral(sMesh.getCurve(resolution)) * Math.PI;
 	}
 
 	private double integral(List<Vertex> verts) {
