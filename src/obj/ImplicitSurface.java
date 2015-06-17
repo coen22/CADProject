@@ -16,33 +16,8 @@ public class ImplicitSurface extends Object3D {
     private ArrayList<Vertex> points;
     private ArrayList<Triangle> face;
     private ArrayList<double[]> normal;
-
-    /**
-     * None voxel version
-     *
-     * @param formula
-     * @param interval
-     * @param checkSize
-     */
-    public ImplicitSurface(FormulaAbstract formula, double interval, double checkSize) {
-        this.formula = formula;
-
-        face = null;
-        points = new ArrayList<>();
-
-        System.out.println("Number of function evalution to do " + Math.pow(checkSize / interval, 3));
-        //creates the vertices
-
-        for (double x = -checkSize; x < checkSize; x += interval) {
-            for (double y = -checkSize; y < checkSize; y += interval) {
-                for (double z = -checkSize; z < checkSize; z += interval) {
-                    if (checkInside(x, y, z)) {
-                        points.add(new Vertex(x, y, z, new double[]{partX(x, y, z, interval), partY(x, y, z, interval), partZ(x, y, z, interval)}));
-                    }
-                }
-            }
-        }
-    }
+    private double checkSize;
+    private double interval;
 
     /**
      * Use this one for a voxel one
@@ -50,11 +25,11 @@ public class ImplicitSurface extends Object3D {
      * @param formula
      * @param interval
      * @param checkSize
-     * @param voxel
      */
-    public ImplicitSurface(FormulaAbstract formula, double interval, double checkSize, int voxel) {
+    public ImplicitSurface(FormulaAbstract formula, double interval, double checkSize) {
         this.formula = formula;
-
+        this.checkSize = checkSize;
+        this.interval = interval;
         face = new ArrayList<>();
         points = new ArrayList<>();
 
@@ -66,6 +41,38 @@ public class ImplicitSurface extends Object3D {
                 for (double z = -checkSize; z < checkSize; z += interval) {
                     if (checkInside(x, y, z)) {
                         points.add(new Vertex(x, y, z, new double[]{partX(x, y, z, interval), partY(x, y, z, interval), partZ(x, y, z, interval)}));
+                        Voxel tmp = new Voxel(interval, x, y, z);
+                        ArrayList<Triangle> tmp2 = (ArrayList< Triangle>) tmp.getTris();
+                        for (Triangle tmp21 : tmp2) {
+                            face.add(tmp21);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void createPoints() {
+        face = new ArrayList<>();
+        points = new ArrayList<>();
+        for (double x = -checkSize; x < checkSize; x += interval) {
+            for (double y = -checkSize; y < checkSize; y += interval) {
+                for (double z = -checkSize; z < checkSize; z += interval) {
+                    if (checkInside(x, y, z)) {
+                        points.add(new Vertex(x, y, z, new double[]{partX(x, y, z, interval), partY(x, y, z, interval), partZ(x, y, z, interval)}));
+                    }
+                }
+            }
+        }
+    }
+
+    private void createVoxel() {
+        face = new ArrayList<>();
+        points = new ArrayList<>();
+        for (double x = -checkSize; x < checkSize; x += interval) {
+            for (double y = -checkSize; y < checkSize; y += interval) {
+                for (double z = -checkSize; z < checkSize; z += interval) {
+                    if (checkInside(x, y, z)) {
                         Voxel tmp = new Voxel(interval, x, y, z);
                         ArrayList<Triangle> tmp2 = (ArrayList< Triangle>) tmp.getTris();
                         for (Triangle tmp21 : tmp2) {
@@ -110,8 +117,12 @@ public class ImplicitSurface extends Object3D {
     private double partY(double x, double y, double z, double inter) {
         return formula.evaluateAt(x, y + inter, z) - formula.evaluateAt(x, y, z);
     }
-    
-    public void setVoxels(boolean bool){
-    	
+
+    public void setVoxels(boolean bool) {
+        if (!bool) {
+            createPoints();
+        } else {
+            createVoxel();
+        }
     }
 }
