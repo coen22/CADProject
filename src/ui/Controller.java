@@ -78,7 +78,7 @@ public class Controller {
 			objects.add(new DisplayObject(new ParametricSurface(new ShipX(), new ShipY(), new ShipZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100, true, false), "parametric ship"));
 		}
 		else if (type == PARAMETRIC_SPHERE){
-			objects.add(new DisplayObject(new ParametricSurface(new SphereX(), new SphereY(), new SphereZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100, true, true), "parametric sphere"));
+			objects.add(new DisplayObject(new ParametricSurface(new SphereX(), new SphereY(), new SphereZ(), -0.5*Math.PI, 0.5*Math.PI, 0, 2*Math.PI, 100, 100, true, true), "parametric sphere"));
 		}
 		else if (type == PARAMETRIC_SPIRAL){
 			objects.add(new DisplayObject(new ParametricSurface(new SpiralX(), new SpiralY(), new SpiralZ(), 1, 2, 0, 1, 100, 100, false, false), "parametric spiral"));
