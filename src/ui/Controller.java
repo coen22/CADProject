@@ -90,7 +90,7 @@ public class Controller {
 			objects.add(new DisplayObject(new ImplicitSurface(new Diamond(), 0.05, 1.5), "implicit diamond"));
 		}
 		else if (type == IMPLICIT_GENUS_2){
-			objects.add(new DisplayObject(new ImplicitSurface(new Genus2(), 0.05, 1.5), "implicit genus 2"));
+			objects.add(new DisplayObject(new ImplicitSurface(new Genus2(), 0.05, 2), "implicit genus 2"));
 		}
 		else if (type == IMPLICIT_NEOVIUS){
 			objects.add(new DisplayObject(new ImplicitSurface(new Neovius(), 0.05, 1.5), "implicit neovius"));
@@ -111,7 +111,7 @@ public class Controller {
 			objects.add(new DisplayObject(new ImplicitSurface(new TorusCube(), 0.05, 1.5), "implicit torus-cube"));
 		}
 		else if (type == IMPLICIT_TORUS_INTERSECT_SPHERE){
-			objects.add(new DisplayObject(new ImplicitSurface(new TorusIntersectSphere(), 0.05, 1.5), "implicit torus intersecting sphere"));
+			objects.add(new DisplayObject(new ImplicitSurface(new TorusIntersectSphere(), 0.05, 2), "implicit torus intersecting sphere"));
 		}
 		frame.itemsChanged();
 	}
