@@ -116,7 +116,14 @@ public class Triangle {
     	double v132 = a.getX()*c.getY()*b.getZ();
     	double v213 = b.getX()*a.getY()*c.getZ();
     	double v123 = a.getX()*b.getY()*c.getZ();
-        return (1.0/6.0)*(-v321 + v231 + v312 - v132 - v213 + v123);
+    	double volume = (1.0/6.0)*(-v321 + v231 + v312 - v132 - v213 + v123);
+    	
+    	if (Double.isNaN(volume)){
+        	return 0;
+        }
+        else {
+        	return volume;
+        }
     }
     @Override
     public String toString() {
