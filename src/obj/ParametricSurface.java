@@ -109,7 +109,7 @@ public class ParametricSurface extends Object3D {
         return triangle;
     }
 
-    public double surfaceArea() {
+    public double calcSurfaceArea() {
         double startU = limitMinU;
         double startV = limitMinV;
         double endU = limitMaxU;
@@ -122,7 +122,7 @@ public class ParametricSurface extends Object3D {
                 area += mag(crossProduct(partU(u, v, deltaU), partV(u, v, deltaV)));
             }
         }
-        return area;
+        return Math.abs(area);
     }
 
     private double[] partU(double u, double v, double interU) {
