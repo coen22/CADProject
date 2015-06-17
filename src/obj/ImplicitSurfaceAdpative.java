@@ -5,6 +5,7 @@ import java.util.List;
 import obj.implicit_formula.FormulaAbstract;
 import obj.implicit_formula.Sphere;
 import obj.implicit_formula.Torus;
+import ui.Controller;
 import ui.MainFrame;
 
 /**
@@ -20,8 +21,9 @@ public class ImplicitSurfaceAdpative extends Object3D {
     private double[][][] listOfChecked;
 
     public static void main(String[] args) {
-        ImplicitSurfaceAdpative i = new ImplicitSurfaceAdpative(new Sphere(), 0.02, 2);
+        ImplicitSurfaceAdpative i = new ImplicitSurfaceAdpative(new Sphere(), 0.1, 2);
 //        Voxel f = new Voxel(5, 0, 0, 0);
+
     }
 
     public ImplicitSurfaceAdpative(FormulaAbstract formula, double interval, double checkSize) {
@@ -36,12 +38,12 @@ public class ImplicitSurfaceAdpative extends Object3D {
         for (int i = 0; i < listOfChecked.length; i++) {
             for (int j = 0; j < listOfChecked[i].length; j++) {
                 for (int k = 0; k < listOfChecked[i][j].length; k++) {
-                    listOfChecked[i][j][k] = 0.696969696;
+                    listOfChecked[i][j][k] = 0.69696966969;
                 }
             }
         }
 
-        SheGotABigBootySoICallHerBigBooty(0, 0, 0, checkSize);
+        recursion(0, 0, 0, checkSize);
 
         System.out.println("face number " + face.size());
     }
@@ -49,59 +51,55 @@ public class ImplicitSurfaceAdpative extends Object3D {
     int numberOfChecks;
     double interval;
 
-    private void SheGotABigBootySoICallHerBigBooty(double x, double z, double y, double size) {
-        System.out.println("Hi big booty");
-        boolean[][][] shaniquka = new boolean[3][3][3];
+    private void recursion(double x, double z, double y, double size) {
+        boolean[][][] pointChecker = new boolean[3][3][3];
         if (size <= interval) {
             if (checkInsideV3(x, z, y)) {
                 face.addAll(new Voxel(size, x, y, z).getTris());
             }
         } else {
-            for (int i = 0; i < shaniquka.length; i++) {
-                for (int j = 0; j < shaniquka.length; j++) {
-                    for (int k = 0; k < shaniquka.length; k++) {
-                        shaniquka[i][j][k] = checkInsideV3(x - size + i * size, z - size + j * size, y - size + k * size);
+            for (int i = 0; i < pointChecker.length; i++) {
+                for (int j = 0; j < pointChecker.length; j++) {
+                    for (int k = 0; k < pointChecker.length; k++) {
+                        pointChecker[i][j][k] = checkInsideV3(x - size + i * size, z - size + j * size, y - size + k * size);
                     }
                 }
             }
             boolean tmp = true;
-            twoChainz:
+            insideLoop:
             {
-                for (int i = 0; i < shaniquka.length; i++) {
-                    for (int j = 0; j < shaniquka.length; j++) {
-                        for (int k = 0; k < shaniquka.length; k++) {
-                            if (shaniquka[i][j][k] == false) {
+                for (int i = 0; i < pointChecker.length; i++) {
+                    for (int j = 0; j < pointChecker.length; j++) {
+                        for (int k = 0; k < pointChecker.length; k++) {
+                            if (pointChecker[i][j][k] == false) {
                                 tmp = false;
-                                break twoChainz;
+                                break insideLoop;
                             }
                         }
                     }
                 }
             }
+            
 
             if (tmp) {
-                face.addAll(new Voxel(size, x, y, z).getTris());
-                System.out.println("tmp");
+                face.addAll(new Voxel(size, x + size / 2, y + size / 2, z + size / 2).getTris());
                 return;
             } else {
-                for (int i = 0; i < shaniquka.length - 1; i++) {
-                    for (int j = 0; j < shaniquka.length - 1; j++) {
-                        for (int k = 0; k < shaniquka.length - 1; k++) {
-                            if (shaniquka[i][j][k] == true) {
-                                SheGotABigBootySoICallHerBigBooty(
-                                        x - size + i * size,
-                                        z - size + j * size,
-                                        y - size + k * size,
+                for (int i = 0; i < pointChecker.length - 0; i++) {
+                    for (int j = 0; j < pointChecker.length; j++) {
+                        for (int k = 0; k < pointChecker.length; k++) {
+                            if (pointChecker[i][j][k] == true) {
+                                recursion(
+                                        x - size + i * size / 2,
+                                        z - size + j * size / 2,
+                                        y - size + k * size / 2,
                                         size / 2);
-                                System.out.println("ello");
                             }
                         }
                     }
                 }
             }
-
         }
-
     }
 
     private boolean checkInsideV3(double x, double z, double y) {
@@ -109,9 +107,11 @@ public class ImplicitSurfaceAdpative extends Object3D {
     }
 
     private double checkInsideV2(double x, double z, double y) {
-        if (listOfChecked[(int) (numberOfChecks * 2 + x * numberOfChecks)][(int) (numberOfChecks * 2 + y * numberOfChecks)][(int) (numberOfChecks * 2 + z * numberOfChecks)]
-                != 0.696969696) {
-            System.out.println("should not be here");
+        if (listOfChecked
+                [(int) (numberOfChecks * 2 + x * numberOfChecks)]
+                [(int) (numberOfChecks * 2 + y * numberOfChecks)]
+                [(int) (numberOfChecks * 2 + z * numberOfChecks)]
+                != 0.69696966969) {
             return listOfChecked[(int) (numberOfChecks * 2 + x * numberOfChecks)][(int) (numberOfChecks * 2 + y * numberOfChecks)][(int) (numberOfChecks * 2 + z * numberOfChecks)];
         } else {
             double tmp = checkInsideV1(x, y, z);
