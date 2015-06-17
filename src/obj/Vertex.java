@@ -41,7 +41,6 @@ public class Vertex {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.implicitNormal = implicitNormal;
 	}
 	
 	/**

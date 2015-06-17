@@ -1,6 +1,5 @@
 package obj;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import obj.algorithms.MeshSurfaceArea;
