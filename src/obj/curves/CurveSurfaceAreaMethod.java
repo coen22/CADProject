@@ -4,8 +4,9 @@ import java.util.List;
 
 import obj.Object3D;
 import obj.SpinningMesh;
-import obj.SurfaceAreaMethod;
 import obj.Vertex;
+
+import ui.algorithms.SurfaceAreaMethod;
 
 public class CurveSurfaceAreaMethod implements SurfaceAreaMethod {
 

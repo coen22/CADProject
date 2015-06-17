@@ -55,7 +55,6 @@ public class SpinningMesh extends Object3D {
 		curveType = bezierCurve;
 		volumeMethod = new CurveVolumeMethod();
 		points = new ArrayList<Vertex>();
-		this.volumeMethod = new CurveVolumeMethod();
 	}
 	
 	@Override
