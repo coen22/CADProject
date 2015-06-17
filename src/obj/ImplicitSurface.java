@@ -110,4 +110,8 @@ public class ImplicitSurface extends Object3D {
     private double partY(double x, double y, double z, double inter) {
         return formula.evaluateAt(x, y + inter, z) - formula.evaluateAt(x, y, z);
     }
+    
+    public void setVoxels(boolean bool){
+    	
+    }
 }
