@@ -3,8 +3,8 @@ package obj;
 import java.util.ArrayList;
 import java.util.List;
 
+import obj.algorithms.CurveVolumeMethod;
 import obj.curves.*;
-import ui.algorithms.CurveVolumeMethod;
 
 public class SpinningMesh extends Object3D {
 

@@ -1,4 +1,4 @@
-package ui.algorithms;
+package obj.algorithms;
 
 import java.util.List;
 

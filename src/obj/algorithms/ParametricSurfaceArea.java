@@ -1,4 +1,4 @@
-package ui.algorithms;
+package obj.algorithms;
 
 import obj.Object3D;
 import obj.ParametricSurface;

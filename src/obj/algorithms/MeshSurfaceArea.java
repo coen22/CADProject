@@ -1,22 +1,21 @@
-package ui.algorithms;
+package obj.algorithms;
 
 import java.util.ArrayList;
 
 import obj.Object3D;
 import obj.Triangle;
 
-public class MeshVolume implements VolumeMethod{
+public class MeshSurfaceArea implements SurfaceAreaMethod{
 
 	@Override
-	public double getVolume(Object3D object3d) {
-		double volume = 0;
+	public double getSurfaceArea(Object3D object3d) {
+		double sa = 0;
     	ArrayList<Triangle> tris = (ArrayList<Triangle>) object3d.getTris();
     	if (tris != null){
     		for (int i = 0; i < tris.size(); i++){
-        		volume += tris.get(i).calcVolume();
+    			sa += tris.get(i).calcArea();
         	}
     	}
-    	return Math.abs(volume);
+    	return Math.abs(sa);
 	}
-
 }

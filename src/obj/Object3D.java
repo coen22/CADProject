@@ -3,10 +3,10 @@ package obj;
 import java.util.ArrayList;
 import java.util.List;
 
-import ui.algorithms.MeshSurfaceArea;
-import ui.algorithms.MeshVolume;
-import ui.algorithms.SurfaceAreaMethod;
-import ui.algorithms.VolumeMethod;
+import obj.algorithms.MeshSurfaceArea;
+import obj.algorithms.MeshVolume;
+import obj.algorithms.SurfaceAreaMethod;
+import obj.algorithms.VolumeMethod;
 
 public abstract class Object3D {
 	/**
