@@ -49,7 +49,7 @@ public class ParametricSurface extends Object3D {
     private double intervalV;
 
     public ParametricSurface(FormulaAbstract x, FormulaAbstract y, FormulaAbstract z,
-            double limitLowU, double limitHighU, double limitLowV, double limitHighV, int stepU, int stepV, boolean connectEnd, boolean connectSide) {
+            double limitLowU, double limitHighU, double limitLowV, double limitHighV, int stepU, int stepV) {
         //sets the formula
         this.x = x;
         this.y = y;
@@ -86,25 +86,7 @@ public class ParametricSurface extends Object3D {
         ArrayList<int[]> face = new ArrayList<>();
         for (int U = 0; U < vertexIndex.length; U++) {
             for (int V = 0; V < vertexIndex[0].length; V++) {
-                if (U == vertexIndex.length - 1 && V == vertexIndex[0].length - 1 && connectEnd) {
-                    if (DEBUG) {
-                        System.out.println("Connecting U and V");
-                    }
-                    face.add(new int[]{vertexIndex[U][V], vertexIndex[0][V], vertexIndex[U][0]});
-                    face.add(new int[]{vertexIndex[0][V], vertexIndex[0][0], vertexIndex[U][0]});
-                } else if (V == vertexIndex[0].length - 1 && !(U == vertexIndex.length - 1) && connectSide) {
-                    if (DEBUG) {
-                        System.out.println("Connecting V");
-                    }
-                    face.add(new int[]{vertexIndex[U][V], vertexIndex[U + 1][V], vertexIndex[U][0]});
-                    face.add(new int[]{vertexIndex[U + 1][V], vertexIndex[U + 1][0], vertexIndex[U][0]});
-                } else if (U == vertexIndex.length - 1 && !(V == vertexIndex[0].length - 1) && connectSide) {
-                    if (DEBUG) {
-                        System.out.println("Connecting U");
-                    }
-                    face.add(new int[]{vertexIndex[U][V], vertexIndex[0][V], vertexIndex[U][V + 1]});
-                    face.add(new int[]{vertexIndex[0][V], vertexIndex[0][V + 1], vertexIndex[U][V + 1]});
-                } else if (!(U == vertexIndex.length - 1) && !(V == vertexIndex[0].length - 1)) {
+                if (!(U == vertexIndex.length - 1) && !(V == vertexIndex[0].length - 1)) {
                     face.add(new int[]{vertexIndex[U][V], vertexIndex[U + 1][V], vertexIndex[U][V + 1]});
                     face.add(new int[]{vertexIndex[U + 1][V], vertexIndex[U + 1][V + 1], vertexIndex[U][V + 1]});
                 }

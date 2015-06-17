@@ -69,22 +69,22 @@ public class Controller {
 	
 	public void createObject(int type){
 		if (type == PARAMETRIC_TORUS){
-			objects.add(new DisplayObject(new ParametricSurface(new TorusX(), new TorusY(), new TorusZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100, true, true), "parametric torus"));
+			objects.add(new DisplayObject(new ParametricSurface(new TorusX(), new TorusY(), new TorusZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100), "parametric torus"));
 		}
 		else if (type == PARAMETRIC_SHOE){
-			objects.add(new DisplayObject(new ParametricSurface(new ShoeX(), new ShoeY(), new ShoeZ(), -2, 2, -2, 2, 100, 100, false, false), "parametric shoe"));
+			objects.add(new DisplayObject(new ParametricSurface(new ShoeX(), new ShoeY(), new ShoeZ(), -2, 2, -2, 2, 100, 100), "parametric shoe"));
 		}
 		else if (type == PARAMETRIC_SHIP){
-			objects.add(new DisplayObject(new ParametricSurface(new ShipX(), new ShipY(), new ShipZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100, true, false), "parametric ship"));
+			objects.add(new DisplayObject(new ParametricSurface(new ShipX(), new ShipY(), new ShipZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100), "parametric ship"));
 		}
 		else if (type == PARAMETRIC_SPHERE){
-			objects.add(new DisplayObject(new ParametricSurface(new SphereX(), new SphereY(), new SphereZ(), -0.5*Math.PI, 0.5*Math.PI, 0, 2*Math.PI, 100, 100, false, false), "parametric sphere"));
+			objects.add(new DisplayObject(new ParametricSurface(new SphereX(), new SphereY(), new SphereZ(), -0.5*Math.PI, 0.5*Math.PI, 0, 2*Math.PI, 100, 100), "parametric sphere"));
 		}
 		else if (type == PARAMETRIC_SPIRAL){
-			objects.add(new DisplayObject(new ParametricSurface(new SpiralX(), new SpiralY(), new SpiralZ(), 1, 2, 0, 1, 100, 100, false, false), "parametric spiral"));
+			objects.add(new DisplayObject(new ParametricSurface(new SpiralX(), new SpiralY(), new SpiralZ(), 1, 2, 0, 1, 100, 100), "parametric spiral"));
 		}
 		else if (type == PARAMETRIC_TRUMPET){
-			objects.add(new DisplayObject(new ParametricSurface(new TrumpetX(), new TrumpetY(), new TrumpetZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100, true, true), "parametric trumpet"));
+			objects.add(new DisplayObject(new ParametricSurface(new TrumpetX(), new TrumpetY(), new TrumpetZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100), "parametric trumpet"));
 		}
 		else if (type == IMPLICIT_DIAMOND){
 			objects.add(new DisplayObject(new ImplicitSurface(new Diamond(), 0.05, 1.5), "implicit diamond"));
