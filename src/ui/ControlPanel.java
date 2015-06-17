@@ -119,6 +119,14 @@ public class ControlPanel extends JPanel{
 			}
 		});
 		
+		JButton graphics = new JButton("Toggle Mode");
+		graphics.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.toggleGraphicsMode();
+			}
+		});
+		
 		this.add(activeObjectSelector);
 		this.add(delete);
 		this.add(color);
@@ -127,6 +135,7 @@ public class ControlPanel extends JPanel{
 		this.add(createFunctionalObject);
 		this.add(lines);
 		this.add(normals);
+		this.add(graphics);
 		
 	}
 	

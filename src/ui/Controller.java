@@ -160,4 +160,8 @@ public class Controller {
 		objects.get(activeObject).setColor(color);
 	}
 
+	public void toggleGraphicsMode() {
+		frame.toggleGraphicsMode();
+	}
+
 }

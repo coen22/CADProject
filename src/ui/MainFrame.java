@@ -46,7 +46,7 @@ public class MainFrame{
 		controlPanel.setSize(new Dimension((int) (Toolkit.getDefaultToolkit().getScreenSize().width * 0.2), (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.1)));
 		mainFrame.add(controlPanel, BorderLayout.SOUTH);
 		
-		final FPSAnimator animator = new FPSAnimator(visualization3D, 30, true);
+		final FPSAnimator animator = new FPSAnimator(visualization3D, 60, true);
 		
 		mainFrame.addWindowListener(new WindowAdapter() {
 			@Override
@@ -93,6 +93,9 @@ public class MainFrame{
 	
 	public void disableLines(){
 		visualization3D.disableLines();
+	}
+	public void toggleGraphicsMode() {
+		visualization3D.toggleGraphicsMode();
 	}
 	
 }

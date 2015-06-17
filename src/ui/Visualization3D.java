@@ -11,14 +11,18 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.lang.ProcessBuilder.Redirect;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 
 //import com.jogamp.opengl.swt.GLCanvas;
 import javax.media.opengl.awt.GLCanvas;
+import javax.media.opengl.fixedfunc.GLLightingFunc;
 import javax.media.opengl.glu.GLU;
 import javax.swing.SwingUtilities;
 
@@ -48,11 +52,11 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	
 	private TextRenderer renderer;
 	private GLU glu;
-	private float angleX = 20;
-	private float angleY = 10;
+	private float angleX = 0;
+	private float angleY = 0;
 	private float zoomFloat;
 	private float translateX = 0.0f;
-	private float translateY = -5.0f;
+	private float translateY = -3.0f;
 	private float translateZ = 0.0f;
 	private float oldX = Integer.MIN_VALUE;
 	private float oldY = Integer.MIN_VALUE;
@@ -67,6 +71,29 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	private int activeShift;
 	private boolean visibleNormals;
 	private boolean visibleLines;
+	private int tris;
+	private int vertices;
+	private double volume;
+	private double surfaceArea;
+	private boolean graphics;
+	
+	private float l0amb[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	private float l0dif[] = { 0.25f, 0.25f, 0.25f, 1.0f };
+	private float l0spec[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	private float l0Pos[] = { 5.0f, 4.0f, 0.0f, 1.0f };
+	
+	private float l1amb[] = { 0.2f, 0.2f, 0.25f, 1.0f };
+	private float l1dif[] = { 0.3f, 0.3f, 0.4f, 1.0f };
+	private float l1spec[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	private float l1Pos[] = { 0.0f, 50.0f, 0.0f, 1.0f };
+	
+	private float l2amb[] = { 0.0f, 0.0f, 0.0f, 0.5f };
+	private float l2dif[] = { 0.0f, 0.0f, 0.0f, 0.5f };
+	private float l2spec[] = { 0.2f, 0.2f, 0.2f, 0.2f };
+	private float l2Pos[] = { 0.0f, 2.0f, 8.0f, 1.0f };
+	
+	float[] basicAmbientDiffusion ={0.3f, 0.3f, 0.3f};
+	float[] basicSpec ={0.1f, 0.1f, 0.1f};
 	
 	/**
 	 * Constructor, requires no parameters, adds all listeners to the GLCanvas. 
@@ -88,6 +115,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		activeShift = XAXIS;
 		visibleNormals = false;
 		visibleLines = true;
+		graphics = false;
 	}
 	
 	/**
@@ -97,6 +125,16 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		GL2 gl = drawable.getGL().getGL2(); //like graphics 2d
 		
 		gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		gl.glLoadIdentity();
+		
+		updateLightPosition(gl);
+		
+		if (graphics){
+			shaderModel(gl);
+		}
+		else{
+			lineMode(gl);
+		}
 		
 		if (objects.size() > 0){
 			for (int i = 0; i < objects.size(); i++){
@@ -114,9 +152,9 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 				}
 			}
 		}
-		
 		text(gl);
 		gridlines(gl);
+		updateLightPosition(gl);
 	}
 
 	public void setObject(DisplayObject obj){
@@ -126,7 +164,6 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	public void setObjects(ArrayList<DisplayObject> objs){
 		this.objects = objs;
 	}
-	
 	
 	/**
 	 * The text displayed in the bottom left corner is drawn here. 
@@ -138,14 +175,18 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	    
 	    renderer = new TextRenderer(helpFont);
 	    renderer.beginRendering(this.getWidth(), this.getHeight());
-	    renderer.setColor(0.0f, 0.0f, 0.0f, 0.9f);
+	    if (graphics){
+			renderer.setColor(1.0f, 1.0f, 1.0f, 0.9f);
+		}
+		else {
+			 renderer.setColor(0.0f, 0.0f, 0.0f, 0.9f);
+		}
 	    renderer.draw("Drag the image to change perspective, scroll to zoom and hold shift while dragging to shift the view.", 5, 5);
 	    if (objects.size() > 0){
-	    	renderer.draw("vertices: " + objects.get(activeObject).getVerts().size(), 5, this.getHeight()-15);
-	    	if (objects.get(activeObject).getTris() != null){
-	    		renderer.draw("tris: " + objects.get(activeObject).getTris().size(), 5, this.getHeight()-30);
-	    	}
-	    	renderer.draw("volume: " + objects.get(activeObject).getVolume() + ", surface area: " + objects.get(activeObject).getSA(), 5, this.getHeight()-45);
+	    	renderer.draw("Vertices: " + this.vertices, 5, this.getHeight()-15);
+	    	renderer.draw("Triangles: " + this.tris, 5, this.getHeight()-30);
+	    	renderer.draw("Volume: " + this.volume, 5, this.getHeight()-45);
+	    	renderer.draw("Surface Area: " + this.surfaceArea, 5, this.getHeight()-60);
 	    }
 	    renderer.endRendering();
 	}
@@ -160,17 +201,47 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		float dispZ = obj.getzDisp();
 		
 		gl.glLoadIdentity();
+		
 		gl.glTranslated(0.0f, 2.0f, zoomFloat);
 		gl.glTranslated(translateX, translateY, translateZ);
 		gl.glRotatef(angleX, 1.0f, 0.0f, 0.0f);
 		gl.glRotatef(angleY, 0.0f, 1.0f, 0.0f);
 		
+		
 		gl.glBegin(GL_TRIANGLES);
 		gl.glColor3f(obj.getColor().getRed()/255f, obj.getColor().getGreen()/255f, obj.getColor().getBlue()/255f); //has colour
 		
+		float[] material ={obj.getColor().getRed()/255f, obj.getColor().getGreen()/255f, obj.getColor().getBlue()/255f};
+		float[] spec ={0.5f, 0.5f, 0.5f};
+		gl.glMaterialfv (GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,material,0);
+		gl.glMaterialfv (GL_FRONT_AND_BACK,GL_SPECULAR,spec,0);
+		
 		for (int i = 0; i < tris.size(); i++){
+			
+			double[] u = new double[3];
+			double[] v = new double[3];
+			u[0] = tris.get(i).getB().getX()-tris.get(i).getA().getX();
+			u[1] = tris.get(i).getB().getY()-tris.get(i).getA().getY();
+			u[2] = tris.get(i).getB().getZ()-tris.get(i).getA().getZ();
+			
+			v[0] = tris.get(i).getC().getX()-tris.get(i).getA().getX();
+			v[1] = tris.get(i).getC().getY()-tris.get(i).getA().getY();
+			v[2] = tris.get(i).getC().getZ()-tris.get(i).getA().getZ();
+			
+			double crossX = u[1]*v[2] - u[2]*v[1];
+			double crossY = u[2]*v[0] - u[0]*v[2];
+			double crossZ = u[0]*v[1] - u[1]*v[0];
+			
+			double mag = Math.sqrt(crossX*crossX + crossY*crossY + crossZ*crossZ);
+			crossX = crossX/mag;
+			crossY = crossY/mag;
+			crossZ = crossZ/mag;
+			
+			gl.glNormal3d(crossX, crossY , crossZ );
 			gl.glVertex3d(tris.get(i).getA().getX() + dispX, tris.get(i).getA().getY() + dispY, tris.get(i).getA().getZ() + dispZ);
+			gl.glNormal3d(crossX , crossY , crossZ );
 			gl.glVertex3d(tris.get(i).getB().getX() + dispX, tris.get(i).getB().getY() + dispY, tris.get(i).getB().getZ() + dispZ);
+			gl.glNormal3d(crossX , crossY , crossZ );
 			gl.glVertex3d(tris.get(i).getC().getX() + dispX, tris.get(i).getC().getY() + dispY, tris.get(i).getC().getZ() + dispZ);
 		}
 		
@@ -195,6 +266,8 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		
 		gl.glBegin(GL_LINES);
 		gl.glColor3f(0.2f, 0.2f, 0.2f);
+		gl.glMaterialfv (GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,basicAmbientDiffusion,0);
+		gl.glMaterialfv (GL_FRONT_AND_BACK,GL_SPECULAR,basicSpec,0);
 		gl.glLineWidth(1.0f);
 		
 		
@@ -213,7 +286,12 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 			double crossY = u[2]*v[0] - u[0]*v[2];
 			double crossZ = u[0]*v[1] - u[1]*v[0];
 			
-			double normalFactor = 20;
+			double mag = Math.sqrt(crossX*crossX + crossY*crossY + crossZ*crossZ);
+			crossX = crossX/mag;
+			crossY = crossY/mag;
+			crossZ = crossZ/mag;
+			
+			double normalFactor = .1;
 			
 			gl.glVertex3d(tris.get(i).getA().getX() + (0.25*u[0] + 0.25*v[0]) + dispX, tris.get(i).getA().getY()+ (0.25*u[1] + 0.25*v[1]) + dispY, tris.get(i).getA().getZ()+ (0.25*u[2] + 0.25*v[2]) + dispZ);
 			gl.glVertex3d(tris.get(i).getA().getX() + (0.25*u[0] + 0.25*v[0]) + crossX*normalFactor + dispX, tris.get(i).getA().getY()+ (0.25*u[1] + 0.25*v[1]) + crossY*normalFactor + dispY, tris.get(i).getA().getZ()+ (0.25*u[2] + 0.25*v[2]) + crossZ*normalFactor + dispZ);
@@ -223,9 +301,11 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		
 	}
 	
+	
 	/**
 	 * draws the edge lines of triangle-meshes
 	 */
+	
 	private void triEdges(GL2 gl, DisplayObject obj){
 		ArrayList<Triangle> tris = (ArrayList<Triangle>) obj.getTris();
 		float dispX = obj.getxDisp();
@@ -239,7 +319,9 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		gl.glRotatef(angleY, 0.0f, 1.0f, 0.0f);
 		
 		gl.glBegin(GL_LINES);
-		gl.glColor3f(0.2f, 0.2f, 0.2f); //has colour
+		gl.glColor3f(0.2f, 0.2f, 0.2f);
+		gl.glMaterialfv (GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,basicAmbientDiffusion,0);
+		gl.glMaterialfv (GL_FRONT_AND_BACK,GL_SPECULAR,basicSpec,0);
 		gl.glLineWidth(1.0f);
 		
 		for (int i = 0; i < tris.size(); i++){
@@ -290,6 +372,10 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 			
 			gl.glBegin(GL_TRIANGLES);
 			gl.glColor3f(obj.getColor().getRed()/255f, obj.getColor().getGreen()/255f, obj.getColor().getBlue()/255f); //has colour
+			float[] material ={obj.getColor().getRed()/255f, obj.getColor().getGreen()/255f, obj.getColor().getBlue()/255f};
+			gl.glMaterialfv (GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,material,0);
+			gl.glMaterialfv (GL_FRONT_AND_BACK,GL_SPECULAR,basicSpec,0);
+			
 			gl.glVertex3d(verts.get(i).getX() + dispX - u1[0], verts.get(i).getY() + dispY - u1[1], verts.get(i).getZ() + dispZ - u1[2]);
 			gl.glVertex3d(verts.get(i).getX() + dispX + u1[0], verts.get(i).getY() + dispY + u1[1], verts.get(i).getZ() + dispZ + u1[2]);
 			gl.glVertex3d(verts.get(i).getX() + dispX - u2[0], verts.get(i).getY() + dispY - u2[1], verts.get(i).getZ() + dispZ - u2[2]);
@@ -301,6 +387,8 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 			
 			gl.glBegin(GL_LINES);
 			gl.glColor3f(0.2f, 0.2f, 0.2f); //has colour
+			gl.glMaterialfv (GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,basicAmbientDiffusion,0);
+			gl.glMaterialfv (GL_FRONT_AND_BACK,GL_SPECULAR,basicSpec,0);
 			gl.glLineWidth(1.0f);
 			
 			gl.glVertex3d(verts.get(i).getX() + dispX + u1[0], verts.get(i).getY() + dispY + u1[1], verts.get(i).getZ() + dispZ + u1[2]);
@@ -334,6 +422,8 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		
 		gl.glBegin(GL_LINES);
 		gl.glColor3f(0.3f, 0.3f, 0.3f); //has colour
+		gl.glMaterialfv (GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,basicAmbientDiffusion,0);
+		gl.glMaterialfv (GL_FRONT_AND_BACK,GL_SPECULAR,basicSpec,0);
 		gl.glLineWidth(1.0f);
 		
 		//small gridlines
@@ -346,16 +436,26 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 			gl.glVertex3f(i, 0.0f,  WORLDSIZE);
 		}
 		
+		
 		//main axes:
 		gl.glColor3f(1.0f, 0.3f, 0.3f);
+		float[] mat1 = {1.0f, 0.3f, 0.3f};
+		gl.glMaterialfv (GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,mat1,0);
+		gl.glMaterialfv (GL_FRONT_AND_BACK,GL_SPECULAR,basicSpec,0);
 		gl.glVertex3f(0.0f, 0.0f, -3*WORLDSIZE);
 		gl.glVertex3f(0.0f, 0.0f, 3*WORLDSIZE);
 		
 		gl.glColor3f(0.3f, 0.3f, 1.0f);
+		float[] mat2 = {0.3f, 0.3f, 1.0f};
+		gl.glMaterialfv (GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,mat2,0);
+		gl.glMaterialfv (GL_FRONT_AND_BACK,GL_SPECULAR,basicSpec,0);
 		gl.glVertex3f(0.0f, -3*WORLDSIZE, 0.0f);
 		gl.glVertex3f(0.0f, 3*WORLDSIZE, 0.0f);
 		
 		gl.glColor3f(0.0f, 0.5f, 0.0f);
+		float[] mat3 = {0.2f, 0.7f, 0.2f};
+		gl.glMaterialfv (GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,mat3,0);
+		gl.glMaterialfv (GL_FRONT_AND_BACK,GL_SPECULAR,basicSpec,0);
 		gl.glVertex3f(-3*WORLDSIZE, 0.0f,  0.0f);
 		gl.glVertex3f(3*WORLDSIZE, 0.0f,  0.0f);
 		
@@ -370,21 +470,56 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	public void init(GLAutoDrawable drawable) { //initialize (important) //called once when started
 		GL2 gl = drawable.getGL().getGL2(); //like graphics 2d
 		glu = new GLU(); //creates new GL universe
+		lineMode(gl);
+	}
+	
+	private void lineMode(GL2 gl){
 		
 		gl.glClearColor(0.9f, 0.95f, 1.0f, 1.0f);//background colour
-		
 		gl.glClearDepth(1.0f);
 		gl.glEnable(GL_DEPTH_TEST);
 		gl.glEnable(GL_POLYGON_SMOOTH);
-//		gl.glEnable(GL_LINE_SMOOTH);
 		gl.glDepthFunc(GL_LEQUAL);
-//		gl.glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-//		gl.glLineWidth(1.5f);
 		gl.glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); //changes line-rendering
 		gl.glShadeModel(GL_SMOOTH); 
-				
 	}
-
+	
+	private void shaderModel(GL2 gl){
+		
+		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		gl.glShadeModel(GL_SMOOTH);
+		
+		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_AMBIENT, l0amb, 0);
+		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_DIFFUSE, l0dif, 0);
+		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_SPECULAR, l0spec, 0);
+		
+		gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_AMBIENT, l1amb, 0);
+		gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_DIFFUSE, l1dif, 0);
+		gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_SPECULAR, l1spec, 0);
+		
+		gl.glLightfv(GL2.GL_LIGHT2, GL2.GL_AMBIENT, l2amb, 0);
+		gl.glLightfv(GL2.GL_LIGHT2, GL2.GL_DIFFUSE, l2dif, 0);
+		gl.glLightfv(GL2.GL_LIGHT2, GL2.GL_SPECULAR, l2spec, 0);
+		
+		gl.glEnable(GL_LIGHTING);
+		gl.glEnable(GL_LIGHT0);
+		gl.glEnable(GL_LIGHT1);
+		gl.glEnable(GL_LIGHT2);
+		
+        gl.glEnable(GL.GL_DEPTH_TEST);
+        gl.glClearDepth(1.0f);                      
+        gl.glDepthFunc(GL.GL_LEQUAL);
+        gl.glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
+        
+        updateLightPosition(gl);
+	}
+	
+	private void updateLightPosition(GL2 gl){
+		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, l0Pos, 0);
+		gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_POSITION, l1Pos, 0);
+		gl.glLightfv(GL2.GL_LIGHT2, GL2.GL_POSITION, l2Pos, 0);
+	}
+	
 	/**
 	 * This method determines how the canvas responds to the user re-sizing the entire window. 
 	 */
@@ -451,9 +586,8 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		if (zoomFloat > 0){
 			zoomFloat = 0;
 		}
-		
 	}
-
+	
 	/**
 	 * This methods responds to keypresses E and G for the gridview and empty spaces. 
 	 */
@@ -531,6 +665,51 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		}
 	}
 	
+	public void enableNormals() {
+		this.visibleNormals = true;
+	}
+
+	public void disableNormals() {
+		this.visibleNormals = false;
+	}
+
+	public void setActiveIndex(int active) {
+		this.activeObject = active;
+		this.vertices = objects.get(activeObject).getVerts().size();
+		this.volume = objects.get(activeObject).getVolume();
+		this.surfaceArea = objects.get(activeObject).getSA();
+		if (objects.get(activeObject).getTris() == null){
+			this.tris = 0;
+		}
+		else {
+			this.tris = objects.get(activeObject).getTris().size();
+		}
+	}
+	
+	public void enableLines(){
+		this.visibleLines = true;
+	}
+	
+	public void disableLines(){
+		this.visibleLines = false;
+	}
+	
+	public void toggleGraphicsMode() {
+		if (graphics == true){
+			graphics = false;
+		}
+		else {
+			graphics = true;
+		}
+	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (translateMode == true){
+			this.translateMode = false;
+		}
+	} 
+	
 	@Override
 	public void dispose(GLAutoDrawable arg0) { //close the frame / glCanvas
 		// TODO Auto-generated method stub
@@ -549,13 +728,6 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		if (translateMode == true){
-			toggleTranslate();
-		}
-	}
-
-	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
@@ -570,27 +742,6 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
-	}
-
-	public void enableNormals() {
-		this.visibleNormals = true;
-	}
-
-	public void disableNormals() {
-		this.visibleNormals = false;
-	}
-
-	public void setActiveIndex(int active) {
-		this.activeObject = active;
-	}
-	
-	public void enableLines(){
-		this.visibleLines = true;
-	}
-	
-	public void disableLines(){
-		this.visibleLines = false;
 	}
 
 }
