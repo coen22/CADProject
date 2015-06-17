@@ -32,8 +32,6 @@ public class DisplayObject {
 	
 	public void activate(){
 		this.color = activeColor;
-		System.out.println("active color: " + activeColor);
-		System.out.println("I'm active... " + name + ", my color is: " + this.color);
 	}
 	
 	public void deactivate(){
