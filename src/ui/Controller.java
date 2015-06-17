@@ -65,6 +65,9 @@ public class Controller {
 		frame = new MainFrame(this);
 		objects = new ArrayList<DisplayObject>();
 		frame.init(objects);
+		
+		ParametricSurface sphere = new ParametricSurface(new SphereX(), new SphereY(), new SphereZ(), -0.5*Math.PI, 0.5*Math.PI, 0, 2*Math.PI, 100, 100);
+		sphere.tmpSurfaceArea();
 	}
 	
 	public void createObject(int type){
