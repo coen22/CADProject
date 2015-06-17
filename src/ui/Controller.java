@@ -138,6 +138,7 @@ public class Controller {
 		if (objects.size() > 1){
 			objects.get(activeObject).deactivate();
 			activeObject = active;
+			objects.get(active).activate();
 		}
 		if (active == -1){
 			//do nothing
@@ -151,6 +152,7 @@ public class Controller {
 
 	public void deleteCurrent() {
 		objects.remove(activeObject);
+		activeObject = 0;
 		frame.itemsChanged();
 	}
 	

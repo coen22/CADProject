@@ -97,7 +97,7 @@ public class ControlPanel extends JPanel{
 			}
 		});
 		
-		String[] options = {"parametric torus", "parametric shoe", "parametric ship", "parametric sphere", "parametric spiral", "parametric trumpet", "implicit diamond", "implicit genus2", "implicity neovius", "implicity sum of sins", "implicit swiss cube" , "implicit torus", "implicity torus-cube", "implicity torus intersecting sphere"};
+		String[] options = {"parametric torus", "parametric shoe", "parametric ship", "parametric sphere", "parametric spiral", "parametric trumpet", "implicit diamond", "implicit genus2", "implicity neovius", "implicit sphere", "implicity sum of sins", "implicit swiss cube" , "implicit torus", "implicity torus-cube", "implicity torus intersecting sphere"};
 		JComboBox<String> createFunctionalObject = new JComboBox<String>(options);
 		activeObjectSelector.setLightWeightPopupEnabled(false);
 		
@@ -140,6 +140,7 @@ public class ControlPanel extends JPanel{
 	}
 	
 	public void itemsChanged(){
+		activeObjectSelector.setSelectedIndex(0);
 		activeObjectSelector.removeAllItems();
 		for (int i = 0; i < controller.getObjectNameArray().length; i++){
 			activeObjectSelector.addItem(controller.getObjectNameArray()[i]);

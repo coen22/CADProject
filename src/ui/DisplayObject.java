@@ -9,8 +9,8 @@ import obj.Vertex;
 
 public class DisplayObject {
 	
-	private Color defaultColor = new Color(0.8f, 0.8f, 0.8f);
-	private Color activeColor = new Color(0.5f, 0.3f, 0.3f);
+	private Color defaultColor = new Color(200,200,200);
+	private Color activeColor = new Color(200, 150, 150);
 	
 	private Object3D obj;
 	private float xDisp;
@@ -32,6 +32,8 @@ public class DisplayObject {
 	
 	public void activate(){
 		this.color = activeColor;
+		System.out.println("active color: " + activeColor);
+		System.out.println("I'm active... " + name + ", my color is: " + this.color);
 	}
 	
 	public void deactivate(){
@@ -85,7 +87,7 @@ public class DisplayObject {
 	public void setColor(Color color) {
 		this.color = color;
 		this.defaultColor = color;
-		this.activeColor = color;
+//		this.activeColor = color;
 	}
 	
 	public String getName(){
