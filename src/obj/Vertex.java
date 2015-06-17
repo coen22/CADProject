@@ -137,7 +137,7 @@ public class Vertex {
 
     @Override
     public String toString() {
-        return "Vetex " + x + " " +y+ " " +z;
+        return "Vertex " + x + " " +y+ " " +z;
     }
         
         
