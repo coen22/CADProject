@@ -72,7 +72,7 @@ public class Controller {
 			objects.add(new DisplayObject(new ParametricSurface(new TorusX(), new TorusY(), new TorusZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100, true, true), "parametric torus"));
 		}
 		else if (type == PARAMETRIC_SHOE){
-			objects.add(new DisplayObject(new ParametricSurface(new ShoeX(), new ShoeY(), new ShoeZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100, true, true), "parametric shoe"));
+			objects.add(new DisplayObject(new ParametricSurface(new ShoeX(), new ShoeY(), new ShoeZ(), -2, 2, -2, 2, 100, 100, false, false), "parametric shoe"));
 		}
 		else if (type == PARAMETRIC_SHIP){
 			objects.add(new DisplayObject(new ParametricSurface(new ShipX(), new ShipY(), new ShipZ(), 0, 2*Math.PI, 0, 2*Math.PI, 100, 100, true, false), "parametric ship"));
