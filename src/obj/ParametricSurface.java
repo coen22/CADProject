@@ -66,15 +66,15 @@ public class ParametricSurface extends Object3D {
         intervalU = Math.abs(limitMaxU - limitMinU) / stepNumberU;
         intervalV = Math.abs(limitMaxV - limitMinV) / stepNumberV;
 
-        vertexIndex = new int[stepNumberU + 1][stepNumberV + 1];
+        vertexIndex = new int[stepNumberU + 2][stepNumberV + 2];
 
         //Creates the vertexs
         int count = 0;
         int counter = 0;
         ver = new ArrayList<>();
-        for (double u = limitMinU; u <= limitMaxU; u += intervalU) {
+        for (double u = limitMinU; u <= limitMaxU + intervalU; u += intervalU) {
             int counter2 = 0;
-            for (double v = limitMinV; v <= limitMaxV; v += intervalV) {
+            for (double v = limitMinV; v <= limitMaxV + intervalV; v += intervalV) {
                 vertexIndex[counter][counter2] = count;
                 count++;
                 ver.add(new Vertex(x.evaluateAt(u, v), y.evaluateAt(u, v), z.evaluateAt(u, v)));
@@ -82,7 +82,7 @@ public class ParametricSurface extends Object3D {
             }
             counter++;
         }
-
+        
         ArrayList<int[]> face = new ArrayList<>();
         for (int U = 0; U < vertexIndex.length; U++) {
             for (int V = 0; V < vertexIndex[0].length; V++) {
