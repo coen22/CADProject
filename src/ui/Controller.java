@@ -64,13 +64,8 @@ public class Controller {
 	public Controller(){
 		frame = new MainFrame(this);
 		objects = new ArrayList<DisplayObject>();
-		SpinningMesh inp = new SpinningMesh();
-		inp.addPoint(new Vertex(1, 3, 0));
-		inp.addPoint(new Vertex(2, 2, 0));
-		DisplayObject d = new DisplayObject(inp, "Charles");
-		objects.add(d);
 		frame.init(objects);
-		createObject(PARAMETRIC_TORUS);
+		// createObject(PARAMETRIC_TORUS);
 	}
 	
 	public void createObject(int type){
