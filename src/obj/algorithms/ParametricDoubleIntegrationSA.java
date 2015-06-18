@@ -5,17 +5,17 @@ import obj.ParametricSurface;
 
 public class ParametricDoubleIntegrationSA implements SurfaceAreaMethod{
 
-	private static final int RICHARDSON_N = 5;
+	private static final int RICHARDSON_N = 8;
 	private static final int SIMPSON_N = 64;
-	private static final int TRAPEZOID_N = 5;
+	private static final int TRAPEZOID_N = 512;
 
 	@Override
 	public double getSurfaceArea(Object3D object3d) {
 		ParametricSurface para = (ParametricSurface) object3d;
 		long start = System.nanoTime();
 		
-//		double sa = outerTrapezoidU(para, TRAPEZOID_N);
-		double sa = outerSimpsonU(para);
+		double sa = outerTrapezoidU(para, TRAPEZOID_N);
+//		double sa = outerSimpsonU(para);
 //		double sa = richardsonArea(para);
 		
 		long end = System.nanoTime();

@@ -23,7 +23,7 @@ public class TorusX extends FormulaAbstract{
 
     @Override
     public double interV(double a, double b) {
-        return -((1+0.5%Math.cos(a))*Math.sin(b));
+        return -((1+0.5*Math.cos(a))*Math.sin(b));
     }//-((1 + 0.5 Cos[u]) Sin[v])
     
     
