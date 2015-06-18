@@ -68,7 +68,7 @@ public class ParametricSurface extends Object3D {
 
         vertexIndex = new int[stepNumberU + 1][stepNumberV + 1];
 
-      //Creates the vertexs
+        //Creates the vertexs
         int count = 0;
         ver = new ArrayList<>();
         double u = limitMinU;
@@ -96,7 +96,6 @@ public class ParametricSurface extends Object3D {
         for (int[] face1 : face) {
             triangle.add(new Triangle(ver.get(face1[0]), ver.get(face1[1]), ver.get(face1[2])));
         }
-
     }
 
     @Override
@@ -117,8 +116,8 @@ public class ParametricSurface extends Object3D {
         double deltaU = intervalU;
         double deltaV = intervalV;
         double area = 0;
-        for (double v = startV; v < endV; v += intervalV) {
-            for (double u = startU; u < endU; u += intervalU) {
+        for (double v = startV; v <= endV - deltaV; v += deltaV) {
+            for (double u = startU; u <= endU - deltaU; u += deltaU) {
                 area += mag(crossProduct(partU(u, v, deltaU), partV(u, v, deltaV)));
             }
         }
@@ -151,6 +150,12 @@ public class ParametricSurface extends Object3D {
 
     private double mag(double[] a) {
         return Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2));
+    }
+
+    public static void main(String[] args) {
+        ParametricSurface p = new ParametricSurface(new SphereX(), new SphereY(), new SphereZ(), 0.5 * -PI, 0.5 * PI, 0, 2 * PI, 100, 100);
+        System.out.println(12.5663706143591 - p.calcSurfaceArea());
+        //12.5663706143591
     }
 
 }
