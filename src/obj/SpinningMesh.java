@@ -3,8 +3,13 @@ package obj;
 import java.util.ArrayList;
 import java.util.List;
 
+import obj.algorithms.CurveSurfaceAreaMethod;
 import obj.algorithms.CurveVolumeMethod;
-import obj.curves.*;
+import obj.algorithms.MeshSurfaceArea;
+import obj.algorithms.MeshVolume;
+import obj.algorithms.SurfaceAreaMethod;
+import obj.curves.Bezier;
+import obj.curves.Curve;
 
 public class SpinningMesh extends Object3D {
 
@@ -49,12 +54,34 @@ public class SpinningMesh extends Object3D {
 	 * A mesh made by spinning a curve around the y-axis
 	 */
 	public SpinningMesh() {
-		super();
+		init();
+		points = new ArrayList<Vertex>();
+	}
+	
+	/**
+	 * A mesh made by spinning a curve around the y-axis
+	 * @param input points
+	 */
+	public SpinningMesh(ArrayList<Vertex> points) {
+		init();
+		this.points = points;
+	}
+	
+	/**
+	 * Method to initialise the spinning curve 
+	 */
+	private void init() {
 		interval = 15;
 		xzInterval = 100;
 		curveType = bezierCurve;
+		
+		// set to the right methods
 		volumeMethod = new CurveVolumeMethod();
-		points = new ArrayList<Vertex>();
+		surfaceAreaMethod = new CurveSurfaceAreaMethod();
+	}
+	
+	public void setSurfaceAreaMethod(SurfaceAreaMethod surf) {
+		surfaceAreaMethod = surf;
 	}
 	
 	@Override
@@ -178,6 +205,10 @@ public class SpinningMesh extends Object3D {
 		return curveType.getCurve(points, interval);
 	}
 	
+	/**
+	 * Get the method used to make the curve
+	 * @return the curve type
+	 */
 	public Curve getCurveType() {
 		return curveType;
 	}
@@ -202,20 +233,36 @@ public class SpinningMesh extends Object3D {
 		points.remove(idx);
 	}
 	
+	/**
+	 * Method to get the xz interval
+	 * @return the xz interval
+	 */
 	public int getXZInterval() {
 		return xzInterval;
 	}
 	
+	/**
+	 * Method to set the xz interval
+	 * @param the new xz interval
+	 */
 	public void setXZInterval(int val) {
 		calcTris.clear();
 		calcVerts.clear();
 		xzInterval = val;
 	}
 	
+	/**
+	 * Method to get the xy interval
+	 * @return the xy interval
+	 */
 	public int getXYInterval() {
 		return interval;
 	}
 	
+	/**
+	 * Method to set the xy interval
+	 * @param the new xy interval
+	 */
 	public void setXYInterval(int val) {
 		calcTris.clear();
 		calcVerts.clear();

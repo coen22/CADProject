@@ -6,5 +6,3 @@ public class Main {
 		Controller ctrl = new Controller();
 	}
 }
-
-

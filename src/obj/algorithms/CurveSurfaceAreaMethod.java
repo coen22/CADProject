@@ -5,7 +5,6 @@ import java.util.List;
 import obj.Object3D;
 import obj.SpinningMesh;
 import obj.Vertex;
-
 import obj.algorithms.SurfaceAreaMethod;
 
 public class CurveSurfaceAreaMethod implements SurfaceAreaMethod {
@@ -15,7 +14,7 @@ public class CurveSurfaceAreaMethod implements SurfaceAreaMethod {
 	@Override
 	public double getSurfaceArea(Object3D obj) {
 		SpinningMesh sMesh = (SpinningMesh) obj;
-		return integral(sMesh.getCurve(resolution)) * Math.PI;
+		return integral(sMesh.getCurve(sMesh.getXYInterval()));
 	}
 
 	private double integral(List<Vertex> verts) {
@@ -25,8 +24,11 @@ public class CurveSurfaceAreaMethod implements SurfaceAreaMethod {
 			double h = Math.abs(verts.get(i).getY() - verts.get(i + 1).getY());
 			double r1 = pythagoras(verts.get(i));
 			double r2 = pythagoras(verts.get(i + 1));
-			area += Math.PI * h * (r1 + r2);
+			area += Math.PI * (r1 + r2) * Math.sqrt((r1 - r2) * (r1 - r2) + h*h);
 		}
+		
+		area += Math.pow(pythagoras(verts.get(0)), 2) * Math.PI;
+		area += Math.pow(pythagoras(verts.get(verts.size() - 1)), 2) * Math.PI;
 		
 		return area;
 	}
