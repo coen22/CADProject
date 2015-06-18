@@ -29,12 +29,12 @@ import ui.MainFrame;
  * @author Kareem Horstink
  */
 public class ParametricSurface extends Object3D {
+    private static final double PI = Math.PI;
 
     private boolean DEBUG = false;
     private FormulaAbstract x;
     private FormulaAbstract y;
     private FormulaAbstract z;
-    private static final double PI = Math.PI;
     private int stepNumberU;
     private int stepNumberV;
     private int[][] vertexIndex;
@@ -48,20 +48,7 @@ public class ParametricSurface extends Object3D {
     private double intervalU;
     private double intervalV;
 
-    public FormulaAbstract getX() {
-        return x;
-    }
-
-    public FormulaAbstract getY() {
-        return y;
-    }
-
-    public FormulaAbstract getZ() {
-        return z;
-    }
-
-    public ParametricSurface(FormulaAbstract x, FormulaAbstract y, FormulaAbstract z,
-            double limitLowU, double limitHighU, double limitLowV, double limitHighV, int stepU, int stepV) {
+    public ParametricSurface(FormulaAbstract x, FormulaAbstract y, FormulaAbstract z, double limitLowU, double limitHighU, double limitLowV, double limitHighV, int stepU, int stepV) {
         //sets the formula
         this.x = x;
         this.y = y;
@@ -109,6 +96,50 @@ public class ParametricSurface extends Object3D {
             triangle.add(new Triangle(ver.get(face1[0]), ver.get(face1[1]), ver.get(face1[2])));
         }
         System.out.println(12.514211187299287 / triangle.size());
+    }
+
+    public int getStepNumberU() {
+        return stepNumberU;
+    }
+
+    public int getStepNumberV() {
+        return stepNumberV;
+    }
+
+    public double getLimitMaxU() {
+        return limitMaxU;
+    }
+
+    public double getLimitMinU() {
+        return limitMinU;
+    }
+
+    public double getLimitMaxV() {
+        return limitMaxV;
+    }
+
+    public double getLimitMinV() {
+        return limitMinV;
+    }
+
+    public double getIntervalU() {
+        return intervalU;
+    }
+
+    public double getIntervalV() {
+        return intervalV;
+    }
+
+    public FormulaAbstract getX() {
+        return x;
+    }
+
+    public FormulaAbstract getY() {
+        return y;
+    }
+
+    public FormulaAbstract getZ() {
+        return z;
     }
 
     @Override
