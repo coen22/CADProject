@@ -95,7 +95,6 @@ public class ParametricSurface extends Object3D {
         for (int[] face1 : face) {
             triangle.add(new Triangle(ver.get(face1[0]), ver.get(face1[1]), ver.get(face1[2])));
         }
-        System.out.println(12.514211187299287 / triangle.size());
     }
 
     public int getStepNumberU() {
