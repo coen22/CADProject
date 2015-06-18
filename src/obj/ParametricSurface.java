@@ -48,6 +48,18 @@ public class ParametricSurface extends Object3D {
     private double intervalU;
     private double intervalV;
 
+    public FormulaAbstract getX() {
+        return x;
+    }
+
+    public FormulaAbstract getY() {
+        return y;
+    }
+
+    public FormulaAbstract getZ() {
+        return z;
+    }
+
     public ParametricSurface(FormulaAbstract x, FormulaAbstract y, FormulaAbstract z,
             double limitLowU, double limitHighU, double limitLowV, double limitHighV, int stepU, int stepV) {
         //sets the formula
@@ -72,17 +84,17 @@ public class ParametricSurface extends Object3D {
         int count = 0;
         ver = new ArrayList<>();
         double u = limitMinU;
-        for (int i = 0; i < stepNumberU + 1; i++){
+        for (int i = 0; i < stepNumberU + 1; i++) {
             double v = limitMinV;
-            for (int k = 0; k < stepNumberV + 1; k++){
-            	vertexIndex[i][k] = count;
-            	count++;
-            	ver.add(new Vertex(x.evaluateAt(u, v), y.evaluateAt(u, v), z.evaluateAt(u, v)));
-            	v += intervalV;
+            for (int k = 0; k < stepNumberV + 1; k++) {
+                vertexIndex[i][k] = count;
+                count++;
+                ver.add(new Vertex(x.evaluateAt(u, v), y.evaluateAt(u, v), z.evaluateAt(u, v)));
+                v += intervalV;
             }
             u += intervalU;
         }
-        
+
         ArrayList<int[]> face = new ArrayList<>();
         for (int U = 0; U < vertexIndex.length; U++) {
             for (int V = 0; V < vertexIndex[0].length; V++) {
@@ -96,6 +108,7 @@ public class ParametricSurface extends Object3D {
         for (int[] face1 : face) {
             triangle.add(new Triangle(ver.get(face1[0]), ver.get(face1[1]), ver.get(face1[2])));
         }
+        System.out.println(12.514211187299287 / triangle.size());
     }
 
     @Override
@@ -116,12 +129,24 @@ public class ParametricSurface extends Object3D {
         double deltaU = intervalU;
         double deltaV = intervalV;
         double area = 0;
-        for (double v = startV; v <= endV - deltaV; v += deltaV) {
-            for (double u = startU; u <= endU - deltaU; u += deltaU) {
-                area += mag(crossProduct(partU(u, v, deltaU), partV(u, v, deltaV)));
+        for (double v = startV; v < endV; v += deltaV) {
+            for (double u = startU; u < endU; u += deltaU) {
+                double[] applied = new double[]{x.evaluateAt(u, v), y.evaluateAt(u, v), z.evaluateAt(u, v)};
+                double[] deltaUDouble = new double[]{x.evaluateAt(u + deltaU, v), y.evaluateAt(u + deltaU, v), z.evaluateAt(u + deltaU, v)};
+                double[] deltaVDouble = new double[]{x.evaluateAt(u, v + deltaV), y.evaluateAt(u, v + deltaV), z.evaluateAt(u, v + deltaV)};
+                area += mag(crossProduct(substract(applied, deltaUDouble), substract(applied, deltaVDouble)));
             }
         }
         return Math.abs(area);
+    }
+
+    private double[] substract(double[] a, double[] b) {
+        double[] c = new double[3];
+        c[0] = a[0] - b[0];
+        c[1] = a[1] - b[1];
+        c[2] = a[2] - b[2];
+
+        return c;
     }
 
     private double[] partU(double u, double v, double interU) {
@@ -150,12 +175,6 @@ public class ParametricSurface extends Object3D {
 
     private double mag(double[] a) {
         return Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2));
-    }
-
-    public static void main(String[] args) {
-        ParametricSurface p = new ParametricSurface(new SphereX(), new SphereY(), new SphereZ(), 0.5 * -PI, 0.5 * PI, 0, 2 * PI, 100, 100);
-        System.out.println(12.5663706143591 - p.calcSurfaceArea());
-        //12.5663706143591
     }
 
 }
