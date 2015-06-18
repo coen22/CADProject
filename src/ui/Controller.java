@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.ComboBoxModel;
 
+import obj.DisplayObject;
 import obj.ImplicitSurface;
 import obj.Mesh;
 import obj.ParametricSurface;

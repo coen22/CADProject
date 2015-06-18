@@ -26,6 +26,7 @@ import javax.media.opengl.fixedfunc.GLLightingFunc;
 import javax.media.opengl.glu.GLU;
 import javax.swing.SwingUtilities;
 
+import obj.DisplayObject;
 import obj.Object3D;
 import obj.Triangle;
 import obj.Vertex;
@@ -63,8 +64,6 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	private float prevX = 0;
 	private float prevY = 0;
 	
-	private DisplayObject tmpActiveObject;
-	
 	private int activeObject;
 	private ArrayList<DisplayObject> objects;
 	private boolean translateMode;
@@ -90,7 +89,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	private float l2amb[] = { 0.0f, 0.0f, 0.0f, 0.5f };
 	private float l2dif[] = { 0.0f, 0.0f, 0.0f, 0.5f };
 	private float l2spec[] = { 0.2f, 0.2f, 0.2f, 0.2f };
-	private float l2Pos[] = { 0.0f, 2.0f, 8.0f, 1.0f };
+	private float l2Pos[] = { -5.0f, 2.0f, 0.0f, 1.0f };
 	
 	float[] basicAmbientDiffusion ={0.3f, 0.3f, 0.3f};
 	float[] basicSpec ={0.1f, 0.1f, 0.1f};
@@ -154,11 +153,8 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		}
 		text(gl);
 		gridlines(gl);
+		
 		updateLightPosition(gl);
-	}
-
-	public void setObject(DisplayObject obj){
-		this.tmpActiveObject = obj;
 	}
 	
 	public void setObjects(ArrayList<DisplayObject> objs){

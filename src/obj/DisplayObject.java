@@ -1,11 +1,7 @@
-package ui;
+package obj;
 
 import java.awt.Color;
 import java.util.List;
-
-import obj.Object3D;
-import obj.Triangle;
-import obj.Vertex;
 
 public class DisplayObject {
 	
