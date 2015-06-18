@@ -9,11 +9,22 @@ package obj.parametric_formula;
  *
  * @author Imray
  */
-public class TorusY extends FormulaAbstract{
+public class TorusY extends FormulaAbstract {
 
     @Override
     public double evaluateAt(double u, double v) {
-        return 0.5*Math.sin(u);
+        return 0.5 * Math.sin(u);
     }
+
+    @Override
+    public double interU(double a, double b) {
+        return 0.5 * Math.cos(a);
+    }
+
+    @Override
+    public double interV(double a, double b) {
+        return 0;
+    }
+
     
 }
