@@ -16,4 +16,14 @@ public class SpiralZ extends FormulaAbstract {
         return v;
     }
 
+    @Override
+    public double interV(double a, double b) {
+        return 1;
+    }
+
+    @Override
+    public double interU(double a, double b) {
+        return 0;
+    }
+
 }

@@ -41,9 +41,7 @@ public class ImplicitSurface extends Object3D {
                 for (double z = -checkSize; z < checkSize; z += interval) {
                     if (checkInside(x, y, z)) {
                         points.add(new Vertex(x, y, z, new double[]{partX(x, y, z, interval), partY(x, y, z, interval), partZ(x, y, z, interval)}));
-                        Voxel tmp = new Voxel(interval, x, y, z);
-                        ArrayList<Triangle> tmp2 = (ArrayList< Triangle>) tmp.getTris();
-                        for (Triangle tmp21 : tmp2) {
+                        for (Triangle tmp21 : (ArrayList< Triangle>) new Voxel(interval, x, y, z).getTris()) {
                             face.add(tmp21);
                         }
                     }
@@ -73,9 +71,7 @@ public class ImplicitSurface extends Object3D {
             for (double y = -checkSize; y < checkSize; y += interval) {
                 for (double z = -checkSize; z < checkSize; z += interval) {
                     if (checkInside(x, y, z)) {
-                        Voxel tmp = new Voxel(interval, x, y, z);
-                        ArrayList<Triangle> tmp2 = (ArrayList< Triangle>) tmp.getTris();
-                        for (Triangle tmp21 : tmp2) {
+                        for (Triangle tmp21 : (ArrayList< Triangle>) new Voxel(interval, x, y, z).getTris()) {
                             face.add(tmp21);
                         }
                     }

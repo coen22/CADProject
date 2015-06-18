@@ -15,5 +15,19 @@ public class SpiralY extends FormulaAbstract {
     public double evaluateAt(double u, double v) {
         return u * Math.sin(2 * Math.PI * v);
     }
+    //Sin[2 Pi v]
+
+    @Override
+    public double interU(double a, double b) {
+        return Math.sin(2*Math.PI*b);
+    }
+
+    @Override
+    public double interV(double a, double b) {
+        return 2*Math.PI*a*Math.cos(2*Math.PI*b);
+    }
+    
+    
+    
 
 }

@@ -16,4 +16,13 @@ public class SpiralX extends FormulaAbstract {
         return u * Math.cos(2 * Math.PI * v);
     }
 
+    @Override
+    public double interV(double a, double b) {
+        return -2 * Math.PI * a * Math.sin(2 * Math.PI * b);
+    }
+
+    @Override
+    public double interU(double a, double b) {
+        return Math.cos(2 * Math.PI * b);
+    }
 }
