@@ -71,7 +71,6 @@ public class Controller {
 		frame = new MainFrame(this);
 		objects = new ArrayList<DisplayObject>();
 		frame.init(objects);
-		createObject(PARAMETRIC_TORUS);
 	}
 	
 	public void createObject(int type){
