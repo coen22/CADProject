@@ -9,12 +9,12 @@ public class SphereY extends FormulaAbstract {
 
     @Override
     public double interU(double a, double b) {
-        return super.interU(a, b); //To change body of generated methods, choose Tools | Templates.
+        return Math.cos(a); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public double interV(double a, double b) {
-        return super.interV(a, b); //To change body of generated methods, choose Tools | Templates.
+        return 0;
     }
     
 
