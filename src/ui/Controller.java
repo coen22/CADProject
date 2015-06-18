@@ -3,6 +3,7 @@ package ui;
 import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ComboBoxModel;
 
@@ -11,6 +12,7 @@ import obj.Mesh;
 import obj.ParametricSurface;
 import obj.SpinningMesh;
 import obj.Vertex;
+import obj.curves.Curve;
 import obj.implicit_formula.Diamond;
 import obj.implicit_formula.Genus2;
 import obj.implicit_formula.Neovius;
@@ -57,6 +59,10 @@ public class Controller {
 	private static final int IMPLICIT_TORUS_CUBE = 13;
 	private static final int IMPLICIT_TORUS_INTERSECT_SPHERE = 14;
 	
+	private static final int CURVE_BALL = 15;
+	private static final int CURVE_VASE = 16;
+	private static final int CURVE_GLASS = 17;
+	
 	private ArrayList<DisplayObject> objects;
 	private MainFrame frame;
 	private int activeObject;
@@ -65,7 +71,7 @@ public class Controller {
 		frame = new MainFrame(this);
 		objects = new ArrayList<DisplayObject>();
 		frame.init(objects);
-		// createObject(PARAMETRIC_TORUS);
+		createObject(PARAMETRIC_TORUS);
 	}
 	
 	public void createObject(int type){
@@ -113,6 +119,53 @@ public class Controller {
 		}
 		else if (type == IMPLICIT_TORUS_INTERSECT_SPHERE){
 			objects.add(new DisplayObject(new ImplicitSurface(new TorusIntersectSphere(), 0.05, 2), "implicit torus intersecting sphere"));
+		}
+		else if (type == CURVE_BALL){
+			SpinningMesh ball = new SpinningMesh();
+			ball.addPoint(new Vertex(0, 0, 0));
+			ball.addPoint(new Vertex(1, 0.01, 0));
+			ball.addPoint(new Vertex(2, 1, 0));
+			ball.addPoint(new Vertex(1, 1.99, 0));
+			ball.addPoint(new Vertex(0, 2, 0));
+			objects.add(new DisplayObject(ball, "ball"));
+		}
+		else if (type == CURVE_VASE){
+			SpinningMesh vase = new SpinningMesh();
+			vase.addPoint(new Vertex(0, 0, 0));
+			vase.addPoint(new Vertex(1, 0.01, 0));
+			vase.addPoint(new Vertex(0.3, 0.2, 0));
+			vase.addPoint(new Vertex(0.15, 0.5, 0));
+			vase.addPoint(new Vertex(0.3, 3, 0));
+			vase.addPoint(new Vertex(0.3, 3.1, 0));
+			vase.addPoint(new Vertex(0.3, 3.1, 0));
+			vase.addPoint(new Vertex(0.5, 3.29, 0));
+			vase.addPoint(new Vertex(1, 3.295, 0));
+			vase.addPoint(new Vertex(0.1, 3.3, 0));
+			vase.addPoint(new Vertex(0.5, 3.01, 0));
+			vase.addPoint(new Vertex(0.1, 2.5, 0));
+			vase.addPoint(new Vertex(0, 2, 0));
+			objects.add(new DisplayObject(vase, "vase"));
+		}
+		else if (type == CURVE_GLASS){
+			SpinningMesh glass = new SpinningMesh();
+			glass.addPoint(new Vertex(0, 0, 0));
+			glass.addPoint(new Vertex(1.5, 0.01, 0));
+			glass.addPoint(new Vertex(0.1, 0.1, 0));
+			glass.addPoint(new Vertex(0.03, 0.14, 0));
+			glass.addPoint(new Vertex(0.03, 0.15, 0));
+			glass.addPoint(new Vertex(0.03, 0.16, 0));
+			glass.addPoint(new Vertex(0.03, 1, 0));
+			glass.addPoint(new Vertex(0.06, 1.99, 0));
+			glass.addPoint(new Vertex(0.06, 2, 0));
+			glass.addPoint(new Vertex(0.06, 2.01, 0));
+			glass.addPoint(new Vertex(0.1, 2.05, 0));
+			glass.addPoint(new Vertex(0.5, 2.1, 0));
+			glass.addPoint(new Vertex(1.5, 2.4, 0));
+			glass.addPoint(new Vertex(1.5, 2.41, 0));
+			glass.addPoint(new Vertex(0.5, 2.4, 0));
+			glass.addPoint(new Vertex(0.1, 1.8, 0));
+			glass.addPoint(new Vertex(0, 1.8, 0));
+			objects.add(new DisplayObject(glass, "martini glass"));
 		}
 		frame.itemsChanged();
 	}
