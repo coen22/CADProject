@@ -97,7 +97,7 @@ public class ControlPanel extends JPanel{
 			}
 		});
 		
-		String[] options = {"parametric torus", "parametric shoe", "parametric ship", "parametric sphere", "parametric spiral", "parametric trumpet", "implicit diamond", "implicit genus2", "implicity neovius", "implicit sphere", "implicity sum of sins", "implicit swiss cube" , "implicit torus", "implicity torus-cube", "implicity torus intersecting sphere"};
+		String[] options = {"parametric torus", "parametric shoe", "parametric ship", "parametric sphere", "parametric spiral", "parametric trumpet", "implicit diamond", "implicit genus2", "implicity neovius", "implicit sphere", "implicity sum of sins", "implicit swiss cube" , "implicit torus", "implicity torus-cube", "implicity torus intersecting sphere", "curve ball", "curve vase", "curve martini glass"};
 		JComboBox<String> createFunctionalObject = new JComboBox<String>(options);
 		activeObjectSelector.setLightWeightPopupEnabled(false);
 		
