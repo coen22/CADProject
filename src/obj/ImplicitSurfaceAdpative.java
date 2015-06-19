@@ -2,11 +2,9 @@ package obj;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import obj.implicit_formula.FormulaAbstract;
 import obj.implicit_formula.Sphere;
-import obj.implicit_formula.Torus;
-import ui.Controller;
-import ui.MainFrame;
 
 /**
  *

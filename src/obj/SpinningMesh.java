@@ -5,8 +5,6 @@ import java.util.List;
 
 import obj.algorithms.CurveSurfaceAreaMethod;
 import obj.algorithms.CurveVolumeMethod;
-import obj.algorithms.MeshSurfaceArea;
-import obj.algorithms.MeshVolume;
 import obj.algorithms.SurfaceAreaMethod;
 import obj.curves.Bezier;
 import obj.curves.Curve;

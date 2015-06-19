@@ -109,4 +109,10 @@ public class SmoothedMesh extends Mesh {
 
 		return calcTris;
 	}
+	
+	@Override
+	public void setTris(ArrayList<Triangle> tris) {
+		super.setTris(tris);
+		calcTris.clear();
+	}
 }

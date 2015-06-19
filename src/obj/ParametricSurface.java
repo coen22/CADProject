@@ -1,28 +1,9 @@
 package obj;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import obj.parametric_formula.FormulaAbstract;
-import obj.parametric_formula.ShoeX;
-import obj.parametric_formula.ShoeY;
-import obj.parametric_formula.ShoeZ;
-import obj.parametric_formula.SphereX;
-import obj.parametric_formula.SphereY;
-import obj.parametric_formula.SphereZ;
-import obj.parametric_formula.SpiralX;
-import obj.parametric_formula.SpiralY;
-import obj.parametric_formula.SpiralZ;
-import obj.parametric_formula.TorusX;
-import obj.parametric_formula.TorusY;
-import obj.parametric_formula.TorusZ;
-import obj.parametric_formula.TrumpetX;
-import obj.parametric_formula.TrumpetY;
-import obj.parametric_formula.TrumpetZ;
-import ui.MainFrame;
 
 /**
  *

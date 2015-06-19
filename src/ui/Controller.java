@@ -3,9 +3,6 @@ package ui;
 import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.ComboBoxModel;
 
 import obj.DisplayObject;
 import obj.ImplicitSurface;
@@ -15,7 +12,6 @@ import obj.ParametricSurface;
 import obj.SmoothedMesh;
 import obj.SpinningMesh;
 import obj.Vertex;
-import obj.curves.Curve;
 import obj.implicit_formula.Diamond;
 import obj.implicit_formula.Genus2;
 import obj.implicit_formula.Neovius;
