@@ -69,10 +69,11 @@ public class Controller {
 	public Controller(){
 		frame = new MainFrame(this);
 		objects = new ArrayList<DisplayObject>();
-		frame.init(objects);
-		Object3D in = new SmoothedMesh("src/Teapot.obj");
-		DisplayObject dis = new DisplayObject(in, "test");
+		SmoothedMesh in = new SmoothedMesh("src/Teapot.obj");
+		DisplayObject dis = new DisplayObject(in, "Smooth Teapot");
 		objects.add(dis);
+		frame.init(objects);
+		frame.itemsChanged();
 	}
 	
 	public void createObject(int type){

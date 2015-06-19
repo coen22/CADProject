@@ -86,16 +86,16 @@ public class SmoothedMesh extends Mesh {
 				Vertex a;
 				Vertex b;
 				
-				if (t.getA().compareTo(edges.get(i).getA()))
+				if (t.getA().equals(edges.get(i).getA()))
 					a = r.get(0);
-				else if (t.getB().compareTo(edges.get(i).getA()))
+				else if (t.getB().equals(edges.get(i).getA()))
 					a = r.get(1);
 				else
 					a = r.get(2);
 				
-				if (t.getA().compareTo(edges.get(i).getB()))
+				if (t.getA().equals(edges.get(i).getB()))
 					b = r.get(0);
-				else if (t.getB().compareTo(edges.get(i).getB()))
+				else if (t.getB().equals(edges.get(i).getB()))
 					b = r.get(1);
 				else
 					b = r.get(2);

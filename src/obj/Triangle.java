@@ -151,13 +151,13 @@ public class Triangle {
 	public Edge getAdjacentEdge(Triangle t2) {
 		ArrayList<Vertex> edgePoints = new ArrayList<Vertex>();
 
-		if (a.compareTo(t2.a) || a.compareTo(t2.c) || a.compareTo(t2.b))
+		if (a.equals(t2.a) || a.equals(t2.c) || a.equals(t2.b))
 			edgePoints.add(a);
 
-		if (b.compareTo(t2.a) || b.compareTo(t2.c) || b.compareTo(t2.b))
+		if (b.equals(t2.a) || b.equals(t2.c) || b.equals(t2.b))
 			edgePoints.add(b);
 
-		if (c.compareTo(t2.a) || c.compareTo(t2.c) || c.compareTo(t2.b))
+		if (c.equals(t2.a) || c.equals(t2.c) || c.equals(t2.b))
 			edgePoints.add(c);
 
 		if (edgePoints.size() == 2)

@@ -6,14 +6,17 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import obj.algorithms.MeshSurfaceArea;
+import obj.algorithms.MeshVolume;
+
 public class Mesh extends Object3D {
 
     protected ArrayList<Vertex> vertices;
     protected ArrayList<Triangle> tris;
 
     public Mesh(ArrayList<Vertex> inputVertices, ArrayList<Triangle> inputFaces) {
-        this.vertices = inputVertices;
-        this.tris = inputFaces;
+        vertices = inputVertices;
+        tris = inputFaces;
     }
 
     public void setVertices(ArrayList<Vertex> vertices) {
@@ -25,13 +28,17 @@ public class Mesh extends Object3D {
     }
 
     public Mesh() {
-        this.vertices = new ArrayList<Vertex>();
-        this.tris = new ArrayList<Triangle>();
+        vertices = new ArrayList<Vertex>();
+        tris = new ArrayList<Triangle>();
     }
 
     public Mesh(String Path) {
-        this.vertices = new ArrayList<Vertex>();
-        this.tris = new ArrayList<Triangle>();
+    		volumeMethod = new MeshVolume();
+    		surfaceAreaMethod = new MeshSurfaceArea();
+    	
+        vertices = new ArrayList<Vertex>();
+        tris = new ArrayList<Triangle>();
+        
         ReadFile reader = new ReadFile(Path);
         String[] text = new String[0];
         try {

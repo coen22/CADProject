@@ -110,12 +110,21 @@ public class Vertex {
 		this.z = z;
 	}
 
+	/**
+	 * add another vertex to this vertex
+	 * @param a vertex
+	 */
 	public void add(Vertex v) {
 		x += v.x;
 		y += v.y;
 		z += v.z;
 	}
 
+	/**
+	 * Get a scaler vector of this vertex
+	 * @param scaler value
+	 * @return the new vertex
+	 */
 	public Vertex multiply(double val) {
 		Vertex v = clone();
 
@@ -131,6 +140,11 @@ public class Vertex {
 		return new Vertex(x, y, z);
 	}
 
+	/**
+	 * Method to see if a vertex v is the same as this
+	 * @param v
+	 * @return true or false
+	 */
 	public boolean equals(Vertex x) {
 		if ((this.getX() == x.getX()) && (this.getY() == x.getY())
 				&& (this.getZ() == x.getZ())) {
@@ -147,24 +161,6 @@ public class Vertex {
 	public String toString() {
 		return "[(" + x + "),(" + y + "),(" + z + ")]";
 	}
-
-	/**
-	 * Method to see if a vertex v is the same as this
-	 * @param v
-	 * @return true or false
-	 */
-	public boolean compareTo(Vertex v) {
-		if (x != v.getX())
-			return false;
-		
-		if (y != v.getY())
-			return false;
-		
-		if (z != v.getZ())
-			return false;
-		
-		return true;
-	}
 	
 	/**
 	 * Method to get all triangles this vertex is connected to
@@ -175,7 +171,7 @@ public class Vertex {
 		List<Triangle> out = new ArrayList<Triangle>();
 		
 		for (Triangle t : tris) {
-			if (compareTo(t.getA()) || compareTo(t.getB()) || compareTo(t.getC())) {
+			if (equals(t.getA()) || equals(t.getB()) || equals(t.getC())) {
 				out.add(t);
 			}
 		}
@@ -196,13 +192,13 @@ public class Vertex {
 		
 		// Get connected edges
 		for (Triangle at : ats) {
-			if (compareTo(at.getA())) {
+			if (equals(at.getA())) {
 				out.add(new Edge(this, at.getB()));
 				out.add(new Edge(this, at.getC()));
-			} else if (compareTo(at.getB())) {
+			} else if (equals(at.getB())) {
 				out.add(new Edge(this, at.getA()));
 				out.add(new Edge(this, at.getC()));
-			} else if (compareTo(at.getC())) {
+			} else if (equals(at.getC())) {
 				out.add(new Edge(this, at.getA()));
 				out.add(new Edge(this, at.getB()));
 			}
@@ -211,7 +207,7 @@ public class Vertex {
 		// Remove double edges
 		for (int i = 0; i < out.size() - 1; i++) {
 			for (int j = i + 1; j < out.size(); j++) {
-				if (out.get(j) != out.get(i) && out.get(j).getB().compareTo(out.get(i).getB())) {
+				if (out.get(j) != out.get(i) && out.get(j).getB().equals(out.get(i).getB())) {
 					out.remove(j);
 				}
 			}
@@ -220,6 +216,11 @@ public class Vertex {
 		return out;
 	}
 	
+	/**
+	 * Method that returns the midpoint of all the midpoints of all edges that are adjacent to this vertex
+	 * @param triangles to search through
+	 * @return the midpoint
+	 */
 	public Vertex getConnectedEdgesMidpoint(List<Triangle> tris) {
 		List<Edge> edges = getConnectedEdges(tris);
 		
