@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 
 public class Mesh extends Object3D {
 
-    private ArrayList<Vertex> vertices;
-    private ArrayList<Triangle> tris;
+    protected ArrayList<Vertex> vertices;
+    protected ArrayList<Triangle> tris;
 
     public Mesh(ArrayList<Vertex> inputVertices, ArrayList<Triangle> inputFaces) {
         this.vertices = inputVertices;

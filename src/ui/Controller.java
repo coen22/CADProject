@@ -8,7 +8,9 @@ import javax.swing.ComboBoxModel;
 
 import obj.ImplicitSurface;
 import obj.Mesh;
+import obj.Object3D;
 import obj.ParametricSurface;
+import obj.SmoothedMesh;
 import obj.SpinningMesh;
 import obj.Vertex;
 import obj.implicit_formula.Diamond;
@@ -65,6 +67,9 @@ public class Controller {
 		frame = new MainFrame(this);
 		objects = new ArrayList<DisplayObject>();
 		frame.init(objects);
+		Object3D in = new SmoothedMesh("src/Teapot.obj");
+		DisplayObject dis = new DisplayObject(in, "test");
+		objects.add(dis);
 		// createObject(PARAMETRIC_TORUS);
 	}
 	
