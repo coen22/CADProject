@@ -6,8 +6,10 @@ import java.util.List;
 import obj.parametric_formula.FormulaAbstract;
 
 /**
+ * A 3D representation of an object via an parametric function
  *
  * @author Kareem Horstink
+ * @version 1.0
  */
 public class ParametricSurface extends Object3D {
 
@@ -25,6 +27,17 @@ public class ParametricSurface extends Object3D {
     private double intervalU;
     private double intervalV;
 
+    /**
+     * Default constructor
+     *
+     * @param f The function
+     * @param limitLowU The lower limit for U
+     * @param limitHighU The higher limit for U
+     * @param limitLowV The lower limit for V
+     * @param limitHighV The higher limit for V
+     * @param stepU The number of steps between the lower and upper for U
+     * @param stepV The number of steps between the lower and upper for V
+     */
     public ParametricSurface(FormulaAbstract f, double limitLowU, double limitHighU, double limitLowV, double limitHighV, int stepU, int stepV) {
         //sets the formula
         this.f = f;
