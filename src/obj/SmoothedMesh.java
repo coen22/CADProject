@@ -7,6 +7,10 @@ public class SmoothedMesh extends Mesh {
 	
 	List<Triangle> calcTris = new ArrayList<Triangle>();
 	
+	/**
+	 * Class that smoothes a mesh object
+	 * @param location of the obj mesh file to smooth
+	 */
 	public SmoothedMesh(String dir) {
 		super(dir);
 	}
@@ -83,27 +87,32 @@ public class SmoothedMesh extends Mesh {
 						+ edges.get(i).getA().getZ() + edges.get(i).getB()
 						.getZ()) / 4);
 
-				Vertex a;
-				Vertex b;
+				int a;
+				int b;
 				
 				if (t.getA().equals(edges.get(i).getA()))
-					a = r.get(0);
+					a = 0;
 				else if (t.getB().equals(edges.get(i).getA()))
-					a = r.get(1);
+					a = 1;
 				else
-					a = r.get(2);
+					a = 2;
+				
 				
 				if (t.getA().equals(edges.get(i).getB()))
-					b = r.get(0);
+					b = 0;
 				else if (t.getB().equals(edges.get(i).getB()))
-					b = r.get(1);
+					b = 1;
 				else
-					b = r.get(2);
+					b = 2;
 				
-				Edge newEdge = new Edge(a, b);
+				if (b != (a + 1) % 3) {
+					int tmp = a;
+					a = b;
+					b = tmp;
+				}
 				
-				calcTris.add( new Triangle(t.getMidpoint(), newEdge.getA(), ep));
-				calcTris.add( new Triangle(t.getMidpoint(), ep, newEdge.getB()));
+				calcTris.add( new Triangle(t.getMidpoint(), r.get(a), ep));
+				calcTris.add( new Triangle(t.getMidpoint(), ep, r.get(b)));
 			}
 		}
 

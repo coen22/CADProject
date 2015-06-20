@@ -69,7 +69,7 @@ public class Controller {
 	public Controller(){
 		frame = new MainFrame(this);
 		objects = new ArrayList<DisplayObject>();
-		SmoothedMesh in = new SmoothedMesh("src/Teapot.obj");
+		SmoothedMesh in = new SmoothedMesh("src/cube.obj");
 		DisplayObject dis = new DisplayObject(in, "Smooth Teapot");
 		objects.add(dis);
 		frame.init(objects);
