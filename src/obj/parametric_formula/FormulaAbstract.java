@@ -6,20 +6,13 @@ package obj.parametric_formula;
  */
 public abstract class FormulaAbstract {
 
-    public FormulaAbstract() {
+    public abstract double[] evaluateAt(double u, double v);
 
-    }
-    
-    public double evaluateAt(double u, double v) {
-        return 0;
-    }
-    
-    public double interU(double a, double b){
-        return 0;
-    }
-    
-    public double interV(double a, double b){
-        return 0;
+    public double[] partialU(double u, double v) {
+        return null;
     }
 
+    public double[] partialV(double u, double v) {
+        return null;
+    }
 }

@@ -6,16 +6,14 @@ import java.util.List;
 import obj.parametric_formula.FormulaAbstract;
 
 /**
+ * A 3D representation of an object via an parametric function
  *
  * @author Kareem Horstink
+ * @version 1.0
  */
 public class ParametricSurface extends Object3D {
-    private static final double PI = Math.PI;
 
-    private boolean DEBUG = false;
-    private FormulaAbstract x;
-    private FormulaAbstract y;
-    private FormulaAbstract z;
+    private FormulaAbstract f;
     private int stepNumberU;
     private int stepNumberV;
     private int[][] vertexIndex;
@@ -29,11 +27,20 @@ public class ParametricSurface extends Object3D {
     private double intervalU;
     private double intervalV;
 
-    public ParametricSurface(FormulaAbstract x, FormulaAbstract y, FormulaAbstract z, double limitLowU, double limitHighU, double limitLowV, double limitHighV, int stepU, int stepV) {
+    /**
+     * Default constructor
+     *
+     * @param f The function
+     * @param limitLowU The lower limit for U
+     * @param limitHighU The higher limit for U
+     * @param limitLowV The lower limit for V
+     * @param limitHighV The higher limit for V
+     * @param stepU The number of steps between the lower and upper for U
+     * @param stepV The number of steps between the lower and upper for V
+     */
+    public ParametricSurface(FormulaAbstract f, double limitLowU, double limitHighU, double limitLowV, double limitHighV, int stepU, int stepV) {
         //sets the formula
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.f = f;
 
         //sets the variable
         this.limitMaxU = limitHighU;
@@ -57,7 +64,8 @@ public class ParametricSurface extends Object3D {
             for (int k = 0; k < stepNumberV + 1; k++) {
                 vertexIndex[i][k] = count;
                 count++;
-                ver.add(new Vertex(x.evaluateAt(u, v), y.evaluateAt(u, v), z.evaluateAt(u, v)));
+                double[] tmp = f.evaluateAt(u, v);
+                ver.add(new Vertex(tmp[0], tmp[1], tmp[2]));
                 v += intervalV;
             }
             u += intervalU;
@@ -110,16 +118,8 @@ public class ParametricSurface extends Object3D {
         return intervalV;
     }
 
-    public FormulaAbstract getX() {
-        return x;
-    }
-
-    public FormulaAbstract getY() {
-        return y;
-    }
-
-    public FormulaAbstract getZ() {
-        return z;
+    public FormulaAbstract getF() {
+        return f;
     }
 
     @Override
@@ -130,62 +130,6 @@ public class ParametricSurface extends Object3D {
     @Override
     public List<Triangle> getTris() {
         return triangle;
-    }
-
-    public double calcSurfaceArea() {
-        double startU = limitMinU;
-        double startV = limitMinV;
-        double endU = limitMaxU;
-        double endV = limitMaxV;
-        double deltaU = intervalU;
-        double deltaV = intervalV;
-        double area = 0;
-        for (double v = startV; v < endV; v += deltaV) {
-            for (double u = startU; u < endU; u += deltaU) {
-                double[] applied = new double[]{x.evaluateAt(u, v), y.evaluateAt(u, v), z.evaluateAt(u, v)};
-                double[] deltaUDouble = new double[]{x.evaluateAt(u + deltaU, v), y.evaluateAt(u + deltaU, v), z.evaluateAt(u + deltaU, v)};
-                double[] deltaVDouble = new double[]{x.evaluateAt(u, v + deltaV), y.evaluateAt(u, v + deltaV), z.evaluateAt(u, v + deltaV)};
-                area += mag(crossProduct(substract(applied, deltaUDouble), substract(applied, deltaVDouble)));
-            }
-        }
-        return Math.abs(area);
-    }
-
-    private double[] substract(double[] a, double[] b) {
-        double[] c = new double[3];
-        c[0] = a[0] - b[0];
-        c[1] = a[1] - b[1];
-        c[2] = a[2] - b[2];
-
-        return c;
-    }
-
-    private double[] partU(double u, double v, double interU) {
-        double[] ans = new double[3];
-        ans[0] = x.evaluateAt(u + interU, v) - x.evaluateAt(u, v);
-        ans[1] = y.evaluateAt(u + interU, v) - y.evaluateAt(u, v);
-        ans[2] = z.evaluateAt(u + interU, v) - z.evaluateAt(u, v);
-        return ans;
-    }
-
-    private double[] partV(double u, double v, double interV) {
-        double[] ans = new double[3];
-        ans[0] = x.evaluateAt(u, v + interV) - x.evaluateAt(u, v);
-        ans[1] = y.evaluateAt(u, v + interV) - y.evaluateAt(u, v);
-        ans[2] = z.evaluateAt(u, v + interV) - z.evaluateAt(u, v);
-        return ans;
-    }
-
-    private double[] crossProduct(double[] a, double[] b) {
-        double[] c = new double[3];
-        c[0] = a[1] * b[2] - a[2] * b[1];
-        c[1] = a[2] * b[0] - a[0] * b[2];
-        c[2] = a[0] * b[1] - a[1] * b[0];
-        return c;
-    }
-
-    private double mag(double[] a) {
-        return Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2));
     }
 
 }

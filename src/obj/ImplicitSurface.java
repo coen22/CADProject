@@ -6,8 +6,10 @@ import java.util.List;
 import obj.implicit_formula.FormulaAbstract;
 
 /**
+ * A 3D representation of an object via an implicit function
  *
- * @author Imray
+ * @author Kareem Horstink
+ * @version 1.0
  */
 public class ImplicitSurface extends Object3D {
 
@@ -49,6 +51,9 @@ public class ImplicitSurface extends Object3D {
         }
     }
 
+    /**
+     * Creates a point on the surface
+     */
     private void createPoints() {
         face = new ArrayList<>();
         points = new ArrayList<>();
@@ -63,6 +68,9 @@ public class ImplicitSurface extends Object3D {
         }
     }
 
+    /**
+     * Creates a voxel
+     */
     private void createVoxel() {
         face = new ArrayList<>();
         points = new ArrayList<>();
@@ -87,6 +95,11 @@ public class ImplicitSurface extends Object3D {
         return (0 > formula.evaluateAt(x, y, z));
     }
 
+    /**
+     * Gets the normal of all the points
+     *
+     * @return Double {x,y,z}
+     */
     public ArrayList<double[]> getNormal() {
         return normal;
     }
@@ -113,6 +126,11 @@ public class ImplicitSurface extends Object3D {
         return formula.evaluateAt(x, y + inter, z) - formula.evaluateAt(x, y, z);
     }
 
+    /**
+     * Set the display as voxel or points on the surface
+     *
+     * @param bool True for voxel, false for points on the surface
+     */
     public void setVoxels(boolean bool) {
         if (!bool) {
             createPoints();
