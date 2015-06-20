@@ -11,9 +11,7 @@ import obj.parametric_formula.FormulaAbstract;
  */
 public class ParametricSurface extends Object3D {
 
-    private FormulaAbstract x;
-    private FormulaAbstract y;
-    private FormulaAbstract z;
+    private FormulaAbstract f;
     private int stepNumberU;
     private int stepNumberV;
     private int[][] vertexIndex;
@@ -27,11 +25,9 @@ public class ParametricSurface extends Object3D {
     private double intervalU;
     private double intervalV;
 
-    public ParametricSurface(FormulaAbstract x, FormulaAbstract y, FormulaAbstract z, double limitLowU, double limitHighU, double limitLowV, double limitHighV, int stepU, int stepV) {
+    public ParametricSurface(FormulaAbstract f, double limitLowU, double limitHighU, double limitLowV, double limitHighV, int stepU, int stepV) {
         //sets the formula
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.f = f;
 
         //sets the variable
         this.limitMaxU = limitHighU;
@@ -55,7 +51,8 @@ public class ParametricSurface extends Object3D {
             for (int k = 0; k < stepNumberV + 1; k++) {
                 vertexIndex[i][k] = count;
                 count++;
-                ver.add(new Vertex(x.evaluateAt(u, v), y.evaluateAt(u, v), z.evaluateAt(u, v)));
+                double[] tmp = f.evaluateAt(u, v);
+                ver.add(new Vertex(tmp[0], tmp[1], tmp[2]));
                 v += intervalV;
             }
             u += intervalU;
@@ -108,16 +105,8 @@ public class ParametricSurface extends Object3D {
         return intervalV;
     }
 
-    public FormulaAbstract getX() {
-        return x;
-    }
-
-    public FormulaAbstract getY() {
-        return y;
-    }
-
-    public FormulaAbstract getZ() {
-        return z;
+    public FormulaAbstract getF() {
+        return f;
     }
 
     @Override

@@ -24,8 +24,8 @@ public class ParametricDoubleIntegrationSA implements SurfaceAreaMethod{
 	}
 	
 	private double evaluateSAFunction(ParametricSurface para, double u, double v){
-		double[] ru = {para.getX().interU(u, v), para.getY().interU(u, v), para.getZ().interU(u, v)};
-		double[] rv = {para.getX().interV(u, v), para.getY().interV(u, v), para.getZ().interV(u, v)};
+		double[] ru = para.getF().partialU(u, v);
+		double[] rv = para.getF().partialV(u, v);
 		double[] cross = StaticHelper.crossProduct(ru, rv);
 		double result = StaticHelper.mag(cross);
 		return result;

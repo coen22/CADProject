@@ -16,15 +16,12 @@ public class ParametricSurfaceArea implements SurfaceAreaMethod {
         double deltaU = para.getIntervalU();
         double deltaV = para.getIntervalV();
         double area = 0;
-        FormulaAbstract x = para.getX();
-        FormulaAbstract y = para.getY();
-        FormulaAbstract z = para.getZ();
-
+        FormulaAbstract f = para.getF();
         for (double v = startV; v < endV; v += deltaV) {
             for (double u = startU; u < endU; u += deltaU) {
-                double[] applied = new double[]{x.evaluateAt(u, v), y.evaluateAt(u, v), z.evaluateAt(u, v)};
-                double[] deltaUDouble = new double[]{x.evaluateAt(u + deltaU, v), y.evaluateAt(u + deltaU, v), z.evaluateAt(u + deltaU, v)};
-                double[] deltaVDouble = new double[]{x.evaluateAt(u, v + deltaV), y.evaluateAt(u, v + deltaV), z.evaluateAt(u, v + deltaV)};
+                double[] applied = f.evaluateAt(u, v);
+                double[] deltaUDouble = f.evaluateAt(u + deltaU, v);
+                double[] deltaVDouble = f.evaluateAt(u, v + deltaV);
                 area += StaticHelper.mag(StaticHelper.crossProduct(StaticHelper.substract(applied, deltaUDouble), StaticHelper.substract(applied, deltaVDouble)));
             }
         }
