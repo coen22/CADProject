@@ -17,6 +17,7 @@ public class ParametricSurfaceArea implements SurfaceAreaMethod {
         double deltaV = para.getIntervalV();
         double area = 0;
         FormulaAbstract f = para.getF();
+        
         for (double v = startV; v < endV; v += deltaV) {
             for (double u = startU; u < endU; u += deltaU) {
                 double[] applied = f.evaluateAt(u, v);
