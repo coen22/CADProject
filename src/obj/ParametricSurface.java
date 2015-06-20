@@ -10,9 +10,7 @@ import obj.parametric_formula.FormulaAbstract;
  * @author Kareem Horstink
  */
 public class ParametricSurface extends Object3D {
-    private static final double PI = Math.PI;
 
-    private boolean DEBUG = false;
     private FormulaAbstract x;
     private FormulaAbstract y;
     private FormulaAbstract z;
@@ -130,62 +128,6 @@ public class ParametricSurface extends Object3D {
     @Override
     public List<Triangle> getTris() {
         return triangle;
-    }
-
-    public double calcSurfaceArea() {
-        double startU = limitMinU;
-        double startV = limitMinV;
-        double endU = limitMaxU;
-        double endV = limitMaxV;
-        double deltaU = intervalU;
-        double deltaV = intervalV;
-        double area = 0;
-        for (double v = startV; v < endV; v += deltaV) {
-            for (double u = startU; u < endU; u += deltaU) {
-                double[] applied = new double[]{x.evaluateAt(u, v), y.evaluateAt(u, v), z.evaluateAt(u, v)};
-                double[] deltaUDouble = new double[]{x.evaluateAt(u + deltaU, v), y.evaluateAt(u + deltaU, v), z.evaluateAt(u + deltaU, v)};
-                double[] deltaVDouble = new double[]{x.evaluateAt(u, v + deltaV), y.evaluateAt(u, v + deltaV), z.evaluateAt(u, v + deltaV)};
-                area += mag(crossProduct(substract(applied, deltaUDouble), substract(applied, deltaVDouble)));
-            }
-        }
-        return Math.abs(area);
-    }
-
-    private double[] substract(double[] a, double[] b) {
-        double[] c = new double[3];
-        c[0] = a[0] - b[0];
-        c[1] = a[1] - b[1];
-        c[2] = a[2] - b[2];
-
-        return c;
-    }
-
-    private double[] partU(double u, double v, double interU) {
-        double[] ans = new double[3];
-        ans[0] = x.evaluateAt(u + interU, v) - x.evaluateAt(u, v);
-        ans[1] = y.evaluateAt(u + interU, v) - y.evaluateAt(u, v);
-        ans[2] = z.evaluateAt(u + interU, v) - z.evaluateAt(u, v);
-        return ans;
-    }
-
-    private double[] partV(double u, double v, double interV) {
-        double[] ans = new double[3];
-        ans[0] = x.evaluateAt(u, v + interV) - x.evaluateAt(u, v);
-        ans[1] = y.evaluateAt(u, v + interV) - y.evaluateAt(u, v);
-        ans[2] = z.evaluateAt(u, v + interV) - z.evaluateAt(u, v);
-        return ans;
-    }
-
-    private double[] crossProduct(double[] a, double[] b) {
-        double[] c = new double[3];
-        c[0] = a[1] * b[2] - a[2] * b[1];
-        c[1] = a[2] * b[0] - a[0] * b[2];
-        c[2] = a[0] * b[1] - a[1] * b[0];
-        return c;
-    }
-
-    private double mag(double[] a) {
-        return Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2));
     }
 
 }
