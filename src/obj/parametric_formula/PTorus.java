@@ -9,7 +9,7 @@ package obj.parametric_formula;
  *
  * @author Kareem
  */
-public class Torus extends FormulaAbstract {
+public class PTorus extends FormulaAbstract {
 
     @Override
     public double[] evaluateAt(double u, double v) {

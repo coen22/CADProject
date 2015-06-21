@@ -1,6 +1,6 @@
 package obj.parametric_formula;
 
-public class Sphere extends FormulaAbstract {
+public class PSphere extends FormulaAbstract {
 
     @Override
     public double[] evaluateAt(double u, double v) {

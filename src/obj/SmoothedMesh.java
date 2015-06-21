@@ -5,7 +5,12 @@ import java.util.List;
 
 public class SmoothedMesh extends Mesh {
 	
-	List<Triangle> calcTris = new ArrayList<Triangle>();
+	/**
+	 * The number of iterations that the algorithm will run
+	 */
+	private int detail;
+			
+	private List<Triangle> calcTris = new ArrayList<Triangle>();
 	
 	/**
 	 * Class that smoothes a mesh object
@@ -13,6 +18,7 @@ public class SmoothedMesh extends Mesh {
 	 */
 	public SmoothedMesh(String dir) {
 		super(dir);
+		detail = 2;
 	}
 	
 	@Override
@@ -24,18 +30,31 @@ public class SmoothedMesh extends Mesh {
 	public List<Triangle> getTris() {
 		if (!calcTris.isEmpty())
 			return calcTris;
+		
+		getTris(tris);
+		
+		for (int i = 0; i < detail - 1; i++) {
+			getTris(calcTris);
+		}
+		
+		return calcTris;
+	}
+	
+	private  List<Triangle> getTris(List<Triangle> inTris) { 
 
 		List<Triangle> adjacentTris = new ArrayList<Triangle>();
 		List<Edge> edges = new ArrayList<Edge>();
 		List<Vertex> newPoints = new ArrayList<Vertex>();
 		
-		for (Triangle t : tris) {
+		List<Triangle> tmpTris = new ArrayList<Triangle>();
+		
+		for (Triangle t : inTris) {
 
 			adjacentTris.clear();
 			edges.clear();
 			newPoints.clear();
 			
-			for (Triangle t2 : tris) {
+			for (Triangle t2 : inTris) {
 				Edge e = t.getAdjacentEdge(t2);
 
 				if (e != null) {
@@ -58,9 +77,9 @@ public class SmoothedMesh extends Mesh {
 			
 			// r is the average of all midpoints of the edges touching a point on triangle t
 			List<Vertex> r = new ArrayList<Vertex>();
-			r.add(t.getA().getConnectedEdgesMidpoint(tris));
-			r.add(t.getB().getConnectedEdgesMidpoint(tris));
-			r.add(t.getC().getConnectedEdgesMidpoint(tris));
+			r.add(t.getA().getConnectedEdgesMidpoint(inTris));
+			r.add(t.getB().getConnectedEdgesMidpoint(inTris));
+			r.add(t.getC().getConnectedEdgesMidpoint(inTris));
 			
 			for (int i = 0; i < 3; i++) {
 				// p [1, 2, 3] are the new endpoints of the triangle
@@ -111,17 +130,35 @@ public class SmoothedMesh extends Mesh {
 					b = tmp;
 				}
 				
-				calcTris.add( new Triangle(t.getMidpoint(), r.get(a), ep));
-				calcTris.add( new Triangle(t.getMidpoint(), ep, r.get(b)));
+				tmpTris.add( new Triangle(t.getMidpoint(), r.get(a), ep));
+				tmpTris.add( new Triangle(t.getMidpoint(), ep, r.get(b)));
 			}
 		}
 
+		calcTris = tmpTris;
 		return calcTris;
 	}
 	
 	@Override
 	public void setTris(ArrayList<Triangle> tris) {
 		super.setTris(tris);
+		calcTris.clear();
+	}
+	
+	/**
+	 * Method to get the number of iterations that algorithm goes through
+	 * @return the detail
+	 */
+	public int getDetail() {
+		return detail;
+	}
+	
+	/**
+	 * Method to set the number of iterations that algorithm goes through
+	 * @param the new detail
+	 */
+	public void setDetail(int detail) {
+		this.detail = detail;
 		calcTris.clear();
 	}
 }
