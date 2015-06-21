@@ -98,13 +98,14 @@ public class ControlPanel extends JPanel{
 			}
 		});
 		
-		JColorChooser colorChooser = new JColorChooser();
 		JButton color = new JButton("set colour");
 		color.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Color color = colorChooser.showDialog(null, "Select the Color", new Color(0, 0, 0));
-				controller.setColor(color);
+				Color color = JColorChooser.showDialog(null, "Select the Color", new Color(0, 0, 0));
+				
+				if (color != null)
+					controller.setColor(color);
 			}
 		});
 		

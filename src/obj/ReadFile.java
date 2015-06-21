@@ -20,11 +20,10 @@ public class ReadFile
 		BufferedReader textReader = new BufferedReader(reader);
 		
 		//initializes the variables that is going to be used in the while loop 
-		String aLine;
 		int numberOfLines = 0;
 		
 		//keeps counting as long as the string is not a null
-		while((aLine = textReader.readLine()) != null)
+		while(textReader.readLine() != null)
 			numberOfLines ++;
 		
 		//closes and flushes part of memory		

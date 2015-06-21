@@ -18,11 +18,11 @@ public class ImplicitSurfaceAdpative extends Object3D {
     private ArrayList<double[]> normal;
     private double[][][] listOfChecked;
 
-    public static void main(String[] args) {
-        ImplicitSurfaceAdpative i = new ImplicitSurfaceAdpative(new Sphere(), 0.1, 2);
+//    public static void main(String[] args) {
+//        ImplicitSurfaceAdpative i = new ImplicitSurfaceAdpative(new Sphere(), 0.1, 2);
 //        Voxel f = new Voxel(5, 0, 0, 0);
-
-    }
+//
+//    }
 
     public ImplicitSurfaceAdpative(FormulaAbstract formula, double interval, double checkSize) {
         this.formula = formula;
