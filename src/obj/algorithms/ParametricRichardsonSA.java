@@ -3,23 +3,14 @@ package obj.algorithms;
 import obj.Object3D;
 import obj.ParametricSurface;
 
-public class ParametricDoubleIntegrationSA implements SurfaceAreaMethod{
+public class ParametricRichardsonSA implements SurfaceAreaMethod{
 
 	private static final int RICHARDSON_N = 2;
-	private static final int SIMPSON_N = 8;
-	private static final int TRAPEZOID_N = 2;
 
 	@Override
 	public double getSurfaceArea(Object3D object3d) {
 		ParametricSurface para = (ParametricSurface) object3d;
-		long start = System.nanoTime();
-		
-		double sa = outerTrapezoidU(para, TRAPEZOID_N);
-//		double sa = outerSimpsonU(para);
-//		double sa = richardsonArea(para);
-		
-		long end = System.nanoTime();
-		System.out.println("time: " + (end-start)/10E9);
+		double sa = richardsonArea(para);
 		return sa;
 	}
 	
@@ -62,44 +53,6 @@ public class ParametricDoubleIntegrationSA implements SurfaceAreaMethod{
 		return result*h;
 	}
 	
-	private double outerSimpsonU(ParametricSurface para){
-		double higher = para.getLimitMaxU();
-		double lower = para.getLimitMinU();
-		double h = (higher-lower) / SIMPSON_N;
-		
-		double result = 0;
-		
-		result += innerSimpsonV(para, lower);
-		result += innerSimpsonV(para, higher);
-		for (int i = 1; i < SIMPSON_N; i+=2){
-			result += 4*innerSimpsonV(para, lower + (h*i));
-		}
-		for (int i = 2; i < SIMPSON_N; i+=2){
-			result += 2*innerSimpsonV(para, lower + (h*i));
-		}
-		
-		return (result * (h/3));
-	}
-	
-	private double innerSimpsonV(ParametricSurface para, double u){
-		double higher = para.getLimitMaxV();
-		double lower = para.getLimitMinV();
-		double h = (higher-lower) / SIMPSON_N;
-		
-		double result = 0;
-		
-		result += evaluateSAFunction(para, u, lower);
-		result += evaluateSAFunction(para, u, higher);
-		for (int i = 1; i < SIMPSON_N; i+=2){
-			result += 4*evaluateSAFunction(para, u, lower + (h*i));
-		}
-		for (int i = 2; i < SIMPSON_N; i+=2){
-			result += 2*evaluateSAFunction(para, u, lower + (h*i));
-		}
-		
-		return (result * (h/3));
-	}
-
 	private double richardsonArea(ParametricSurface para) {
 		double[][] richardsonMatrix = new double[RICHARDSON_N][RICHARDSON_N];
 		

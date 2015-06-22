@@ -96,6 +96,9 @@ public class MainFrame{
 	public void toggleGraphicsMode() {
 		visualization3D.toggleGraphicsMode();
 	}
+	public void updateInfo(){
+		visualization3D.updateInfo();
+	}
 	
 }
 

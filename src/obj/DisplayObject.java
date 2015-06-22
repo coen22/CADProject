@@ -95,5 +95,9 @@ public class DisplayObject {
 	public double getSA(){
 		return obj.getSurfaceArea();
 	}
+	
+	public Object3D getObject(){
+		return obj;
+	}
 
 }

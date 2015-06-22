@@ -487,6 +487,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		gl.glDepthFunc(GL_LEQUAL);
 		gl.glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); //changes line-rendering
 		gl.glShadeModel(GL_SMOOTH); 
+		gl.glDisable(GL_LIGHTING);
 	}
 	
 	private void shaderModel(GL2 gl){
@@ -714,6 +715,21 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 			this.translateMode = false;
 		}
 	} 
+	
+	/**
+	 * updates the text-view of the display
+	 */
+	public void updateInfo(){
+		this.vertices = objects.get(activeObject).getVerts().size();
+		this.volume = objects.get(activeObject).getVolume();
+		this.surfaceArea = objects.get(activeObject).getSA();
+		if (objects.get(activeObject).getTris() == null){
+			this.tris = 0;
+		}
+		else {
+			this.tris = objects.get(activeObject).getTris().size();
+		}
+	}
 	
 	@Override
 	public void dispose(GLAutoDrawable arg0) { //close the frame / glCanvas

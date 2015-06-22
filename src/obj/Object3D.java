@@ -8,6 +8,16 @@ import obj.algorithms.SurfaceAreaMethod;
 import obj.algorithms.VolumeMethod;
 
 public abstract class Object3D {
+	
+	public static final String MESH_SA = "Mesh triangulation";
+	public static final String MESH_VOL = "Signed Volume";
+	public static final String CURVE_SA = "Rotational s.a.";
+	public static final String CURVE_VOL = "Rotational volume";
+	public static final String PARA_APPROX = "General s.a.";
+	public static final String PARA_SA_TRAP = "Trapezoid s.a.";
+	public static final String PARA_SA_SIMP = "Simpson's s.a.";
+	public static final String PARA_SA_RICH = "Richardson s.a.";
+	
 	/**
 	 * The strategy used for calculating the surface area
 	 */
@@ -35,7 +45,12 @@ public abstract class Object3D {
 	 * @return the surface area
 	 */
 	public final double getSurfaceArea() {
-		return surfaceAreaMethod.getSurfaceArea(this);
+		if (surfaceAreaMethod != null){
+			return surfaceAreaMethod.getSurfaceArea(this);
+		}
+		else {
+			return 0.0;
+		}
 	}
 	
 	/**
@@ -43,11 +58,27 @@ public abstract class Object3D {
 	 * @return the volume
 	 */
 	public final double getVolume() {
-		return volumeMethod.getVolume(this);
+		if (volumeMethod != null){
+			return volumeMethod.getVolume(this);
+		}
+		else {
+			return 0.0;
+		}
 	}
 	
-	public Object3D(){
-		this.volumeMethod = new MeshVolume();
-		this.surfaceAreaMethod = new MeshSurfaceArea();
+	/**
+	 * sets the surface-area strategy to a different method
+	 * @param method
+	 */
+	public void setSurfaceAreaMethod(SurfaceAreaMethod method){
+		this.surfaceAreaMethod = method;
+	}
+	
+	/**
+	 * sets the volume strategy to a different method
+	 * @param method
+	 */
+	public void setVolumeMethod(VolumeMethod method){
+		this.volumeMethod = method;
 	}
 }
