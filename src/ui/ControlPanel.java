@@ -9,13 +9,13 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
-public class ControlPanel extends JPanel{
+@SuppressWarnings("serial")
+public class ControlPanel extends JPanel {
 	
 	Controller controller;
 	MainFrame mainframe;
@@ -27,34 +27,6 @@ public class ControlPanel extends JPanel{
 		this.controller = ctrl;
 		this.mainframe = mainframe;
 		this.setLayout(new FlowLayout());
-		
-        JCheckBox normals = new JCheckBox("Show Normals");
-        normals.setSelected(false);
-        normals.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (normals.isSelected()){
-					mainframe.enableNormals();
-				}
-				else{
-					mainframe.disableNormals();
-				}
-			}
-		});
-        
-        JCheckBox lines = new JCheckBox("Show Lines");
-        lines.setSelected(true);
-        lines.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (lines.isSelected()){
-					mainframe.enableLines();
-				}
-				else{
-					mainframe.disableLines();
-				}
-			}
-		});
 		
 		JFileChooser importMesh = new JFileChooser(System.getProperty("user.dir")+File.separator+"src");
 		JButton importOBJ = new JButton("import mesh");
@@ -134,14 +106,6 @@ public class ControlPanel extends JPanel{
 			}
 		});
 		
-		JButton graphics = new JButton("Toggle Mode");
-		graphics.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				controller.toggleGraphicsMode();
-			}
-		});
-		
 		this.add(activeObjectSelector);
 		this.add(delete);
 		this.add(color);
@@ -150,9 +114,6 @@ public class ControlPanel extends JPanel{
 		this.add(createFunctionalObject);
 		this.add(saMethSel);
 		this.add(volMethSel);
-		this.add(lines);
-		this.add(normals);
-		this.add(graphics);
 		
 	}
 	

@@ -19,20 +19,6 @@ public class Mesh extends Object3D {
         tris = inputFaces;
     }
 
-    public void setVertices(ArrayList<Vertex> vertices) {
-    	this.surfaceAreaMethods.add(Object3D.MESH_SA);
-    	this.volumeMethods.add(Object3D.MESH_VOL);
-    	
-        this.vertices = vertices;
-    }
-
-    public void setTris(ArrayList<Triangle> tris) {
-    	this.surfaceAreaMethods.add(Object3D.MESH_SA);
-    	this.volumeMethods.add(Object3D.MESH_VOL);
-    	
-        this.tris = tris;
-    }
-
     public Mesh() {
     	this.surfaceAreaMethods.add(Object3D.MESH_SA);
     	this.volumeMethods.add(Object3D.MESH_VOL);
@@ -80,6 +66,14 @@ public class Mesh extends Object3D {
                 //do nothing
             }
         }
+    }
+    
+    public void setVertices(ArrayList<Vertex> vertices) {
+        this.vertices = vertices;
+    }
+
+    public void setTris(ArrayList<Triangle> tris) {
+        this.tris = tris;
     }
 
     @Override

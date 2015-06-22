@@ -9,7 +9,6 @@ import obj.ImplicitSurface;
 import obj.Mesh;
 import obj.Object3D;
 import obj.ParametricSurface;
-import obj.SmoothedMesh;
 import obj.SpinningMesh;
 import obj.Vertex;
 import obj.algorithms.CurveSurfaceAreaMethod;

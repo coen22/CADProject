@@ -3,8 +3,6 @@ package obj;
 import java.util.ArrayList;
 import java.util.List;
 
-import obj.algorithms.MeshSurfaceArea;
-import obj.algorithms.MeshVolume;
 import obj.algorithms.SurfaceAreaMethod;
 import obj.algorithms.VolumeMethod;
 

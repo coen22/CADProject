@@ -610,6 +610,30 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		else if (e.getKeyCode() == KeyEvent.VK_Z){
 			activeShift = ZAXIS;
 		}
+		else if (e.getKeyCode() == KeyEvent.VK_B){
+			if (graphics){
+				graphics = false;
+			}
+			else {
+				graphics = true;
+			}
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_N){
+			if (visibleNormals){
+				visibleNormals = false;
+			}
+			else {
+				visibleNormals = true;
+			}
+		}
+		else if (e.getKeyCode() == KeyEvent.VK_L){
+			if (visibleLines){
+				visibleLines = false;
+			}
+			else {
+				visibleLines = true;
+			}
+		}
 	}
 	
 	protected void toggleTranslate(){

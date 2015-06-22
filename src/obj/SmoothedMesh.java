@@ -18,7 +18,16 @@ public class SmoothedMesh extends Mesh {
 	 */
 	public SmoothedMesh(String dir) {
 		super(dir);
-		detail = 2;
+		detail = 1;
+	}
+	
+	/**
+	 * Class that smoothes an object in 3D containing vertices and triangles
+	 * @param location of the obj mesh file to smooth
+	 */
+	public SmoothedMesh(ArrayList<Triangle> tris, ArrayList<Vertex> verts) {
+		super(verts,tris);
+		detail = 1;
 	}
 	
 	@Override
