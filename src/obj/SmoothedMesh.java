@@ -22,6 +22,15 @@ public class SmoothedMesh extends Mesh {
 	}
 	
 	/**
+	 * Class that smoothes a mesh object
+	 * @param location of the obj mesh file to smooth
+	 */
+	public SmoothedMesh(String dir, int detail) {
+		super(dir);
+		this.detail = detail;
+	}
+	
+	/**
 	 * Class that smoothes an object in 3D containing vertices and triangles
 	 * @param tris
 	 * @param verts
@@ -41,7 +50,8 @@ public class SmoothedMesh extends Mesh {
 		if (!calcTris.isEmpty())
 			return calcTris;
 		
-		getTris(tris);
+		if (detail > 0)
+			getTris(tris);
 		
 		for (int i = 0; i < detail - 1; i++) {
 			getTris(calcTris);
