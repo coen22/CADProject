@@ -6,35 +6,44 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import obj.algorithms.MeshSurfaceArea;
-import obj.algorithms.MeshVolume;
-
 public class Mesh extends Object3D {
 
     protected ArrayList<Vertex> vertices;
     protected ArrayList<Triangle> tris;
 
     public Mesh(ArrayList<Vertex> inputVertices, ArrayList<Triangle> inputFaces) {
+    	this.surfaceAreaMethods.add(Object3D.MESH_SA);
+    	this.volumeMethods.add(Object3D.MESH_VOL);
+    	
         vertices = inputVertices;
         tris = inputFaces;
     }
 
     public void setVertices(ArrayList<Vertex> vertices) {
+    	this.surfaceAreaMethods.add(Object3D.MESH_SA);
+    	this.volumeMethods.add(Object3D.MESH_VOL);
+    	
         this.vertices = vertices;
     }
 
     public void setTris(ArrayList<Triangle> tris) {
+    	this.surfaceAreaMethods.add(Object3D.MESH_SA);
+    	this.volumeMethods.add(Object3D.MESH_VOL);
+    	
         this.tris = tris;
     }
 
     public Mesh() {
+    	this.surfaceAreaMethods.add(Object3D.MESH_SA);
+    	this.volumeMethods.add(Object3D.MESH_VOL);
+    	
         vertices = new ArrayList<Vertex>();
         tris = new ArrayList<Triangle>();
     }
 
     public Mesh(String Path) {
-    		volumeMethod = new MeshVolume();
-    		surfaceAreaMethod = new MeshSurfaceArea();
+    	this.surfaceAreaMethods.add(Object3D.MESH_SA);
+    	this.volumeMethods.add(Object3D.MESH_VOL);
     	
         vertices = new ArrayList<Vertex>();
         tris = new ArrayList<Triangle>();

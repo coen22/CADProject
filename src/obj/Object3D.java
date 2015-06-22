@@ -1,5 +1,6 @@
 package obj;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import obj.algorithms.MeshSurfaceArea;
@@ -17,6 +18,14 @@ public abstract class Object3D {
 	public static final String PARA_SA_TRAP = "Trapezoid s.a.";
 	public static final String PARA_SA_SIMP = "Simpson's s.a.";
 	public static final String PARA_SA_RICH = "Richardson s.a.";
+	
+	protected ArrayList<String> volumeMethods;
+	protected ArrayList<String> surfaceAreaMethods;
+	
+	public Object3D(){
+		this.volumeMethods = new ArrayList<String>();
+		this.surfaceAreaMethods = new ArrayList<String>();
+	}
 	
 	/**
 	 * The strategy used for calculating the surface area
@@ -80,5 +89,13 @@ public abstract class Object3D {
 	 */
 	public void setVolumeMethod(VolumeMethod method){
 		this.volumeMethod = method;
+	}
+	
+	public ArrayList<String> getSurfaceAreaMethods(){
+		return surfaceAreaMethods;
+	}
+	
+	public ArrayList<String> getVolumeMethods(){
+		return volumeMethods;
 	}
 }

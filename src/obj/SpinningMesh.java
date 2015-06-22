@@ -52,6 +52,11 @@ public class SpinningMesh extends Object3D {
 	 * A mesh made by spinning a curve around the y-axis
 	 */
 	public SpinningMesh() {
+		this.surfaceAreaMethods.add(Object3D.MESH_SA);
+    	this.volumeMethods.add(Object3D.MESH_VOL);
+    	this.surfaceAreaMethods.add(Object3D.CURVE_SA);
+    	this.volumeMethods.add(Object3D.CURVE_VOL);
+    	
 		init();
 		points = new ArrayList<Vertex>();
 	}

@@ -13,7 +13,9 @@ import obj.SmoothedMesh;
 import obj.SpinningMesh;
 import obj.Vertex;
 import obj.algorithms.CurveSurfaceAreaMethod;
+import obj.algorithms.CurveVolumeMethod;
 import obj.algorithms.MeshSurfaceArea;
+import obj.algorithms.MeshVolume;
 import obj.algorithms.ParametricRichardsonSA;
 import obj.algorithms.ParametricSimpsonSA;
 import obj.algorithms.ParametricSurfaceArea;
@@ -212,7 +214,35 @@ public class Controller {
     		objects.get(activeObject).getObject().setSurfaceAreaMethod(new ParametricTrapezoidSA());
     	}
     	frame.updateInfo();
+    }
+    
+    public void setVolMethod(String methodName){
+    	if (methodName.equals(Object3D.MESH_VOL)){
+    		objects.get(activeObject).getObject().setVolumeMethod(new MeshVolume());;
+    	}
+    	else if (methodName.equals(Object3D.CURVE_VOL)){
+    		objects.get(activeObject).getObject().setVolumeMethod(new CurveVolumeMethod());;
+    	}
+    	frame.updateInfo();
+    }
+    
+    public ArrayList<String> getVolMeths(){
+    	if (objects.size() > 0){
+    		return objects.get(activeObject).getObject().getVolumeMethods();
+    	}
+    	else {
+    		return new ArrayList<String>();
+    	}
     	
+    }
+    
+    public ArrayList<String> getSAMeths(){
+    	if (objects.size() > 0){
+    		return objects.get(activeObject).getObject().getSurfaceAreaMethods();
+    	}
+    	else {
+    		return new ArrayList<String>();
+    	}
     }
 
 }

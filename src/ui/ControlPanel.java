@@ -20,6 +20,8 @@ public class ControlPanel extends JPanel{
 	Controller controller;
 	MainFrame mainframe;
 	JComboBox<String> activeObjectSelector;
+	JComboBox<String> volMethSel;
+	JComboBox<String> saMethSel;
 
 	public ControlPanel(Controller ctrl, MainFrame mainframe){
 		this.controller = ctrl;
@@ -78,6 +80,29 @@ public class ControlPanel extends JPanel{
 			}
 		});
 		
+		String[] methodsString = {"No methods exist"};
+		saMethSel = new JComboBox<String>(methodsString);
+		saMethSel.setLightWeightPopupEnabled(false);
+		saMethSel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (saMethSel.getSelectedIndex() >= 0){
+					controller.setSAMethod((String)saMethSel.getSelectedItem());
+				}
+			}
+		});
+		
+		volMethSel = new JComboBox<String>(methodsString);
+		volMethSel.setLightWeightPopupEnabled(false);
+		volMethSel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (volMethSel.getSelectedIndex() >= 0){
+					controller.setVolMethod((String)volMethSel.getSelectedItem());
+				}
+			}
+		});
+		
 		JButton delete = new JButton("delete current object");
 		delete.addActionListener(new ActionListener() {
 			@Override
@@ -123,6 +148,8 @@ public class ControlPanel extends JPanel{
 		this.add(importOBJ);
 		this.add(create);
 		this.add(createFunctionalObject);
+		this.add(saMethSel);
+		this.add(volMethSel);
 		this.add(lines);
 		this.add(normals);
 		this.add(graphics);
@@ -139,6 +166,8 @@ public class ControlPanel extends JPanel{
 	}
 	
 	public void itemsChanged(){
+		
+		//changes the active-object
 		activeObjectSelector.setSelectedIndex(0);
 		activeObjectSelector.removeAllItems();
 		for (int i = 0; i < controller.getObjectNameArray().length; i++){
@@ -149,6 +178,25 @@ public class ControlPanel extends JPanel{
 		if (activeObjectSelector.getSelectedIndex() == -1){
 			activeObjectSelector.addItem("No objects exist");
 		}
+		
+		//changes the algorithms
+		saMethSel.removeAllItems();
+		for (int i = 0; i < controller.getSAMeths().size(); i++){
+			saMethSel.addItem(controller.getSAMeths().get(i));
+		}
+		if (controller.getSAMeths().size() == 0){
+			saMethSel.addItem("No methods exist");
+		}
+		saMethSel.setSelectedIndex(0);
+		
+		volMethSel.removeAllItems();
+		for (int i = 0; i < controller.getVolMeths().size(); i++){
+			volMethSel.addItem(controller.getVolMeths().get(i));
+		}
+		if (controller.getVolMeths().size() == 0){
+			volMethSel.addItem("No methods exist");
+		}
+		volMethSel.setSelectedIndex(0);
 	}
 	
 	public void activeSelectionChanged(){

@@ -5,10 +5,14 @@ import obj.ParametricSurface;
 
 public class ParametricSimpsonSA implements SurfaceAreaMethod{
 
-	private static final int SIMPSON_N = 8;
+	private int SIMPSON_N = 15;
 
 	@Override
 	public double getSurfaceArea(Object3D object3d) {
+		if (SIMPSON_N % 2 != 0){
+			SIMPSON_N += 1;
+		}
+		
 		ParametricSurface para = (ParametricSurface) object3d;
 		double sa = outerSimpsonU(para);
 		return sa;

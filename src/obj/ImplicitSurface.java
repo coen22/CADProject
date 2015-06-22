@@ -28,15 +28,15 @@ public class ImplicitSurface extends Object3D {
      * @param checkSize
      */
     public ImplicitSurface(FormulaAbstract formula, double interval, double checkSize) {
+    	this.volumeMethods.add(Object3D.MESH_VOL);
+    	
         this.formula = formula;
         this.checkSize = checkSize;
         this.interval = interval;
         face = new ArrayList<>();
         points = new ArrayList<>();
 
-        System.out.println("Number of function evalution to do " + Math.pow(checkSize / interval, 3));
         //creates the vertices
-
         for (double x = -checkSize; x < checkSize; x += interval) {
             for (double y = -checkSize; y < checkSize; y += interval) {
                 for (double z = -checkSize; z < checkSize; z += interval) {

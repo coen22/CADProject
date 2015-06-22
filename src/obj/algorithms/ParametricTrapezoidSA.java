@@ -5,7 +5,7 @@ import obj.ParametricSurface;
 
 public class ParametricTrapezoidSA implements SurfaceAreaMethod{
 
-	private static final int TRAPEZOID_N = 2;
+	private static final int TRAPEZOID_N = 128;
 
 	@Override
 	public double getSurfaceArea(Object3D object3d) {

@@ -5,7 +5,7 @@ import obj.ParametricSurface;
 
 public class ParametricRichardsonSA implements SurfaceAreaMethod{
 
-	private static final int RICHARDSON_N = 2;
+	private static final int RICHARDSON_N = 8;
 
 	@Override
 	public double getSurfaceArea(Object3D object3d) {

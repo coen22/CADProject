@@ -720,14 +720,22 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	 * updates the text-view of the display
 	 */
 	public void updateInfo(){
-		this.vertices = objects.get(activeObject).getVerts().size();
-		this.volume = objects.get(activeObject).getVolume();
-		this.surfaceArea = objects.get(activeObject).getSA();
-		if (objects.get(activeObject).getTris() == null){
-			this.tris = 0;
+		if (objects.size() > 0){
+			this.vertices = objects.get(activeObject).getVerts().size();
+			this.volume = objects.get(activeObject).getVolume();
+			this.surfaceArea = objects.get(activeObject).getSA();
+			if (objects.get(activeObject).getTris() == null){
+				this.tris = 0;
+			}
+			else {
+				this.tris = objects.get(activeObject).getTris().size();
+			}
 		}
 		else {
-			this.tris = objects.get(activeObject).getTris().size();
+			this.vertices = 0;
+			this.volume = 0;
+			this.surfaceArea = 0;
+			this.tris = 0;
 		}
 	}
 	

@@ -39,6 +39,15 @@ public class ParametricSurface extends Object3D {
      * @param stepV The number of steps between the lower and upper for V
      */
     public ParametricSurface(FormulaAbstract f, double limitLowU, double limitHighU, double limitLowV, double limitHighV, int stepU, int stepV) {
+    	
+    	this.surfaceAreaMethods.add(Object3D.MESH_SA);
+    	this.surfaceAreaMethods.add(Object3D.PARA_APPROX);
+    	this.surfaceAreaMethods.add(Object3D.PARA_SA_RICH);
+    	this.surfaceAreaMethods.add(Object3D.PARA_SA_SIMP);
+    	this.surfaceAreaMethods.add(Object3D.PARA_SA_TRAP);
+    	
+    	this.volumeMethods.add(Object3D.MESH_VOL);
+    	
         //sets the formula
         this.f = f;
 
