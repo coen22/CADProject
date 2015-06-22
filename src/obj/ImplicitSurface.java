@@ -87,10 +87,26 @@ public class ImplicitSurface extends Object3D {
         }
     }
 
+    /**
+     * Checks if a point lies on the surface
+     *
+     * @param x The x coordinates
+     * @param y The y coordinates
+     * @param z The z coordinates
+     * @return Returns a boolean if the object on the surface
+     */
     private boolean checkOnSurface(double x, double y, double z) {
         return (0 == formula.evaluateAt(x, y, z));
     }
 
+    /**
+     * Checks if a point lies inside of the surface
+     *
+     * @param x The x coordinates
+     * @param y The y coordinates
+     * @param z The z coordinates
+     * @return Returns a boolean if the object on the surface
+     */
     private boolean checkInside(double x, double y, double z) {
         return (0 > formula.evaluateAt(x, y, z));
     }
@@ -114,14 +130,41 @@ public class ImplicitSurface extends Object3D {
         return face;
     }
 
+    /**
+     * Partial derivative on x based on f'(x) = lim(h<-0)((f(x+h)-f(x))\h)
+     *
+     * @param x The x coordinates
+     * @param y The y coordinates
+     * @param z The z coordinates
+     * @param inter Should be close to 0
+     * @return The estimate of the partial derivative
+     */
     private double partX(double x, double y, double z, double inter) {
         return formula.evaluateAt(x + inter, y, z) - formula.evaluateAt(x, y, z);
     }
 
+    /**
+     * Partial derivative on z based on f'(x) = lim(h<-0)((f(x+h)-f(x))\h)
+     *
+     * @param x The x coordinates
+     * @param y The y coordinates
+     * @param z The z coordinates
+     * @param inter Should be close to 0
+     * @return The estimate of the partial derivative
+     */
     private double partZ(double x, double y, double z, double inter) {
         return formula.evaluateAt(x, y, z + inter) - formula.evaluateAt(x, y, z);
     }
 
+    /**
+     * Partial derivative on y based on f'(x) = lim(h<-0)((f(x+h)-f(x))\h)
+     *
+     * @param x The x coordinates
+     * @param y The y coordinates
+     * @param z The z coordinates
+     * @param inter Should be close to 0
+     * @return The estimate of the partial derivative
+     */
     private double partY(double x, double y, double z, double inter) {
         return formula.evaluateAt(x, y + inter, z) - formula.evaluateAt(x, y, z);
     }

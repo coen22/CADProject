@@ -4,6 +4,12 @@ import obj.Object3D;
 import obj.ParametricSurface;
 import obj.parametric_formula.FormulaAbstract;
 
+/**
+ * Finding the surface area of a parametric surface without mesh of partial derivative
+ *
+ * @author Kareem Horstink
+ * @version 1.0
+ */
 public class ParametricSurfaceArea implements SurfaceAreaMethod {
 
     @Override
@@ -17,7 +23,7 @@ public class ParametricSurfaceArea implements SurfaceAreaMethod {
         double deltaV = para.getIntervalV();
         double area = 0;
         FormulaAbstract f = para.getF();
-        
+
         for (double v = startV; v < endV; v += deltaV) {
             for (double u = startU; u < endU; u += deltaU) {
                 double[] applied = f.evaluateAt(u, v);

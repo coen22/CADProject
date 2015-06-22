@@ -7,8 +7,12 @@ import obj.implicit_formula.FormulaAbstract;
 import obj.implicit_formula.Sphere;
 
 /**
+ * Yet to properly made
  *
- * @author Imray
+ * @author Kareem Horstink
+ * @deprecated 
+ * @see ImplicitSurface
+ * @version 0.001
  */
 public class ImplicitSurfaceAdpative extends Object3D {
 
@@ -23,7 +27,6 @@ public class ImplicitSurfaceAdpative extends Object3D {
 //        Voxel f = new Voxel(5, 0, 0, 0);
 //
 //    }
-
     public ImplicitSurfaceAdpative(FormulaAbstract formula, double interval, double checkSize) {
         this.formula = formula;
         this.interval = interval;
@@ -77,7 +80,6 @@ public class ImplicitSurfaceAdpative extends Object3D {
                     }
                 }
             }
-            
 
             if (tmp) {
                 face.addAll(new Voxel(size, x + size / 2, y + size / 2, z + size / 2).getTris());
@@ -105,10 +107,7 @@ public class ImplicitSurfaceAdpative extends Object3D {
     }
 
     private double checkInsideV2(double x, double z, double y) {
-        if (listOfChecked
-                [(int) (numberOfChecks * 2 + x * numberOfChecks)]
-                [(int) (numberOfChecks * 2 + y * numberOfChecks)]
-                [(int) (numberOfChecks * 2 + z * numberOfChecks)]
+        if (listOfChecked[(int) (numberOfChecks * 2 + x * numberOfChecks)][(int) (numberOfChecks * 2 + y * numberOfChecks)][(int) (numberOfChecks * 2 + z * numberOfChecks)]
                 != 0.69696966969) {
             return listOfChecked[(int) (numberOfChecks * 2 + x * numberOfChecks)][(int) (numberOfChecks * 2 + y * numberOfChecks)][(int) (numberOfChecks * 2 + z * numberOfChecks)];
         } else {

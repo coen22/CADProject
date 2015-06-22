@@ -86,38 +86,82 @@ public class ParametricSurface extends Object3D {
         }
     }
 
+    /**
+     * Gets the step Number based on U
+     *
+     * @return Return an int
+     */
     public int getStepNumberU() {
         return stepNumberU;
     }
 
+    /**
+     * Gets the step Number based on V
+     *
+     * @return Return an int
+     */
     public int getStepNumberV() {
         return stepNumberV;
     }
 
+    /**
+     * Gets the limit, the max, of U
+     *
+     * @return Double of the limit
+     */
     public double getLimitMaxU() {
         return limitMaxU;
     }
 
+    /**
+     * Gets the limit, the min, of U
+     *
+     * @return Double of the limit
+     */
     public double getLimitMinU() {
         return limitMinU;
     }
 
+    /**
+     * Gets the limit, the max, of V
+     *
+     * @return Double of the limit
+     */
     public double getLimitMaxV() {
         return limitMaxV;
     }
 
+    /**
+     * Gets the limit, the min, of V
+     *
+     * @return Double of the limit
+     */
     public double getLimitMinV() {
         return limitMinV;
     }
 
+    /**
+     * Gets the step size U
+     *
+     * @return A double to represent the step size
+     */
     public double getIntervalU() {
         return intervalU;
     }
 
+    /**
+     * Gets the step size V
+     *
+     * @return A double to represent the step size
+     */
     public double getIntervalV() {
         return intervalV;
     }
 
+    /**
+     * Gets the formula of the parametric surface
+     * @return
+     */
     public FormulaAbstract getF() {
         return f;
     }
