@@ -9,8 +9,10 @@ import obj.ImplicitSurface;
 import obj.Mesh;
 import obj.Object3D;
 import obj.ParametricSurface;
+import obj.SmoothedMesh;
 import obj.SpinningMesh;
 import obj.Vertex;
+import obj.Triangle;
 import obj.algorithms.CurveSurfaceAreaMethod;
 import obj.algorithms.CurveVolumeMethod;
 import obj.algorithms.MeshSurfaceArea;
@@ -241,6 +243,26 @@ public class Controller {
     	}
     	else {
     		return new ArrayList<String>();
+    	}
+    }
+    
+    public void increaseSmoothing(){
+    	if (objects.size() > 0){
+    		if (!(objects.get(activeObject).getObject() instanceof SmoothedMesh)){
+        		System.out.println("first smoothing");
+        		SmoothedMesh newSmooth = new SmoothedMesh((ArrayList<Triangle>)objects.get(activeObject).getTris(), (ArrayList<Vertex>)objects.get(activeObject).getVerts());
+        		newSmooth.setDetail(1);
+        		objects.add(new DisplayObject(newSmooth, objects.get(activeObject).getName() + " smooth"));
+        		frame.itemsChanged();
+        	}
+    		else {
+    			System.out.println("increasing detail");
+    			SmoothedMesh obj = (SmoothedMesh) objects.get(activeObject).getObject();
+    			System.out.println("prev detail: " + obj.getDetail());
+    			int newDetail = obj.getDetail() + 1;
+    			obj.setDetail(newDetail);
+    			System.out.println("done");
+    		}
     	}
     }
 

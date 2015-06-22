@@ -23,7 +23,8 @@ public class SmoothedMesh extends Mesh {
 	
 	/**
 	 * Class that smoothes an object in 3D containing vertices and triangles
-	 * @param location of the obj mesh file to smooth
+	 * @param tris
+	 * @param verts
 	 */
 	public SmoothedMesh(ArrayList<Triangle> tris, ArrayList<Vertex> verts) {
 		super(verts,tris);

@@ -13,6 +13,7 @@ import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.plaf.basic.BasicArrowButton;
 
 @SuppressWarnings("serial")
 public class ControlPanel extends JPanel {
@@ -106,6 +107,23 @@ public class ControlPanel extends JPanel {
 			}
 		});
 		
+		BasicArrowButton increaseSubs = new BasicArrowButton(BasicArrowButton.NORTH);
+		increaseSubs.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("increase");
+				controller.increaseSmoothing();
+			}
+		});
+		
+		BasicArrowButton decreaseSubs = new BasicArrowButton(BasicArrowButton.SOUTH);
+		decreaseSubs.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("decrease");
+			}
+		});
+		
 		this.add(activeObjectSelector);
 		this.add(delete);
 		this.add(color);
@@ -114,6 +132,8 @@ public class ControlPanel extends JPanel {
 		this.add(createFunctionalObject);
 		this.add(saMethSel);
 		this.add(volMethSel);
+		this.add(decreaseSubs);
+		this.add(increaseSubs);
 		
 	}
 	
