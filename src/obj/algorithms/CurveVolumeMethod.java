@@ -11,10 +11,10 @@ public class CurveVolumeMethod implements VolumeMethod {
 	@Override
 	public double getVolume(Object3D obj) {
 		SpinningMesh sMesh = (SpinningMesh) obj;
-		return simpsonIntegral(sMesh.getCurve()) * Math.PI;
+		return trapisoidIntegral(sMesh.getCurve()) * Math.PI;
 	}
 
-	private double simpsonIntegral(List<Vertex> verts) {
+	/* private double simpsonIntegral(List<Vertex> verts) {
 		double size = 0;
 
 		for (int i = 0; i < verts.size() - 2; i += 2) {
@@ -33,9 +33,9 @@ public class CurveVolumeMethod implements VolumeMethod {
 		}
 		
 		return Math.abs(size);
-	}
+	} */
 	
-	/* private double trapisoidIntegral(List<Vertex> verts) {
+	private double trapisoidIntegral(List<Vertex> verts) {
 		double size = 0;
 
 		for (int i = 0; i < verts.size() - 1; i++) {
@@ -43,11 +43,11 @@ public class CurveVolumeMethod implements VolumeMethod {
 			double b = verts.get(i + 1).getY();
 			double fa = pythagoras(verts.get(i).getX(), verts.get(i).getZ());
 			double fb = pythagoras(verts.get(i + 1).getX(), verts.get(i + 1).getZ());
-			size += (b - a) * (fb - fa) / 2;
+			size += (b - a) * (fb + fa) / 2;
 		}
 		
 		return Math.abs(size);
-	} */
+	}
 
 	private double pythagoras(double x, double z) {
 		return x*x + z*z;
