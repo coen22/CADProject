@@ -178,8 +178,8 @@ public class SmoothedMesh extends Mesh {
 					b = tmp;
 				}
 				
-				tmpTris.add( new Triangle(t.getMidpoint(), r.get(a), ep));
-				tmpTris.add( new Triangle(t.getMidpoint(), ep, r.get(b)));
+				tmpTris.add( new Triangle(t.getMidpoint(), newPoints.get(a), ep));
+				tmpTris.add( new Triangle(t.getMidpoint(), ep, newPoints.get(b)));
 			}
 		}
 
