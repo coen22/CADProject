@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import obj.DisplayObject;
+import obj.HullIndividual;
 import obj.ImplicitSurface;
 import obj.Mesh;
 import obj.Object3D;
@@ -68,6 +69,11 @@ public class Controller {
         frame = new MainFrame(this);
         objects = new ArrayList<DisplayObject>();
         frame.init(objects);
+        
+//        objects.add(new DisplayObject(new HullIndividual(5, 5, 5, 10), "tester"));
+//        frame.itemsChanged();
+        
+        
     }
 
     public void createObject(int type) {
