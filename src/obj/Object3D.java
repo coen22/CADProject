@@ -7,7 +7,7 @@ import obj.algorithms.SurfaceAreaMethod;
 import obj.algorithms.VolumeMethod;
 
 public abstract class Object3D {
-	
+	public static final String IMPLICIT_VOL = "Implicit Volume";
 	public static final String MESH_SA = "Mesh triangulation";
 	public static final String MESH_VOL = "Signed Volume";
 	public static final String CURVE_SA = "Rotational s.a.";
