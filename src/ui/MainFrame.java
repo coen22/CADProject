@@ -32,7 +32,7 @@ public class MainFrame{
 	 * Creates the JFrame and the the two control panels as well as the JOGL GLCanvas. All are added to the frame. 
 	 */
 	private void createFrame() {
-		mainFrame = new JFrame("The Real World (not exactly...)");
+		mainFrame = new JFrame("Objects in Three Dimensions");
 		mainFrame.setLayout(new BorderLayout(1, 1));
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // what happens when the window is closed
 		mainFrame.setLocationByPlatform(true);

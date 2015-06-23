@@ -71,8 +71,8 @@ public class Controller {
         objects = new ArrayList<DisplayObject>();
         frame.init(objects);
         
-//        objects.add(new DisplayObject(new HullIndividual(5, 5, 5, 10), "tester"));
-//        frame.itemsChanged();
+        objects.add(new DisplayObject(new HullIndividual(3, 12, 5, 10), "tester"));
+        frame.itemsChanged();
         
         
     }
@@ -258,20 +258,32 @@ public class Controller {
     public void increaseSmoothing(){
     	if (objects.size() > 0){
     		if (!(objects.get(activeObject).getObject() instanceof SmoothedMesh)){
-        		System.out.println("first smoothing");
+    			int oldObject = activeObject;
         		SmoothedMesh newSmooth = new SmoothedMesh((ArrayList<Triangle>)objects.get(activeObject).getTris(), (ArrayList<Vertex>)objects.get(activeObject).getVerts());
         		newSmooth.setDetail(1);
         		objects.add(new DisplayObject(newSmooth, objects.get(activeObject).getName() + " smooth"));
+        		objects.remove(oldObject);
         		frame.itemsChanged();
+        		activeSelectionChanged(objects.size()-1);
         	}
     		else {
-    			System.out.println("increasing detail");
     			SmoothedMesh obj = (SmoothedMesh) objects.get(activeObject).getObject();
-    			System.out.println("prev detail: " + obj.getDetail());
     			int newDetail = obj.getDetail() + 1;
     			obj.setDetail(newDetail);
-    			System.out.println("done");
     		}
+    	}
+    }
+    
+    public void decreaseSmoothing(){
+    	if (objects.size() > 0){
+    		if ((objects.get(activeObject).getObject() instanceof SmoothedMesh)){
+    			SmoothedMesh obj = (SmoothedMesh) objects.get(activeObject).getObject();
+    			int newDetail = obj.getDetail() - 1;
+    			if (newDetail < 0){
+    				newDetail = 0;
+    			}
+    			obj.setDetail(newDetail);
+        	}
     	}
     }
 
