@@ -6,6 +6,11 @@ import java.util.List;
 public class Vertex {
 
 	/**
+	 * the smallest distance the vertices have to be the same
+	 */
+	private static final double EPSILON = 0.0000001;
+	
+	/**
 	 * The x value of the vertex location
 	 */
 	private double x;
@@ -146,8 +151,9 @@ public class Vertex {
 	 * @return true or false
 	 */
 	public boolean equals(Vertex x) {
-		if ((this.getX() == x.getX()) && (this.getY() == x.getY())
-				&& (this.getZ() == x.getZ())) {
+		if (Math.abs(this.getX() - x.getX()) < EPSILON &&
+			Math.abs(this.getY() - x.getY()) < EPSILON &&
+			Math.abs(this.getZ() - x.getZ()) < EPSILON) {
 			return true;
 		} else
 			return false;
@@ -231,5 +237,14 @@ public class Vertex {
 		}
 		
 		return v.multiply((double) (1.0 / edges.size()));
+	}
+	
+	/**
+	 * Method that will round this vertex to EPSILON
+	 */
+	public void rnd() {
+		x = (double) ((int) (x / EPSILON)) * EPSILON;
+		y = (double) ((int) (y / EPSILON)) * EPSILON;
+		z = (double) ((int) (z / EPSILON)) * EPSILON;
 	}
 }

@@ -16,6 +16,7 @@ import obj.Vertex;
 import obj.Triangle;
 import obj.algorithms.CurveSurfaceAreaMethod;
 import obj.algorithms.CurveVolumeMethod;
+import obj.algorithms.ImplicitVolume;
 import obj.algorithms.MeshSurfaceArea;
 import obj.algorithms.MeshVolume;
 import obj.algorithms.ParametricRichardsonSA;
@@ -229,7 +230,9 @@ public class Controller {
     	}
     	else if (methodName.equals(Object3D.CURVE_VOL)){
     		objects.get(activeObject).getObject().setVolumeMethod(new CurveVolumeMethod());;
-    	}
+    	}else if (methodName.equals(Object3D.IMPLICIT_VOL)){
+                objects.get(activeObject).getObject().setVolumeMethod(new ImplicitVolume());;
+        }
     	frame.updateInfo();
     }
     
