@@ -8,6 +8,13 @@ public class Tetrahedron extends Object3D {
 	private ArrayList<Vertex> vertices; 
 	private ArrayList<Triangle> tris;
 	
+	/**
+	 * Creates a tetrahedron out of 4 points
+	 * @param a first point
+	 * @param b second point
+	 * @param c third point
+	 * @param d fourth point
+	 */
 	public Tetrahedron(Vertex a, Vertex b, Vertex c, Vertex d){
 		Triangle tri1 = new Triangle(a, b, c);
 		Triangle tri2 = new Triangle(b, d, c);
@@ -25,6 +32,10 @@ public class Tetrahedron extends Object3D {
 		tris.add(tri4);
 	}
 	
+	/**
+	 * Calculates the area of tetrahedron by adding all the areas of all triangles
+	 * @return area of the tetrahedron
+	 */
 	public double tetrahedronArea(){
 		double area = 0;
 		for(int i = 0; i < this.getTris().size(); i++){
@@ -32,7 +43,10 @@ public class Tetrahedron extends Object3D {
 		}
 		return area;
 	}
-	
+	/**
+	 * Calculates the volume of the tetrahedron using a specialist method
+	 * @return Volume of given tetrahedron
+	 */
 	public double tetrahedronVolume(){
 		double volume = 0;
 		//The volume is 1/6 times the absolute value of 
@@ -74,6 +88,11 @@ public class Tetrahedron extends Object3D {
 	public List<Triangle> getTris() {
 		return tris;
 	}
+	
+	/**
+	 * Testing purposes for Gaussian Elimination
+	 * @param matrix this matrix is printed
+	 */
 	public void print(double[][] matrix){
 		for(int i = 0; i < matrix.length; i++){
 			System.out.println("");
