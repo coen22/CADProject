@@ -73,6 +73,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	private float prevX = 0;
 	private float prevY = 0;
 	
+	private Controller controller;
 	private int activeObject;
 	private ArrayList<DisplayObject> objects;
 	private boolean translateMode;
@@ -106,7 +107,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	/**
 	 * Constructor, requires no parameters, adds all listeners to the GLCanvas. 
 	 */
-	public Visualization3D(){
+	public Visualization3D(Controller ctrl){
 		zoomFloat = -20;
 		this.addGLEventListener(this);
 		this.addMouseMotionListener(this);
@@ -117,6 +118,7 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		this.requestFocus();
 		this.setDefaultCloseOperation(getDefaultCloseOperation());
 		
+		this.controller = ctrl;
 		activeObject = 0;
 		objects = new ArrayList<DisplayObject>();
 		translateMode = false;
@@ -187,6 +189,8 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 			 renderer.setColor(0.0f, 0.0f, 0.0f, 0.9f);
 		}
 	    renderer.draw("Drag the image to change perspective, scroll to zoom and hold shift while dragging to shift the view.", 5, 5);
+	    renderer.draw("Use 'G' to translate an object, and 'x', 'y' and 'z' to select the axis of translation.", 5, 20);
+	    renderer.draw("Press 'B' to change the view-mode, and 'n' to toggle normals, 'l' to toggle edges.", 5, 35);
 	    if (objects.size() > 0){
 	    	renderer.draw("Vertices: " + this.vertices, 5, this.getHeight()-15);
 	    	renderer.draw("Triangles: " + this.tris, 5, this.getHeight()-30);
@@ -634,6 +638,9 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 				visibleLines = true;
 			}
 		}
+		else if (e.getKeyCode() == KeyEvent.VK_V){
+			controller.toggleVoxellation();
+		}
 	}
 	
 	protected void toggleTranslate(){
@@ -662,12 +669,6 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 				if (angleY > 90 && angleY < 270){
 					difference *= -1;
 				}
-				
-//				float difference2 = (prevY - e.getY()) /  Math.abs((angleX % 180)-90);
-//				if (angleX > 90 && angleX < 270){
-//					difference2 *= -1;
-//				}
-				
 				objects.get(activeObject).setxDisp(objects.get(activeObject).getxDisp() + difference * (-zoomFloat / 800));
 			}
 			else if (activeShift == YAXIS){
@@ -694,14 +695,6 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 			prevY = e.getY();
 		}
 	}
-	
-	public void enableNormals() {
-		this.visibleNormals = true;
-	}
-
-	public void disableNormals() {
-		this.visibleNormals = false;
-	}
 
 	public void setActiveIndex(int active) {
 		this.activeObject = active;
@@ -714,14 +707,6 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 		else {
 			this.tris = objects.get(activeObject).getTris().size();
 		}
-	}
-	
-	public void enableLines(){
-		this.visibleLines = true;
-	}
-	
-	public void disableLines(){
-		this.visibleLines = false;
 	}
 	
 	public void toggleGraphicsMode() {
@@ -777,7 +762,6 @@ public class Visualization3D extends GLCanvas implements GLEventListener, MouseM
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

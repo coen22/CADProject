@@ -20,6 +20,7 @@ public class ImplicitSurface extends Object3D {
     private double checkSize;
     private double interval;
     private int voxelCount;
+    private boolean voxels;
 
     /**
      * Use this one for a voxel one
@@ -30,7 +31,8 @@ public class ImplicitSurface extends Object3D {
      */
     public ImplicitSurface(FormulaAbstract formula, double interval, double checkSize) {
         this.volumeMethods.add(Object3D.IMPLICIT_VOL);
-
+        this.voxels = true;
+        
         this.formula = formula;
         this.checkSize = checkSize;
         this.interval = interval;
@@ -70,7 +72,7 @@ public class ImplicitSurface extends Object3D {
      * Creates a point on the surface
      */
     private void createPoints() {
-        face = new ArrayList<>();
+        face = null;
         points = new ArrayList<>();
         for (double x = -checkSize; x < checkSize; x += interval) {
             for (double y = -checkSize; y < checkSize; y += interval) {
@@ -185,15 +187,16 @@ public class ImplicitSurface extends Object3D {
     }
 
     /**
-     * Set the display as voxel or points on the surface
-     *
-     * @param bool True for voxel, false for points on the surface
+     * toggles between voxels and surface faces
      */
-    public void setVoxels(boolean bool) {
-        if (!bool) {
-            createPoints();
-        } else {
-            createVoxel();
-        }
+    public void toggleVoxels(){
+    	if (voxels){
+    		voxels = false;
+    		createPoints();
+    	}
+    	else {
+    		voxels = true;
+    		createVoxel();
+    	}
     }
 }

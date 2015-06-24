@@ -39,6 +39,11 @@ import obj.parametric_formula.Shoe;
 import obj.parametric_formula.Spiral;
 import obj.parametric_formula.Trumpet;
 
+/**
+ * acts as a facade for both the View and the Model, represents the controller of the MVC structure. 
+ * @author David
+ *
+ */
 public class Controller {
 
     private static final int PARAMETRIC_TORUS = 0;
@@ -66,17 +71,19 @@ public class Controller {
     private MainFrame frame;
     private int activeObject;
 
+    /**
+     * initialises the entire program
+     */
     public Controller() {
         frame = new MainFrame(this);
         objects = new ArrayList<DisplayObject>();
         frame.init(objects);
-        
-        objects.add(new DisplayObject(new HullIndividual(3, 12, 5, 10), "tester"));
-        frame.itemsChanged();
-        
-        
     }
 
+    /**
+     * creates object and adds to the UI
+     * @param type
+     */
     public void createObject(int type) {
         if (type == PARAMETRIC_TORUS) {
             objects.add(new DisplayObject(new ParametricSurface(new PTorus(), 0, 2*Math.PI, 0, 2 * Math.PI, 100, 100), "parametric torus"));
@@ -156,11 +163,19 @@ public class Controller {
         frame.itemsChanged();
     }
 
+    /**
+     * imports and .obj file from a directory
+     * @param file
+     */
     public void importObject(File file) {
         objects.add(new DisplayObject(new Mesh(file.getPath()), file.getName()));
         frame.itemsChanged();
     }
 
+    /**
+     * returns the array of names of all objects
+     * @return
+     */
     public String[] getObjectNameArray() {
         if (objects != null) {
             String[] arr = new String[objects.size()];
@@ -173,6 +188,10 @@ public class Controller {
         }
     }
 
+    /**
+     * sets the selection of the active object
+     * @param active
+     */
     public void activeSelectionChanged(int active) {
         if (objects.size() > 1) {
             objects.get(activeObject).deactivate();
@@ -188,20 +207,27 @@ public class Controller {
         frame.activeSelectionChanged(active);
     }
 
+    /**
+     * deletes the active object
+     */
     public void deleteCurrent() {
         objects.remove(activeObject);
         activeObject = 0;
         frame.itemsChanged();
     }
 
+    /**
+     * sets the color of the active object
+     * @param color
+     */
     public void setColor(Color color) {
         objects.get(activeObject).setColor(color);
     }
 
-    public void toggleGraphicsMode() {
-        frame.toggleGraphicsMode();
-    }
-    
+    /**
+     * sets the surface-area strategy to be used
+     * @param methodName
+     */
     public void setSAMethod(String methodName){
     	if (methodName.equals(Object3D.MESH_SA)){
     		objects.get(activeObject).getObject().setSurfaceAreaMethod(new MeshSurfaceArea());
@@ -224,18 +250,27 @@ public class Controller {
     	frame.updateInfo();
     }
     
+    /**
+     * sets the volume method to be used
+     * @param methodName
+     */
     public void setVolMethod(String methodName){
     	if (methodName.equals(Object3D.MESH_VOL)){
     		objects.get(activeObject).getObject().setVolumeMethod(new MeshVolume());;
     	}
     	else if (methodName.equals(Object3D.CURVE_VOL)){
     		objects.get(activeObject).getObject().setVolumeMethod(new CurveVolumeMethod());;
-    	}else if (methodName.equals(Object3D.IMPLICIT_VOL)){
+    	}
+    	else if (methodName.equals(Object3D.IMPLICIT_VOL)){
                 objects.get(activeObject).getObject().setVolumeMethod(new ImplicitVolume());;
         }
     	frame.updateInfo();
     }
     
+    /**
+     * returns the list of available volume methods for current object
+     * @return
+     */
     public ArrayList<String> getVolMeths(){
     	if (objects.size() > 0){
     		return objects.get(activeObject).getObject().getVolumeMethods();
@@ -246,6 +281,10 @@ public class Controller {
     	
     }
     
+    /**
+     * returns the surface area methods for the current object
+     * @return
+     */
     public ArrayList<String> getSAMeths(){
     	if (objects.size() > 0){
     		return objects.get(activeObject).getObject().getSurfaceAreaMethods();
@@ -255,6 +294,9 @@ public class Controller {
     	}
     }
     
+    /**
+     * increases smoothing of the current object's mesh
+     */
     public void increaseSmoothing(){
     	if (objects.size() > 0){
     		if (!(objects.get(activeObject).getObject() instanceof SmoothedMesh)){
@@ -265,15 +307,20 @@ public class Controller {
         		objects.remove(oldObject);
         		frame.itemsChanged();
         		activeSelectionChanged(objects.size()-1);
+        		frame.updateInfo();
         	}
     		else {
     			SmoothedMesh obj = (SmoothedMesh) objects.get(activeObject).getObject();
     			int newDetail = obj.getDetail() + 1;
     			obj.setDetail(newDetail);
+    			frame.updateInfo();
     		}
     	}
     }
     
+    /**
+     * decreases smoothing of the current object's mesh
+     */
     public void decreaseSmoothing(){
     	if (objects.size() > 0){
     		if ((objects.get(activeObject).getObject() instanceof SmoothedMesh)){
@@ -283,8 +330,21 @@ public class Controller {
     				newDetail = 0;
     			}
     			obj.setDetail(newDetail);
+    			frame.updateInfo();
         	}
     	}
     }
+    
+    /**
+     * toggles the voxelisation in case the object is an implicit surface
+     */
+	public void toggleVoxellation() {
+		if (objects.size() > 0){
+    		if ((objects.get(activeObject).getObject() instanceof ImplicitSurface)){
+    			ImplicitSurface obj = (ImplicitSurface) objects.get(activeObject).getObject();
+    			obj.toggleVoxels();
+        	}
+    	}
+	}
 
 }

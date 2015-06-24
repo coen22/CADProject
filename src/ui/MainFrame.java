@@ -37,7 +37,7 @@ public class MainFrame{
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // what happens when the window is closed
 		mainFrame.setLocationByPlatform(true);
 		
-		visualization3D = new Visualization3D();
+		visualization3D = new Visualization3D(controller);
 		visualization3D.setSize(new Dimension((int) (Toolkit.getDefaultToolkit().getScreenSize().width * 0.7), (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.8)));
 		mainFrame.add(visualization3D, BorderLayout.CENTER);
 		
@@ -67,35 +67,30 @@ public class MainFrame{
 		animator.start();
 	}	
 	
+	/**
+	 * initialisation, called only once
+	 */
 	public void init(ArrayList<DisplayObject> objs){
 		visualization3D.setObjects(objs);
 	}
 	
+	/**
+	 * called when objects are added or deleted
+	 */
 	public void itemsChanged(){
 		controlPanel.itemsChanged();
 	}
 	
-	public void enableNormals(){
-		visualization3D.enableNormals();
-	}
-	
-	public void disableNormals(){
-		visualization3D.disableNormals();
-	}
+	/**
+	 * set the index of the active object
+	 * @param active
+	 */
 	public void activeSelectionChanged(int active) {
 		visualization3D.setActiveIndex(active);
 	}
-	
-	public void enableLines(){
-		visualization3D.enableLines();
-	}
-	
-	public void disableLines(){
-		visualization3D.disableLines();
-	}
-	public void toggleGraphicsMode() {
-		visualization3D.toggleGraphicsMode();
-	}
+	/**
+	 * updates the displayed information in the UI
+	 */
 	public void updateInfo(){
 		visualization3D.updateInfo();
 	}
