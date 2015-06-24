@@ -88,7 +88,10 @@ public class Triangle {
 	public void setC(Vertex c) {
 		this.c = c;
 	}
-
+	/**
+	 * Calculates the area of a single triangle using the Heron's formula
+	 * @return Area of triangle
+	 */
 	public double calcArea() {
 		// Using Heron's formula requires the length of each side
 		// Therefore the length is calculated first
@@ -114,7 +117,7 @@ public class Triangle {
 	}
 
 	/**
-	 * calculates the tetrahedron volume of this triangle to the origin 0,0,0
+	 * calculates the signed volume of this triangle to the origin 0,0,0
 	 * 
 	 * @return volume
 	 */
@@ -139,7 +142,10 @@ public class Triangle {
 	public String toString() {
 		return "[Triangle:" + a + "" + b + "" + c + "]";
 	}
-
+	/**
+	 * Calculates the midpoint of the triangle
+	 * @return Vertex that is in the middle of the triangle
+	 */
 	public Vertex getMidpoint() {
 		Vertex m = new Vertex();
 		m.setX((a.getX() + b.getX() + c.getX()) / 3);
@@ -148,6 +154,11 @@ public class Triangle {
 		return m;
 	}
 
+	/**
+	 * Compares if two triangles are adjacent and stores which points are
+	 * @param t2 Triangle that is compared with
+	 * @return Edge list of points that are adjacent
+	 */
 	public Edge getAdjacentEdge(Triangle t2) {
 		ArrayList<Vertex> edgePoints = new ArrayList<Vertex>();
 
