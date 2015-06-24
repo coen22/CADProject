@@ -111,7 +111,6 @@ public class ControlPanel extends JPanel {
 		increaseSubs.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("increase");
 				controller.increaseSmoothing();
 			}
 		});
@@ -120,7 +119,7 @@ public class ControlPanel extends JPanel {
 		decreaseSubs.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("decrease");
+				controller.decreaseSmoothing();
 			}
 		});
 		

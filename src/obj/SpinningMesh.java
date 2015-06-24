@@ -74,8 +74,8 @@ public class SpinningMesh extends Object3D {
 	 * Method to initialise the spinning curve 
 	 */
 	private void init() {
-		interval = 15;
-		xzInterval = 100;
+		interval = 20;
+		xzInterval = 200;
 		curveType = bezierCurve;
 		
 		// set to the right methods

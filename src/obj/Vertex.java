@@ -238,4 +238,13 @@ public class Vertex {
 		
 		return v.multiply((double) (1.0 / edges.size()));
 	}
+	
+	/**
+	 * Method that will round this vertex to EPSILON
+	 */
+	public void rnd() {
+		x = (double) ((int) (x / EPSILON)) * EPSILON;
+		y = (double) ((int) (y / EPSILON)) * EPSILON;
+		z = (double) ((int) (z / EPSILON)) * EPSILON;
+	}
 }

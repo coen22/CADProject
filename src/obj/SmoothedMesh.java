@@ -40,6 +40,16 @@ public class SmoothedMesh extends Mesh {
 		detail = 1;
 	}
 	
+	/**
+	 * Class that smoothes an object in 3D containing vertices and triangles
+	 * @param tris
+	 * @param verts
+	 */
+	public SmoothedMesh() {
+		super("src/tetrahedron.obj");
+		detail = 1;
+	}
+	
 	@Override
 	public List<Vertex> getVerts() {
 		return vertices;
@@ -50,8 +60,10 @@ public class SmoothedMesh extends Mesh {
 		if (!calcTris.isEmpty())
 			return calcTris;
 		
-		if (detail > 0)
-			getTris(tris);
+		if (detail == 0)
+			return tris;
+		
+		getTris(tris);
 		
 		for (int i = 0; i < detail - 1; i++) {
 			getTris(calcTris);
@@ -86,27 +98,43 @@ public class SmoothedMesh extends Mesh {
 				}
 			}
 			
-			// f is the average of the 4 face points
-			Vertex f = new Vertex();
-			
-			for (Triangle at : adjacentTris) {
-				f.add(at.getMidpoint());
-			}
-			
-			f = 	f.multiply((double) (1 / adjacentTris.size()));
+			// op is the list of original points
+			List<Vertex> op = new ArrayList<Vertex>();
+			op.add(t.getA());
+			op.add(t.getB());
+			op.add(t.getC());
 			
 			// r is the average of all midpoints of the edges touching a point on triangle t
 			List<Vertex> r = new ArrayList<Vertex>();
-			r.add(t.getA().getConnectedEdgesMidpoint(inTris));
-			r.add(t.getB().getConnectedEdgesMidpoint(inTris));
-			r.add(t.getC().getConnectedEdgesMidpoint(inTris));
 			
-			for (int i = 0; i < 3; i++) {
-				// p [1, 2, 3] are the new endpoints of the triangle
+			// f is the list of face midpoints
+			List<Vertex> f = new ArrayList<Vertex>();
+			
+			// get the adjacent triangles to a point
+			List<List<Triangle>> pats = new ArrayList<List<Triangle>>();
+			
+			for (int i = 0; i < op.size(); i++) {
+				r.add(op.get(i).getConnectedEdgesMidpoint(inTris));
+				
+				pats.add(op.get(i).getAdjacentTriangles(inTris));
+				
+				Vertex fp = new Vertex();
+				
+				for (Triangle pat : pats.get(i)) {
+					fp.add(pat.getMidpoint());
+				}
+				
+				fp = fp.multiply((1.0 / (double) pats.get(i).size()));
+				
+				f.add(fp);
+				
 				Vertex p = new Vertex();
-				p.setX((f.getX() + 2 * r.get(i).getX()) / 3);
-				p.setY((f.getY() + 2 * r.get(i).getY()) / 3);
-				p.setZ((f.getZ() + 2 * r.get(i).getZ()) / 3);
+				
+				double n = pats.get(i).size();
+				
+				p.setX((f.get(i).getX() + 2 * r.get(i).getX() + (n - 3.0) * op.get(i).getX()) / n);
+				p.setY((f.get(i).getY() + 2 * r.get(i).getY() + (n - 3.0) * op.get(i).getY()) / n);
+				p.setZ((f.get(i).getZ() + 2 * r.get(i).getZ() + (n - 3.0) * op.get(i).getZ()) / n);
 				newPoints.add(p);
 			}
 			
@@ -150,8 +178,8 @@ public class SmoothedMesh extends Mesh {
 					b = tmp;
 				}
 				
-				tmpTris.add( new Triangle(t.getMidpoint(), r.get(a), ep));
-				tmpTris.add( new Triangle(t.getMidpoint(), ep, r.get(b)));
+				tmpTris.add( new Triangle(t.getMidpoint(), newPoints.get(a), ep));
+				tmpTris.add( new Triangle(t.getMidpoint(), ep, newPoints.get(b)));
 			}
 		}
 

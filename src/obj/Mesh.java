@@ -11,6 +11,11 @@ public class Mesh extends Object3D {
     protected ArrayList<Vertex> vertices;
     protected ArrayList<Triangle> tris;
 
+    /**
+     * creates a mesh with the given vertices and faces
+     * @param inputVertices
+     * @param inputFaces
+     */
     public Mesh(ArrayList<Vertex> inputVertices, ArrayList<Triangle> inputFaces) {
     	this.surfaceAreaMethods.add(Object3D.MESH_SA);
     	this.volumeMethods.add(Object3D.MESH_VOL);
@@ -19,6 +24,9 @@ public class Mesh extends Object3D {
         tris = inputFaces;
     }
 
+    /**
+     * creates an empty mesh. 
+     */
     public Mesh() {
     	this.surfaceAreaMethods.add(Object3D.MESH_SA);
     	this.volumeMethods.add(Object3D.MESH_VOL);
@@ -27,6 +35,10 @@ public class Mesh extends Object3D {
         tris = new ArrayList<Triangle>();
     }
 
+    /**
+     * creates a mesh from a file with the given path
+     * @param Path
+     */
     public Mesh(String Path) {
     	this.surfaceAreaMethods.add(Object3D.MESH_SA);
     	this.volumeMethods.add(Object3D.MESH_VOL);
