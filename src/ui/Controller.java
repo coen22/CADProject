@@ -5,7 +5,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import obj.DisplayObject;
-import obj.HullIndividual;
 import obj.ImplicitSurface;
 import obj.Mesh;
 import obj.Object3D;
